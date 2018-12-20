@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="iMachiLive" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="isX-9j-VLn">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OwG-6L-W0b" userLabel="Header">
+                                <rect key="frame" x="0.0" y="20" width="375" height="70"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g00-gd-rxS" userLabel="Music">
+                                        <rect key="frame" x="10" y="20" width="41" height="30"/>
+                                        <state key="normal" title="Music"/>
+                                        <connections>
+                                            <action selector="tapMusicButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6r1-mv-1dw"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aZF-mT-ZY6">
+                                        <rect key="frame" x="335" y="20" width="30" height="30"/>
+                                        <state key="normal" title="List"/>
+                                        <connections>
+                                            <action selector="tapListButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RrG-F9-Lkx"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="stay" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uWu-Hf-kqP">
+                                        <rect key="frame" x="171.5" y="-1.5" width="32" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="HD9-DD-2ed">
+                                        <rect key="frame" x="163" y="19.5" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="switchTrackingMode:" destination="BYZ-38-t0r" eventType="valueChanged" id="lu9-zz-xeT"/>
+                                        </connections>
+                                    </switch>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="uWu-Hf-kqP" firstAttribute="centerX" secondItem="OwG-6L-W0b" secondAttribute="centerX" id="GkK-qS-TIH"/>
+                                    <constraint firstItem="aZF-mT-ZY6" firstAttribute="centerY" secondItem="OwG-6L-W0b" secondAttribute="centerY" id="QpX-Px-1cN"/>
+                                    <constraint firstItem="g00-gd-rxS" firstAttribute="centerY" secondItem="OwG-6L-W0b" secondAttribute="centerY" id="SFL-v3-nT4"/>
+                                    <constraint firstItem="aZF-mT-ZY6" firstAttribute="trailing" secondItem="OwG-6L-W0b" secondAttribute="trailing" constant="-10" id="U49-9w-Jiw"/>
+                                    <constraint firstItem="g00-gd-rxS" firstAttribute="leading" secondItem="OwG-6L-W0b" secondAttribute="leading" constant="10" id="bbb-PB-Vis"/>
+                                    <constraint firstAttribute="height" constant="70" id="eLT-Qs-FHf"/>
+                                    <constraint firstItem="HD9-DD-2ed" firstAttribute="centerX" secondItem="OwG-6L-W0b" secondAttribute="centerX" id="jDT-OT-ZEz"/>
+                                    <constraint firstItem="uWu-Hf-kqP" firstAttribute="bottom" secondItem="HD9-DD-2ed" secondAttribute="top" id="raP-gi-mAc"/>
+                                    <constraint firstItem="HD9-DD-2ed" firstAttribute="centerY" secondItem="OwG-6L-W0b" secondAttribute="centerY" id="w2G-Ls-8pe"/>
+                                </constraints>
+                            </view>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Bgy-k1-VzL">
+                                <rect key="frame" x="0.0" y="90" width="375" height="577"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="VJn-06-tN8" appends="YES" id="zQt-es-H8Y"/>
+                                </connections>
+                            </mapView>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dQW-Og-Bq8" userLabel="Music Container View">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vPC-Oi-7Hd" userLabel="List Container View">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Bgy-k1-VzL" firstAttribute="trailing" secondItem="TGI-MP-Ezd" secondAttribute="trailing" id="4MU-Rr-hXb"/>
+                            <constraint firstItem="Bgy-k1-VzL" firstAttribute="top" secondItem="OwG-6L-W0b" secondAttribute="bottom" id="E7F-SO-fVJ"/>
+                            <constraint firstItem="Bgy-k1-VzL" firstAttribute="bottom" secondItem="TGI-MP-Ezd" secondAttribute="bottom" id="Rin-Xn-ymQ"/>
+                            <constraint firstItem="OwG-6L-W0b" firstAttribute="centerX" secondItem="isX-9j-VLn" secondAttribute="centerX" id="Udf-IN-UIw"/>
+                            <constraint firstItem="OwG-6L-W0b" firstAttribute="top" secondItem="TGI-MP-Ezd" secondAttribute="top" id="VQ6-x2-Jxd"/>
+                            <constraint firstItem="OwG-6L-W0b" firstAttribute="centerX" secondItem="isX-9j-VLn" secondAttribute="centerX" id="abx-T5-5eT"/>
+                            <constraint firstItem="OwG-6L-W0b" firstAttribute="centerX" secondItem="isX-9j-VLn" secondAttribute="centerX" id="amH-3Y-hNz"/>
+                            <constraint firstItem="OwG-6L-W0b" firstAttribute="leading" secondItem="TGI-MP-Ezd" secondAttribute="leading" id="clO-po-t1b"/>
+                            <constraint firstItem="Bgy-k1-VzL" firstAttribute="leading" secondItem="TGI-MP-Ezd" secondAttribute="leading" id="suQ-ya-u0y"/>
+                            <constraint firstItem="OwG-6L-W0b" firstAttribute="trailing" secondItem="TGI-MP-Ezd" secondAttribute="trailing" id="wCd-LI-yzq"/>
+                            <constraint firstItem="OwG-6L-W0b" firstAttribute="centerX" secondItem="isX-9j-VLn" secondAttribute="centerX" id="z1Z-Z9-StX"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="TGI-MP-Ezd"/>
+                    </view>
+                    <connections>
+                        <outlet property="leftContainerView" destination="dQW-Og-Bq8" id="1G4-ar-uJR"/>
+                        <outlet property="mapView" destination="Bgy-k1-VzL" id="cvF-E2-MJT"/>
+                        <outlet property="rightContainerView" destination="vPC-Oi-7Hd" id="AwL-RI-ZXl"/>
+                        <outlet property="trakingModeLabel" destination="uWu-Hf-kqP" id="txM-kZ-UoU"/>
+                        <outlet property="trakingModeSwitch" destination="HD9-DD-2ed" id="WEA-7V-z8h"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="VJn-06-tN8">
+                    <connections>
+                        <action selector="longpressMap:" destination="BYZ-38-t0r" id="iqH-e1-CuC"/>
+                    </connections>
+                </pongPressGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
+        </scene>
+    </scenes>
+</document>
