@@ -17,6 +17,8 @@
 		4657061721CB71C10088C7E5 /* Music.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4657061521CB71C10088C7E5 /* Music.storyboard */; };
 		4657061821CB71C10088C7E5 /* List.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4657061621CB71C10088C7E5 /* List.storyboard */; };
 		4657061B21CBCA250088C7E5 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4657061A21CBCA250088C7E5 /* MapKit.framework */; };
+		4657061D21CD91D00088C7E5 /* PinStract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4657061C21CD91D00088C7E5 /* PinStract.swift */; };
+		4657062321CDB21F0088C7E5 /* MusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4657062221CDB21F0088C7E5 /* MusicViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		4657061521CB71C10088C7E5 /* Music.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Music.storyboard; sourceTree = "<group>"; };
 		4657061621CB71C10088C7E5 /* List.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = List.storyboard; sourceTree = "<group>"; };
 		4657061A21CBCA250088C7E5 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		4657061C21CD91D00088C7E5 /* PinStract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinStract.swift; sourceTree = "<group>"; };
+		4657062221CDB21F0088C7E5 /* MusicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				465705FB21CB6FE80088C7E5 /* ViewController.swift */,
+				4657062221CDB21F0088C7E5 /* MusicViewController.swift */,
 			);
 			path = ViewContloller;
 			sourceTree = "<group>";
@@ -104,6 +109,7 @@
 		4657060E21CB70270088C7E5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4657061C21CD91D00088C7E5 /* PinStract.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -217,6 +223,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4657061D21CD91D00088C7E5 /* PinStract.swift in Sources */,
+				4657062321CDB21F0088C7E5 /* MusicViewController.swift in Sources */,
 				4657061421CB71830088C7E5 /* ListView.swift in Sources */,
 				465705FC21CB6FE80088C7E5 /* ViewController.swift in Sources */,
 				4657061221CB716A0088C7E5 /* MusicView.swift in Sources */,
