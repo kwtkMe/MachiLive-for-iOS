@@ -13,8 +13,8 @@ import MediaPlayer
 
 class ViewController:
     UIViewController,
-    CLLocationManagerDelegate,
     MKMapViewDelegate,
+    CLLocationManagerDelegate,
     MPMediaPickerControllerDelegate
 {
     
@@ -23,108 +23,127 @@ class ViewController:
         case staying
     }
     
-    // MARK: UI
-    // View
-    @IBOutlet weak var leftContainerView: UIView! {
-        didSet {
-            guard let viewController = UIStoryboard(name: "Music", bundle: nil).instantiateInitialViewController() else { return }
-            leftContainerView.frame = leftContainerViewInitFrame
-            leftContainerView.addSubview(viewController.view)
-        }
-    }
-    @IBOutlet weak var rightContainerView: UIView! {
-        didSet {
-            guard let viewController = UIStoryboard(name: "List", bundle: nil).instantiateInitialViewController() else { return }
-            rightContainerView.frame = leftContainerViewInitFrame
-            rightContainerView.addSubview(viewController.view)
-        }
-    }
-    // etc.
+    var mode: TrakingMode = .staying
+    
+    /**
+     Main view
+    **/
+    
+    @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var mainMapView: MKMapView!
     @IBOutlet weak var trakingModeLabel: UILabel!
     @IBOutlet weak var trakingModeSwitch: UISwitch!
-    @IBOutlet weak var mainMapView: MKMapView!
-
-    // Frame
-    private let leftContainerViewInitFrame = CGRect(
-        x: -UIScreen.main.bounds.width, y: 0,
-        width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height
-    )
-    private let rightContainerViewInitFrame = CGRect(
-        x: UIScreen.main.bounds.width, y: 0,
-        width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height
-    )
-    private let containerViewDispFrame = CGRect(
-        x: 0, y: 0,
-        width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height
-    )
-    // other field
-    var mode: TrakingMode = .staying
-    var myLocationManager: CLLocationManager!
+    
+//    let loginView: UIView!
+//    let pinViewNormal: UIView!
+//    let pinViewSelected: UIView!
+//    let pinViewExpanded: UIView!
+    
+    // constant
+    let loginView_marginTop = 100
+    let pinView_marginTop = 150
+    let animationDuaration: TimeInterval = 1.0
+    
+    /**
+     delegatations
+     **/
+    var locationManager: CLLocationManager!
     var player: MPMusicPlayerController!
-
     
     // MARK: methods
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        // プレイヤーの開始
-//        player.prepareToPlay { (Error?) in
-//
-//        }
-        // 位置情報の許可
-        setupLocationManager()
-        // mainMapViewの初期化
+        
+        // pinViewの初期設定
+        
+        // loginViewの初期設定
+
+        // mapViewの初期設定
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
         mainMapView.delegate = self
+        setupLocationManager()
         let mapViewCenterDefault = CLLocationCoordinate2DMake(35.5, 139.8)
         let coordinateSpanDefault = MKCoordinateSpan(latitudeDelta: 1.0, longitudeDelta: 1.0)
         let regionDefault = MKCoordinateRegion(center: mapViewCenterDefault, span: coordinateSpanDefault)
         mainMapView.setRegion(regionDefault, animated:true)
     }
     
-    // 現在のビューコントローラを返す
-    func getTopViewController() -> UIViewController? {
-        if let rootViewController = UIApplication.shared.keyWindow?.rootViewController {
-            var topViewControlelr: UIViewController = rootViewController
-            
-            while let presentedViewController = topViewControlelr.presentedViewController {
-                topViewControlelr = presentedViewController
-            }
-            return topViewControlelr
-        } else {
-            return nil
-        }
-    }
-    
-    // for side view(MusicView,ListView)
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesEnded(touches, with: event)
-        for touch in touches {
-            if let view = touch.view {
-                transitionSlideViewController(tag: view.tag)
-            }
-        }
-    }
-    func transitionSlideViewController(tag: Int) {
-        if tag == 100 {
-            UIView.animate(withDuration: 0.3, animations: {
-                self.rightContainerView.frame = self.rightContainerViewInitFrame
-            })
-        } else if tag == 200 {
-            UIView.animate(withDuration: 0.3, animations: {
-                self.leftContainerView.frame = self.leftContainerViewInitFrame
-            })
-        }
-    }
-    
-    // for traking view
+    // 位置情報の設定を適用
     func setupLocationManager() {
-        if myLocationManager != nil { return }
-        myLocationManager = CLLocationManager()
-        myLocationManager.delegate = self
-        myLocationManager.requestWhenInUseAuthorization()
+        if locationManager != nil { return }
+        locationManager.requestWhenInUseAuthorization()
         mainMapView.userTrackingMode = MKUserTrackingMode.follow
         mainMapView.showsUserLocation = true
     }
+
+    
+    // for map view
+    // マップを長押しした時
+    // 楽曲情報を登録(移譲する)
+    @IBAction func longpressMap(_ sender: UILongPressGestureRecognizer) {
+        // タップされた位置情報を取得
+        let location:CGPoint = sender.location(in: mainMapView)
+        let mapPoint:CLLocationCoordinate2D
+            = mainMapView.convert(location, toCoordinateFrom: mainMapView)
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = CLLocationCoordinate2DMake(mapPoint.latitude, mapPoint.longitude)
+        // アラートを定義
+        let alert = UIAlertController(title: "ピンを登録", message: "楽曲を登録しますか？", preferredStyle: UIAlertController.Style.alert)
+        let cancelAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:{
+            (action: UIAlertAction!) in
+        })
+        let defaultAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+            (action: UIAlertAction!) in
+            annotation.title = "nothig_selected"
+            annotation.subtitle = "guest_user"
+            self.mainMapView.addAnnotation(annotation)
+        })
+        alert.addAction(cancelAction)
+        alert.addAction(defaultAction)
+        if sender.state == UIGestureRecognizer.State.ended {
+            present(alert, animated: true, completion: nil)
+        }
+    }
+    // 初期状態のアノテーションビューを設定
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        // ユーザの現在位置をデフォルトのシステムビューを使って表示(ひどい仕様)
+        if annotation is MKUserLocation {return nil}
+    
+        let annotationIdNothingselected = "nothing"
+        
+        let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationIdNothingselected)
+        let button = UIButton.init(type: .detailDisclosure)
+        annotationView.rightCalloutAccessoryView = button
+        annotationView.canShowCallout = true
+        annotationView.animatesDrop = true
+        
+        return annotationView
+    }
+    // ピンの削除ボタンを押下した時
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if control == view.rightCalloutAccessoryView {
+            // アラートを定義
+            let alert = UIAlertController(title: "ピンを削除", message: "本当に削除しますか？", preferredStyle: UIAlertController.Style.alert)
+            let cancelAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:{
+                (action: UIAlertAction!) in
+            })
+            let defaultAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+                (action: UIAlertAction!) in
+                mapView.removeAnnotation(view.annotation!)
+            })
+            alert.addAction(cancelAction)
+            alert.addAction(defaultAction)
+            present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    // change "TrackingMode"
+    // 維持情報の追跡モードスイッチを切り替える
+    @IBAction func switchTrackingMode(_ sender: UISwitch) {
+        changeTrakingMode()
+    }
+    // 位置情報の追跡モードを切り替える
     func changeTrakingMode(){
         switch self.mode {
         case .moving:
@@ -141,116 +160,29 @@ class ViewController:
         }
     }
     
-    // for map view
-    // アノテーションの独自ビューを作成
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        // ピンではない
-        // ユーザの現在位置をデフォルトのシステムビューを使って表示
-        if annotation is MKUserLocation {return nil}
-        
-        let annotationId = "selected"
-        var annotationView: MKAnnotationView?
-            = mapView.dequeueReusableAnnotationView(withIdentifier: annotationId) ?? nil
-        // UI
-        let button = UIButton.init(type: .detailDisclosure)
-        if annotationView == nil {
-            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationId)
-            annotationView?.rightCalloutAccessoryView = button
-            annotationView?.canShowCallout = true
-        }
-        
-        return annotationView
-    }
-    // 未登録のピンについてボタンが押下されたとき
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        // MPMediaPickerController
-        let picker = MPMediaPickerController()
-        picker.delegate = self
-        picker.allowsPickingMultipleItems = false
-        present(picker, animated: true, completion: nil)
-        // デリゲート
-//        topViewController.ViewController(picker, animated: true, completion: nil)
-//        //アノテーションを消す
-//        if let annotation = view.annotation {
-//            mapView.deselectAnnotation(annotation, animated: true)
-//        }
-//        //ストーリーボードの名前を指定
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        //viewにつけた名前を指定
-//        let vc = storyboard.instantiateViewController(withIdentifier: "locationDetail")
-//        //popoverを指定する
-//        vc.modalPresentationStyle = UIModalPresentationStyle.popover
-//
-//        presentViewController(vc, animated: true, completion: nil)
-//
-//        let popoverPresentationController = vc.popoverPresentationController
-//        popoverPresentationController?.sourceView = view
-//        popoverPresentationController?.sourceRect = view.bounds
-        
-    }
-    
-    // callback from MPMediaPickerController
-    func mediaPicker(mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
-        
-        player.stop()
-        // 選択した曲情報がmediaItemCollectionに入っている
-        player.setQueue(with: mediaItemCollection)
-        
-//        // 選択した曲から最初の曲の情報を表示
-//        if let mediaItem = mediaItemCollection.items.first {
-//            updateSongInformationUI(mediaItem)
-//        }
-        
-        // ピッカーを閉じ、破棄する
-        dismiss(animated: true, completion: nil)
-    }
-    
-    //選択がキャンセルされた場合に呼ばれる
-    func mediaPickerDidCancel(mediaPicker: MPMediaPickerController) {
-        // ピッカーを閉じ、破棄する
-        dismiss(animated: true, completion: nil)
-    }
+    /**
+     ListView
+    **/
     
     
-    // Map tapped Action
-    @IBAction func longpressMap(_ sender: UILongPressGestureRecognizer) {
-        let location:CGPoint = sender.location(in: mainMapView)
-        let mapPoint:CLLocationCoordinate2D
-            = mainMapView.convert(location, toCoordinateFrom: mainMapView)
     
-        if sender.state == UIGestureRecognizer.State.ended {
-            let annotation = MKPointAnnotation()
-            annotation.coordinate
-                = CLLocationCoordinate2DMake(mapPoint.latitude, mapPoint.longitude)
-            annotation.title = "nothig_selected"
-            annotation.subtitle = "guest_user"
-            mainMapView.addAnnotation(annotation)
-        }
-    }
-    
-    // Button tapped Action
-    @IBAction func switchTrackingMode(_ sender: UISwitch) {
-        changeTrakingMode()
-    }
+    // for change view(MusicView,ListView)
+    // ハンバーガービューを開く
     @IBAction func tapListButton(_ sender: UIButton) {
-        rightContainerView.frame = rightContainerViewInitFrame
-        UIView.animate(withDuration: 0.3, animations: {
-            self.rightContainerView.frame = self.containerViewDispFrame
-        })
+        
     }
+    // プレイヤービューを開く(アプリ内のもの)
     @IBAction func tapMusicButton(_ sender: UIButton) {
-        leftContainerView.frame = leftContainerViewInitFrame
-        UIView.animate(withDuration: 0.3, animations: {
-            self.leftContainerView.frame = self.containerViewDispFrame
-        })
+        
     }
-    
-    @IBAction func letsMusic(_ sender: UIButton) {
-        // MPMediaPickerController
-        let picker = MPMediaPickerController()
-        picker.delegate = self
-        picker.allowsPickingMultipleItems = false
-        present(picker, animated: true, completion: nil)
+    // 左右のビューが展開している時に外をタップ
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        
+    }
+    // 左右のビューを変形
+    func transitionSlideViewController(tag: Int) {
+        
     }
     
 }

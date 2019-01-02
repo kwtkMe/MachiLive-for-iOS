@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseUI
+import TwitterKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,9 +17,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
+    override init() {
+        super.init()
+        // Firebase関連の機能を使う前に必要
+        FirebaseApp.configure()
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+    
+        TWTRTwitter.sharedInstance().start(
+            withConsumerKey:"lSF0iNyyshvNUPMV7Zp7ONdLC",
+            consumerSecret:"WBulObM5IinR7axrsIOkv3J6TN8bkbe2VM40yUAubebYHCbYXo")
+        
         return true
+    }
+    
+    // facebook&Google&電話番号認証時に呼ばれる関数
+    func application(_ app: UIApplication, open url: URL,
+                     options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+        let sourceApplication = options[UIApplication.OpenURLOptionsKey.sourceApplication] as! String?
+        // GoogleもしくはFacebook認証の場合、trueを返す
+        if FUIAuth.defaultAuthUI()?.handleOpen(url, sourceApplication: sourceApplication) ?? false {
+            return true
+        }
+        // 電話番号認証の場合、trueを返す
+        if Auth.auth().canHandle(url) {
+            return true
+        }
+        return false
+    }
+    
+    // 電話番号認証の場合に通知をHandel出来るかチェックする関数
+    func application(_ application: UIApplication,
+                     didReceiveRemoteNotification notification: [AnyHashable : Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        if Auth.auth().canHandleNotification(notification) {
+            completionHandler(.noData)
+            return
+        }
+        // エラーの時の処理を書く
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

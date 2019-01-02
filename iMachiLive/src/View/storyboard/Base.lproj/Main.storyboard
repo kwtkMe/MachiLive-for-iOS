@@ -36,29 +36,20 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="stay" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uWu-Hf-kqP">
-                                        <rect key="frame" x="171.5" y="-1" width="32" height="21"/>
+                                        <rect key="frame" x="171.5" y="-1.5" width="32" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="HD9-DD-2ed">
-                                        <rect key="frame" x="163" y="20" width="51" height="30"/>
+                                        <rect key="frame" x="163" y="19.5" width="51" height="31"/>
                                         <connections>
                                             <action selector="switchTrackingMode:" destination="BYZ-38-t0r" eventType="valueChanged" id="lu9-zz-xeT"/>
                                         </connections>
                                     </switch>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M8R-1a-w91" userLabel="letsMusic">
-                                        <rect key="frame" x="212" y="20" width="46" height="30"/>
-                                        <state key="normal" title="Button"/>
-                                        <connections>
-                                            <action selector="letsMusic:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eJU-Ya-50I"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="M8R-1a-w91" firstAttribute="leading" secondItem="HD9-DD-2ed" secondAttribute="trailing" id="3rA-MC-3vr"/>
-                                    <constraint firstItem="M8R-1a-w91" firstAttribute="top" secondItem="HD9-DD-2ed" secondAttribute="top" id="FKF-CX-Lar"/>
                                     <constraint firstItem="uWu-Hf-kqP" firstAttribute="centerX" secondItem="OwG-6L-W0b" secondAttribute="centerX" id="GkK-qS-TIH"/>
                                     <constraint firstItem="aZF-mT-ZY6" firstAttribute="centerY" secondItem="OwG-6L-W0b" secondAttribute="centerY" id="QpX-Px-1cN"/>
                                     <constraint firstItem="g00-gd-rxS" firstAttribute="centerY" secondItem="OwG-6L-W0b" secondAttribute="centerY" id="SFL-v3-nT4"/>
@@ -66,25 +57,17 @@
                                     <constraint firstItem="g00-gd-rxS" firstAttribute="leading" secondItem="OwG-6L-W0b" secondAttribute="leading" constant="10" id="bbb-PB-Vis"/>
                                     <constraint firstAttribute="height" constant="70" id="eLT-Qs-FHf"/>
                                     <constraint firstItem="HD9-DD-2ed" firstAttribute="centerX" secondItem="OwG-6L-W0b" secondAttribute="centerX" id="jDT-OT-ZEz"/>
-                                    <constraint firstItem="M8R-1a-w91" firstAttribute="top" secondItem="OwG-6L-W0b" secondAttribute="top" constant="20" id="jrb-eO-Pvz"/>
                                     <constraint firstItem="uWu-Hf-kqP" firstAttribute="bottom" secondItem="HD9-DD-2ed" secondAttribute="top" id="raP-gi-mAc"/>
                                     <constraint firstItem="HD9-DD-2ed" firstAttribute="centerY" secondItem="OwG-6L-W0b" secondAttribute="centerY" id="w2G-Ls-8pe"/>
                                 </constraints>
                             </view>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsScale="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bgy-k1-VzL">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" showsScale="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bgy-k1-VzL">
                                 <rect key="frame" x="0.0" y="90" width="375" height="577"/>
                                 <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="0hc-iT-lYw"/>
                                     <outletCollection property="gestureRecognizers" destination="VJn-06-tN8" appends="YES" id="zQt-es-H8Y"/>
                                 </connections>
                             </mapView>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dQW-Og-Bq8" userLabel="Music Container View">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                            </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vPC-Oi-7Hd" userLabel="List Container View">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -103,9 +86,8 @@
                         <viewLayoutGuide key="safeArea" id="TGI-MP-Ezd"/>
                     </view>
                     <connections>
-                        <outlet property="leftContainerView" destination="dQW-Og-Bq8" id="1G4-ar-uJR"/>
-                        <outlet property="mainMapView" destination="Bgy-k1-VzL" id="krn-uS-EV2"/>
-                        <outlet property="rightContainerView" destination="vPC-Oi-7Hd" id="nY6-is-lx2"/>
+                        <outlet property="headerView" destination="OwG-6L-W0b" id="EUR-vu-jpZ"/>
+                        <outlet property="mainMapView" destination="Bgy-k1-VzL" id="6uH-J2-oF4"/>
                         <outlet property="trakingModeLabel" destination="uWu-Hf-kqP" id="txM-kZ-UoU"/>
                         <outlet property="trakingModeSwitch" destination="HD9-DD-2ed" id="WEA-7V-z8h"/>
                     </connections>

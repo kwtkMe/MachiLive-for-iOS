@@ -12,16 +12,23 @@
 		465705FF21CB6FE80088C7E5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 465705FD21CB6FE80088C7E5 /* Main.storyboard */; };
 		4657060121CB6FE90088C7E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4657060021CB6FE90088C7E5 /* Assets.xcassets */; };
 		4657060421CB6FE90088C7E5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4657060221CB6FE90088C7E5 /* LaunchScreen.storyboard */; };
-		4657061221CB716A0088C7E5 /* MusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4657061121CB716A0088C7E5 /* MusicView.swift */; };
-		4657061421CB71830088C7E5 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4657061321CB71830088C7E5 /* ListView.swift */; };
-		4657061721CB71C10088C7E5 /* Music.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4657061521CB71C10088C7E5 /* Music.storyboard */; };
+		4657061721CB71C10088C7E5 /* Player.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4657061521CB71C10088C7E5 /* Player.storyboard */; };
 		4657061821CB71C10088C7E5 /* List.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4657061621CB71C10088C7E5 /* List.storyboard */; };
 		4657061B21CBCA250088C7E5 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4657061A21CBCA250088C7E5 /* MapKit.framework */; };
 		4657061D21CD91D00088C7E5 /* PinStract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4657061C21CD91D00088C7E5 /* PinStract.swift */; };
-		4657062321CDB21F0088C7E5 /* MusicViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4657062221CDB21F0088C7E5 /* MusicViewController.swift */; };
+		46EDF48621DB315500FF6B70 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EDF48521DB315500FF6B70 /* Application.swift */; };
+		46EDF48A21DB3C7E00FF6B70 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46EDF48921DB3C7E00FF6B70 /* Login.storyboard */; };
+		46EDF48C21DC9F3B00FF6B70 /* PinViewExpanded.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EDF48B21DC9F3B00FF6B70 /* PinViewExpanded.swift */; };
+		46EDF48E21DC9F5A00FF6B70 /* PinViewSelected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EDF48D21DC9F5A00FF6B70 /* PinViewSelected.swift */; };
+		46EDF49021DC9F6B00FF6B70 /* PinViewNormal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EDF48F21DC9F6B00FF6B70 /* PinViewNormal.swift */; };
+		46EDF49221DC9F8E00FF6B70 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EDF49121DC9F8E00FF6B70 /* LoginView.swift */; };
+		46EDF4B421DCEDC600FF6B70 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46EDF4B321DCEDC600FF6B70 /* GoogleService-Info.plist */; };
+		DE571A8E8BCB1A063CACE61B /* Pods_iMachiLive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1820AD80282ADD381A71DA71 /* Pods_iMachiLive.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		08D7E30B1392259D14492DFA /* Pods-iMachiLive.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMachiLive.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iMachiLive/Pods-iMachiLive.debug.xcconfig"; sourceTree = "<group>"; };
+		1820AD80282ADD381A71DA71 /* Pods_iMachiLive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iMachiLive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		465705F621CB6FE80088C7E5 /* iMachiLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMachiLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		465705F921CB6FE80088C7E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		465705FB21CB6FE80088C7E5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -29,13 +36,18 @@
 		4657060021CB6FE90088C7E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4657060321CB6FE90088C7E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4657060521CB6FE90088C7E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4657061121CB716A0088C7E5 /* MusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicView.swift; sourceTree = "<group>"; };
-		4657061321CB71830088C7E5 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
-		4657061521CB71C10088C7E5 /* Music.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Music.storyboard; sourceTree = "<group>"; };
+		4657061521CB71C10088C7E5 /* Player.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Player.storyboard; sourceTree = "<group>"; };
 		4657061621CB71C10088C7E5 /* List.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = List.storyboard; sourceTree = "<group>"; };
 		4657061A21CBCA250088C7E5 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		4657061C21CD91D00088C7E5 /* PinStract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinStract.swift; sourceTree = "<group>"; };
-		4657062221CDB21F0088C7E5 /* MusicViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicViewController.swift; sourceTree = "<group>"; };
+		46EDF48521DB315500FF6B70 /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
+		46EDF48921DB3C7E00FF6B70 /* Login.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		46EDF48B21DC9F3B00FF6B70 /* PinViewExpanded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinViewExpanded.swift; sourceTree = "<group>"; };
+		46EDF48D21DC9F5A00FF6B70 /* PinViewSelected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinViewSelected.swift; sourceTree = "<group>"; };
+		46EDF48F21DC9F6B00FF6B70 /* PinViewNormal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinViewNormal.swift; sourceTree = "<group>"; };
+		46EDF49121DC9F8E00FF6B70 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		46EDF4B321DCEDC600FF6B70 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BAA5CCF5D28640C03E08744D /* Pods-iMachiLive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMachiLive.release.xcconfig"; path = "Pods/Target Support Files/Pods-iMachiLive/Pods-iMachiLive.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +56,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4657061B21CBCA250088C7E5 /* MapKit.framework in Frameworks */,
+				DE571A8E8BCB1A063CACE61B /* Pods_iMachiLive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +69,7 @@
 				465705F821CB6FE80088C7E5 /* iMachiLive */,
 				465705F721CB6FE80088C7E5 /* Products */,
 				4657061921CBCA250088C7E5 /* Frameworks */,
+				99674A071824AC912D7BB966 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -79,8 +93,10 @@
 		4657060B21CB6FFA0088C7E5 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				4657061121CB716A0088C7E5 /* MusicView.swift */,
-				4657061321CB71830088C7E5 /* ListView.swift */,
+				46EDF48B21DC9F3B00FF6B70 /* PinViewExpanded.swift */,
+				46EDF48D21DC9F5A00FF6B70 /* PinViewSelected.swift */,
+				46EDF48F21DC9F6B00FF6B70 /* PinViewNormal.swift */,
+				46EDF49121DC9F8E00FF6B70 /* LoginView.swift */,
 				4657060C21CB70040088C7E5 /* storyboard */,
 			);
 			path = View;
@@ -91,8 +107,9 @@
 			children = (
 				4657060221CB6FE90088C7E5 /* LaunchScreen.storyboard */,
 				465705FD21CB6FE80088C7E5 /* Main.storyboard */,
-				4657061521CB71C10088C7E5 /* Music.storyboard */,
+				4657061521CB71C10088C7E5 /* Player.storyboard */,
 				4657061621CB71C10088C7E5 /* List.storyboard */,
+				46EDF48921DB3C7E00FF6B70 /* Login.storyboard */,
 			);
 			path = storyboard;
 			sourceTree = "<group>";
@@ -101,7 +118,6 @@
 			isa = PBXGroup;
 			children = (
 				465705FB21CB6FE80088C7E5 /* ViewController.swift */,
-				4657062221CDB21F0088C7E5 /* MusicViewController.swift */,
 			);
 			path = ViewContloller;
 			sourceTree = "<group>";
@@ -110,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				4657061C21CD91D00088C7E5 /* PinStract.swift */,
+				46EDF48521DB315500FF6B70 /* Application.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -130,6 +147,7 @@
 				465705F921CB6FE80088C7E5 /* AppDelegate.swift */,
 				4657060021CB6FE90088C7E5 /* Assets.xcassets */,
 				4657060521CB6FE90088C7E5 /* Info.plist */,
+				46EDF4B321DCEDC600FF6B70 /* GoogleService-Info.plist */,
 			);
 			path = resource;
 			sourceTree = "<group>";
@@ -138,8 +156,18 @@
 			isa = PBXGroup;
 			children = (
 				4657061A21CBCA250088C7E5 /* MapKit.framework */,
+				1820AD80282ADD381A71DA71 /* Pods_iMachiLive.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		99674A071824AC912D7BB966 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				08D7E30B1392259D14492DFA /* Pods-iMachiLive.debug.xcconfig */,
+				BAA5CCF5D28640C03E08744D /* Pods-iMachiLive.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,9 +177,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4657060821CB6FE90088C7E5 /* Build configuration list for PBXNativeTarget "iMachiLive" */;
 			buildPhases = (
+				74B7D99BF14176A4F9E66DD5 /* [CP] Check Pods Manifest.lock */,
 				465705F221CB6FE80088C7E5 /* Sources */,
 				465705F321CB6FE80088C7E5 /* Frameworks */,
 				465705F421CB6FE80088C7E5 /* Resources */,
+				177DF09AB9C6B7B54B92269B /* [CP] Embed Pods Frameworks */,
+				680D8D3416D929BEC0D9895F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -210,24 +241,131 @@
 			files = (
 				4657060421CB6FE90088C7E5 /* LaunchScreen.storyboard in Resources */,
 				4657061821CB71C10088C7E5 /* List.storyboard in Resources */,
-				4657061721CB71C10088C7E5 /* Music.storyboard in Resources */,
+				46EDF48A21DB3C7E00FF6B70 /* Login.storyboard in Resources */,
+				4657061721CB71C10088C7E5 /* Player.storyboard in Resources */,
 				4657060121CB6FE90088C7E5 /* Assets.xcassets in Resources */,
 				465705FF21CB6FE80088C7E5 /* Main.storyboard in Resources */,
+				46EDF4B421DCEDC600FF6B70 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		177DF09AB9C6B7B54B92269B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-iMachiLive/Pods-iMachiLive-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${PODS_ROOT}/TwitterCore/iOS/TwitterCore.framework",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TwitterKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iMachiLive/Pods-iMachiLive-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		680D8D3416D929BEC0D9895F /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-iMachiLive/Pods-iMachiLive-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseFacebookAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseGoogleAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebasePhoneAuthUI.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseUI/FirebaseTwitterAuthUI.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseFacebookAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseGoogleAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebasePhoneAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FirebaseTwitterAuthUI.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iMachiLive/Pods-iMachiLive-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		74B7D99BF14176A4F9E66DD5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-iMachiLive-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		465705F221CB6FE80088C7E5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46EDF48621DB315500FF6B70 /* Application.swift in Sources */,
+				46EDF48C21DC9F3B00FF6B70 /* PinViewExpanded.swift in Sources */,
 				4657061D21CD91D00088C7E5 /* PinStract.swift in Sources */,
-				4657062321CDB21F0088C7E5 /* MusicViewController.swift in Sources */,
-				4657061421CB71830088C7E5 /* ListView.swift in Sources */,
+				46EDF48E21DC9F5A00FF6B70 /* PinViewSelected.swift in Sources */,
 				465705FC21CB6FE80088C7E5 /* ViewController.swift in Sources */,
-				4657061221CB716A0088C7E5 /* MusicView.swift in Sources */,
+				46EDF49021DC9F6B00FF6B70 /* PinViewNormal.swift in Sources */,
+				46EDF49221DC9F8E00FF6B70 /* LoginView.swift in Sources */,
 				465705FA21CB6FE80088C7E5 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -372,6 +510,7 @@
 		};
 		4657060921CB6FE90088C7E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 08D7E30B1392259D14492DFA /* Pods-iMachiLive.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -390,6 +529,7 @@
 		};
 		4657060A21CB6FE90088C7E5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BAA5CCF5D28640C03E08744D /* Pods-iMachiLive.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

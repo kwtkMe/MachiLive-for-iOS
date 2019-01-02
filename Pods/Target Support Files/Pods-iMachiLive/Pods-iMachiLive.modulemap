@@ -1,0 +1,6 @@
+framework module Pods_iMachiLive {
+  umbrella header "Pods-iMachiLive-umbrella.h"
+
+  export *
+  module * { export * }
+}
