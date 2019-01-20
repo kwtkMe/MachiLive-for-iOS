@@ -18,35 +18,40 @@ class ViewController:
     MPMediaPickerControllerDelegate
 {
     
+    //MARK: status
     enum TrakingMode {
         case moving
         case staying
     }
+    enum PinViewMode {
+        case normal
+        case selected
+        case expanded
+    }
+    enum UserViewMode {
+        case collapsed
+        case expanded
+    }
+    var trackingMode: TrakingMode = .staying
+    var pinviewMode: PinViewMode = .normal
+    var userviewMode: UserViewMode = .collapsed
     
-    var mode: TrakingMode = .staying
-    
-    /**
-     Main view
-    **/
-    
+    //MARK: UI
+    // main
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var mainMapView: MKMapView!
     @IBOutlet weak var trakingModeLabel: UILabel!
     @IBOutlet weak var trakingModeSwitch: UISwitch!
+    // pinView
     
-//    let loginView: UIView!
-//    let pinViewNormal: UIView!
-//    let pinViewSelected: UIView!
-//    let pinViewExpanded: UIView!
+    // userView
+    
     
     // constant
-    let loginView_marginTop = 100
+    let loginView_marginLeft = 100
     let pinView_marginTop = 150
     let animationDuaration: TimeInterval = 1.0
-    
-    /**
-     delegatations
-     **/
+    // delegatations
     var locationManager: CLLocationManager!
     var player: MPMusicPlayerController!
     
@@ -54,10 +59,22 @@ class ViewController:
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // pinViewの初期設定
+        initSubviews()
+        setupLayout()
+        setupSubviews()
+    }
+    
+    private func initSubviews() {
         
-        // loginViewの初期設定
+    }
+    
+    private func setupLayout() {
+        
+    }
+    
+    private func setupSubviews() {
 
+        
         // mapViewの初期設定
         locationManager = CLLocationManager()
         locationManager.delegate = self
@@ -67,6 +84,43 @@ class ViewController:
         let coordinateSpanDefault = MKCoordinateSpan(latitudeDelta: 1.0, longitudeDelta: 1.0)
         let regionDefault = MKCoordinateRegion(center: mapViewCenterDefault, span: coordinateSpanDefault)
         mainMapView.setRegion(regionDefault, animated:true)
+    }
+    
+    // Frame assets
+    private func pinViewNorMalFrame() -> CGRect {
+        return CGRect(
+            x: 0,
+            y: self.headerView.frame.height,
+            width: self.view.frame.width,
+            height: self.view.frame.height - self.headerView.frame.height
+        )
+    }
+    
+    private func pinViewSelectedFrame() -> CGRect {
+        return CGRect(
+            x: 0,
+            y: self.headerView.frame.height,
+            width: self.view.frame.width,
+            height: self.view.frame.height - self.headerView.frame.height
+        )
+    }
+    
+    private func pinViewExpandedFrame() -> CGRect {
+        return CGRect(
+            x: 0,
+            y: self.headerView.frame.height,
+            width: self.view.frame.width,
+            height: self.view.frame.height - self.headerView.frame.height
+        )
+    }
+    
+    private func userViewFrame() -> CGRect {
+        return CGRect(
+            x: CGFloat(loginView_marginLeft),
+            y: self.mainMapView.frame.minY,
+            width: self.view.frame.width - CGFloat(loginView_marginLeft),
+            height: self.mainMapView.frame.height
+        )
     }
     
     // 位置情報の設定を適用
@@ -139,24 +193,25 @@ class ViewController:
     }
     
     // change "TrackingMode"
-    // 維持情報の追跡モードスイッチを切り替える
-    @IBAction func switchTrackingMode(_ sender: UISwitch) {
+    // 位置情報の追跡モードスイッチを切り替える
+    
+    @IBAction func changeTrackingMode(_ sender: UISwitch) {
         changeTrakingMode()
     }
     // 位置情報の追跡モードを切り替える
     func changeTrakingMode(){
-        switch self.mode {
+        switch self.trackingMode {
         case .moving:
             trakingModeSwitch.isOn = false
             trakingModeLabel.text = "staying"
             mainMapView.userTrackingMode = MKUserTrackingMode.none
-            self.mode = .staying
+            self.trackingMode = .staying
         case .staying:
             trakingModeSwitch.isOn = true
             trakingModeLabel.text = "moving"
             mainMapView.setCenter(mainMapView.userLocation.coordinate, animated: true)
             mainMapView.userTrackingMode = MKUserTrackingMode.follow
-            self.mode = .moving
+            self.trackingMode = .moving
         }
     }
     
@@ -168,7 +223,7 @@ class ViewController:
     
     // for change view(MusicView,ListView)
     // ハンバーガービューを開く
-    @IBAction func tapListButton(_ sender: UIButton) {
+    @IBAction func tapUserButton(_ sender: UIButton) {
         
     }
     // プレイヤービューを開く(アプリ内のもの)
