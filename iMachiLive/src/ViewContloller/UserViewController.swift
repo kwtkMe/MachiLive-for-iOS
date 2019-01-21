@@ -8,30 +8,52 @@
 
 import UIKit
 
-class LoginViewController: UIViewController {
+class UserViewController: UIViewController {
     
+    /** ----------------------------------------------------------------------
+     # Models
+     ---------------------------------------------------------------------- **/
+    var userData = UserData.sharedInstance
+    
+    
+    /** ----------------------------------------------------------------------
+     UI settings
+     ---------------------------------------------------------------------- **/
     @IBOutlet weak var menuView: UIView!
     
     override func viewWillAppear(_ animated: Bool) {
+        
         super.viewWillAppear(animated)
-        // メニューの位置を取得する
+        
         let menuPos = self.menuView.layer.position
-        // 初期位置を画面の外側にするため、メニューの幅の分だけマイナスする
         self.menuView.layer.position.x = -self.menuView.frame.width
-        // 表示時のアニメーションを作成する
+        
         UIView.animate(
             withDuration: 0.2,
             delay: 0,
             options: .curveEaseOut,
             animations: {
                 self.menuView.layer.position.x = menuPos.x
-        },
-            completion: { bool in
-        })
-        
+            },
+            completion: {
+                bool in
+            }
+        )
     }
     
-    // メニューエリア以外タップ時の処理
+    
+    /** ----------------------------------------------------------------------
+     UI actions
+     ---------------------------------------------------------------------- **/
+    // logout ボタンを押下した際の処理
+    @IBAction func tapLogout(_ sender: UIButton) {
+        do {
+            try userData.authUI.signOut()
+        }catch {
+            print("error")
+        }
+    }
+    // エリア外のタップをした際の処理
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         for touch in touches {
@@ -42,14 +64,13 @@ class LoginViewController: UIViewController {
                     options: .curveEaseIn,
                     animations: {
                         self.menuView.layer.position.x = -self.menuView.frame.width
-                },
+                    },
                     completion: { bool in
                         self.dismiss(animated: true, completion: nil)
-                }
+                    }
                 )
             }
         }
     }
 
-    
 }

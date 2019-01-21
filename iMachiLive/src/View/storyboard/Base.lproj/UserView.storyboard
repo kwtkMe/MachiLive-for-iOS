@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="45b-k2-15e">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--User View Controller-->
+        <scene sceneID="PLI-qd-aki">
+            <objects>
+                <viewController storyboardIdentifier="first" modalPresentationStyle="currentContext" id="45b-k2-15e" customClass="UserViewController" customModule="iMachiLive" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" tag="1" contentMode="scaleToFill" id="yNH-cU-eDq">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Azb-XP-egi" customClass="UserViewCont">
+                                <rect key="frame" x="0.0" y="0.0" width="252" height="667"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Sn-kp-UKd">
+                                        <rect key="frame" x="104" y="378" width="44" height="30"/>
+                                        <state key="normal" title="logout"/>
+                                        <connections>
+                                            <action selector="tapLogout:" destination="45b-k2-15e" eventType="touchUpInside" id="Apj-V1-WSh"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cz0-IT-Pok">
+                                        <rect key="frame" x="88" y="323" width="76" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4oJ-R8-ZkZ">
+                                        <rect key="frame" x="62" y="155" width="128" height="128"/>
+                                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="128" id="Ke9-u3-rxy"/>
+                                            <constraint firstAttribute="width" secondItem="4oJ-R8-ZkZ" secondAttribute="height" multiplier="1:1" id="nUY-yF-une"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="2Sn-kp-UKd" firstAttribute="top" secondItem="cz0-IT-Pok" secondAttribute="bottom" constant="34" id="PI2-PY-0pb"/>
+                                    <constraint firstItem="4oJ-R8-ZkZ" firstAttribute="centerX" secondItem="Azb-XP-egi" secondAttribute="centerX" id="QOA-Qn-ego"/>
+                                    <constraint firstItem="cz0-IT-Pok" firstAttribute="centerY" secondItem="Azb-XP-egi" secondAttribute="centerY" id="RpO-Fa-ljd"/>
+                                    <constraint firstItem="4oJ-R8-ZkZ" firstAttribute="leading" secondItem="Azb-XP-egi" secondAttribute="leading" constant="62" id="SzU-6C-7TR"/>
+                                    <constraint firstItem="4oJ-R8-ZkZ" firstAttribute="centerX" secondItem="cz0-IT-Pok" secondAttribute="centerX" id="bLz-co-VSG"/>
+                                    <constraint firstItem="cz0-IT-Pok" firstAttribute="centerX" secondItem="2Sn-kp-UKd" secondAttribute="centerX" id="g7w-cf-iSq"/>
+                                    <constraint firstItem="cz0-IT-Pok" firstAttribute="top" secondItem="4oJ-R8-ZkZ" secondAttribute="bottom" constant="40" id="nuy-qH-3b5"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="Azb-XP-egi" secondAttribute="bottom" id="Cyb-FM-KJ3"/>
+                            <constraint firstItem="Azb-XP-egi" firstAttribute="leading" secondItem="yNH-cU-eDq" secondAttribute="leading" id="IwM-g5-sbN"/>
+                            <constraint firstItem="fms-N6-Oy9" firstAttribute="trailing" secondItem="Azb-XP-egi" secondAttribute="trailing" constant="123" id="bdR-n4-M9I"/>
+                            <constraint firstItem="Azb-XP-egi" firstAttribute="top" secondItem="yNH-cU-eDq" secondAttribute="top" id="jVC-Ha-ZgQ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="fms-N6-Oy9"/>
+                    </view>
+                    <connections>
+                        <outlet property="menuView" destination="Azb-XP-egi" id="BRn-nn-oUs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fcH-ju-p9t" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2095" y="134"/>
+        </scene>
+    </scenes>
+</document>
