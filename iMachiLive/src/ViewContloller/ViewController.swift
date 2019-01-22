@@ -25,6 +25,7 @@ class ViewController:
      # Models
      ---------------------------------------------------------------------- **/
     var userData = UserData.sharedInstance
+    var viewControllerBuilder = ViewControllerBuilder.sharedInstanse
     
     
     /** ----------------------------------------------------------------------
@@ -56,6 +57,7 @@ class ViewController:
         initSubview()
         initSubviewLayout()
         initSubviewConfiguration()
+        showLoginViewController()
     }
     
     private func initSubview() {
@@ -79,12 +81,22 @@ class ViewController:
         // PinView
     }
     
+    public func showLoginViewController() {
+        switch userData.loginMode {
+        case .logout:
+            let authViewController = userData.authUI.authViewController()
+            self.present(authViewController, animated: true, completion: nil)
+        case .login:
+            break
+        }
+    }
+    
     // 位置情報の設定を適用
     func setupLocationManager() {
         if locationManager != nil { return }
         locationManager.requestWhenInUseAuthorization()
-        mainMapView.userTrackingMode = MKUserTrackingMode.follow
-        mainMapView.showsUserLocation = true
+        mainMapView.showsUserLocation = false
+        mainMapView.userTrackingMode = MKUserTrackingMode.none
     }
     
     
@@ -210,18 +222,9 @@ class ViewController:
     }
     
     // ログインボタン(ログイン中はユーザアイコン)を押した際の処理
-    @IBAction func tapLoginButton(_ sender: UIBarButtonItem) {
-        let authViewController = userData.authUI.authViewController()
-        self.present(authViewController, animated: true, completion: nil)
-//        switch userData.loginMode {
-//        case .logout:
-//            let authViewController = userData.authUI.authViewController()
-//            self.present(authViewController, animated: true, completion: nil)
-//        case .login:
-//            let storyboard = UIStoryboard(name: "UserView", bundle: nil)
-//            let viewController = storyboard.instantiateViewController(withIdentifier: "first")
-//            self.present(viewController, animated: true, completion: nil)
-//        }
+    @IBAction func tapLoginButton(_ sender: UIButton) {
+        let viewController = viewControllerBuilder.buildUserViewController()
+        self.present(viewController, animated: true, completion: nil)
     }
     
 }

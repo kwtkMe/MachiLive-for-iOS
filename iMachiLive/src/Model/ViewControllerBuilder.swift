@@ -10,31 +10,22 @@ import UIKit
 
 class ViewControllerBuilder: NSObject {
     
-    /** ----------------------------------------------------------------------
-     # UserData()
-     ---------------------------------------------------------------------- **/
     static let sharedInstanse = ViewControllerBuilder()
-    
+    var mainStoryboard: UIStoryboard!
     
     override init() {
         super.init()
+        mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
     }
-    
     
     // MainViewController
     func buildMainViewController() -> UIViewController{
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = storyboard.instantiateViewController(withIdentifier: "first")
-        
-        return viewController
+        return mainStoryboard.instantiateViewController(withIdentifier: "Main")
     }
     
     // UserViewController
     func buildUserViewController() -> UIViewController{
-        let storyboard = UIStoryboard(name: "UserView", bundle: nil)
-        let viewController = storyboard.instantiateViewController(withIdentifier: "first")
-        
-        return viewController
+        return mainStoryboard.instantiateViewController(withIdentifier: "User")
     }
     
     

@@ -14,11 +14,13 @@ class UserViewController: UIViewController {
      # Models
      ---------------------------------------------------------------------- **/
     var userData = UserData.sharedInstance
+    var viewControllerBuilder = ViewControllerBuilder.sharedInstanse
     
     
     /** ----------------------------------------------------------------------
      UI settings
      ---------------------------------------------------------------------- **/
+    
     @IBOutlet weak var menuView: UIView!
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,6 +51,10 @@ class UserViewController: UIViewController {
     @IBAction func tapLogout(_ sender: UIButton) {
         do {
             try userData.authUI.signOut()
+            userData.loginMode = .logout
+            let mainViewController = viewControllerBuilder.buildMainViewController()
+
+            self.dismiss(animated: true)
         }catch {
             print("error")
         }

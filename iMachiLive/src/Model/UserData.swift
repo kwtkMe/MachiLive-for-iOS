@@ -27,6 +27,7 @@ class UserData: NSObject, FUIAuthDelegate {
         case logout
         case login
     }
+    // Firebaseの状態を監視して更新
     var loginMode: LoginMode = .logout
     
     
@@ -40,15 +41,37 @@ class UserData: NSObject, FUIAuthDelegate {
         FUIGoogleAuth(),
         FUITwitterAuth(),
     ]
-    authUI.pro
+    
+    
+    /** ----------------------------------------------------------------------
+     # init()
+     ---------------------------------------------------------------------- **/
+    private override init() {
+        super.init()
+        
+        // FirebaseUI
+        authUI.delegate = self
+        authUI.providers = providers
+        
+        //        // FirebaseData
+        //        let firebaseData = FirebaseData()
+        //        if firebaseData.isLogin() {
+        //            loginMode = .login
+        //            // ログイン情報を取得
+        ////            loginData =
+        //            firebaseData.getUserData()
+        //        }else {
+        //            loginMode = .logout
+        //        }
+    }
     
     // FirabaseUIのデリゲートメソッド
     public func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?){
         // 認証に成功した場合
         if error == nil {
-            
+            loginMode = .login
         }
-        // エラー時の処理をここに書く
+        // エラー時
     }
     
     
@@ -61,29 +84,6 @@ class UserData: NSObject, FUIAuthDelegate {
     // loginData を返す
     func getUserData() {
         
-    }
-    
-    
-    /** ----------------------------------------------------------------------
-     # init()
-     ---------------------------------------------------------------------- **/
-    private override init() {
-        super.init()
-        
-//        // FirebaseUI
-//        authUI.delegate = self
-//        authUI.providers = providers
-//
-//        // FirebaseData
-//        let firebaseData = FirebaseData()
-//        if firebaseData.isLogin() {
-//            loginMode = .login
-//            // ログイン情報を取得
-////            loginData =
-//            firebaseData.getUserData()
-//        }else {
-//            loginMode = .logout
-//        }
     }
     
 }
