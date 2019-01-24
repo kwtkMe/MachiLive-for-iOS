@@ -13,8 +13,8 @@ import MediaPlayer
 import Firebase
 import FirebaseUI
 
-public extension Notification {
-    public static let SoftwareRestartNotification = Notification.Name("MySoftwareRestartNotification")
+extension Notification.Name {
+    static let RestartCenter = Notification.Name("restart")
 }
 
 class MainViewController:
@@ -25,29 +25,38 @@ class MainViewController:
     FUIAuthDelegate
 {
     /** ----------------------------------------------------------------------
-     # NotificationCenter
-     ---------------------------------------------------------------------- **/
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    // viewDidLoad() で add した Notification.SoftwareRestartNotification の selector
-    @objc func handleSoftwareResetNotification(_ notification: Notification) {
-        dismiss(animated: true) {
-            let firstViewController = self
-            firstViewController.modalTransitionStyle = .crossDissolve
-            self.present(firstViewController, animated: true, completion: nil)
-        }
-    }
-
-    
-    /** ----------------------------------------------------------------------
      # sharedInstance
      ---------------------------------------------------------------------- **/
     // Model
     var userData = UserData.sharedInstance
     var storyboardBuilder = StoryboardBuilder.sharedInstanse
-
+    
+    
+    /** ----------------------------------------------------------------------
+     # NotificationCenter
+     ---------------------------------------------------------------------- **/
+    let notification = NotificationCenter.default
+    
+    deinit {
+        notification.removeObserver(self)
+    }
+    
+    // viewDidLoad() で add した Notification.SoftwareRestartNotification の selector
+    @objc func handleSoftwareResetNotification(_ notification: Notification) {
+        self.dismiss(animated: true) {
+            self.showLoginViewController()
+            self.setupUserView()
+        }
+    }
+    
+    func initObservers() {
+        // ログアウトした際のリスタート(見せかけだけ)
+        notification.addObserver(self,
+                         selector: #selector(handleSoftwareResetNotification(_:)),
+                         name: .RestartCenter,
+                         object: nil)
+    }
+    
     
     /** ----------------------------------------------------------------------
      # UI settings
@@ -65,25 +74,11 @@ class MainViewController:
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default
-            .addObserver(self,
-                         selector: #selector(handleSoftwareResetNotification(_:)),
-                         name: Notification.SoftwareRestartNotification,
-                         object: nil)
+        initObservers()
         initSubview()
         initSubviewLayout()
         initSubviewConfiguration()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
         showLoginViewController()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
         setupUserView()
     }
     
@@ -107,6 +102,7 @@ class MainViewController:
         mainMapView.setRegion(regionDefault, animated:true)
         // PinView
     }
+    
     
     public func showLoginViewController() {
         switch userData.loginMode {

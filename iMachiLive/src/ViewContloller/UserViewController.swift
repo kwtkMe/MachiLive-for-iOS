@@ -17,6 +17,7 @@ class UserViewController: UIViewController {
     var userData = UserData.sharedInstance
     var storyboardBuilder = StoryboardBuilder.sharedInstanse
 
+    let notification = NotificationCenter.default
     
     
     /** ----------------------------------------------------------------------
@@ -53,8 +54,7 @@ class UserViewController: UIViewController {
             try userData.authUI.signOut()
             userData.loginMode = .logout
             // MainViewController で dissmiss
-            let notification = Notification(name: Notification.SoftwareRestartNotification)
-            NotificationCenter.default.post(notification)
+            notification.post(name: .RestartCenter, object: nil)
         }catch {
             print("error")
         }
