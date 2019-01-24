@@ -8,9 +8,9 @@
 
 import UIKit
 
-class ViewControllerBuilder: NSObject {
+class StoryboardBuilder: NSObject {
     
-    static let sharedInstanse = ViewControllerBuilder()
+    static let sharedInstanse = StoryboardBuilder()
     var mainStoryboard: UIStoryboard!
     
     override init() {

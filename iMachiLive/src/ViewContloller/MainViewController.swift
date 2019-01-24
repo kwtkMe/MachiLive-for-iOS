@@ -13,30 +13,41 @@ import MediaPlayer
 import Firebase
 import FirebaseUI
 
-class ViewController:
+public extension Notification {
+    public static let SoftwareRestartNotification = Notification.Name("MySoftwareRestartNotification")
+}
+
+class MainViewController:
     UIViewController,
     MKMapViewDelegate,
     CLLocationManagerDelegate,
     MPMediaPickerControllerDelegate,
     FUIAuthDelegate
 {
-    
     /** ----------------------------------------------------------------------
-     # Models
+     # NotificationCenter
      ---------------------------------------------------------------------- **/
-    var userData = UserData.sharedInstance
-    var viewControllerBuilder = ViewControllerBuilder.sharedInstanse
-    
-    
-    /** ----------------------------------------------------------------------
-     # ENUM
-     ---------------------------------------------------------------------- **/
-    enum TrakingMode {
-        case moving
-        case staying
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
-    var trackingMode: TrakingMode = .staying
     
+    // viewDidLoad() で add した Notification.SoftwareRestartNotification の selector
+    @objc func handleSoftwareResetNotification(_ notification: Notification) {
+        dismiss(animated: true) {
+            let firstViewController = self
+            firstViewController.modalTransitionStyle = .crossDissolve
+            self.present(firstViewController, animated: true, completion: nil)
+        }
+    }
+
+    
+    /** ----------------------------------------------------------------------
+     # sharedInstance
+     ---------------------------------------------------------------------- **/
+    // Model
+    var userData = UserData.sharedInstance
+    var storyboardBuilder = StoryboardBuilder.sharedInstanse
+
     
     /** ----------------------------------------------------------------------
      # UI settings
@@ -54,10 +65,26 @@ class ViewController:
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default
+            .addObserver(self,
+                         selector: #selector(handleSoftwareResetNotification(_:)),
+                         name: Notification.SoftwareRestartNotification,
+                         object: nil)
         initSubview()
         initSubviewLayout()
         initSubviewConfiguration()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         showLoginViewController()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setupUserView()
     }
     
     private func initSubview() {
@@ -89,6 +116,10 @@ class ViewController:
         case .login:
             break
         }
+    }
+    
+    public func setupUserView() {
+        
     }
     
     // 位置情報の設定を適用
@@ -175,7 +206,6 @@ class ViewController:
      ---------------------------------------------------------------------- **/
     // マップを長押しした際の処理
     @IBAction func longpressMap(_ sender: UILongPressGestureRecognizer) {
-        
         // タップされた位置情報をもとに、アノテーションを作成
         let location:CGPoint = sender.location(in: mainMapView)
         let mapPoint:CLLocationCoordinate2D
@@ -208,24 +238,19 @@ class ViewController:
     
     // (位置情報の追跡モード)スイッチを切り替えた際の処理
     @IBAction func changeTrackingMode(_ sender: UISwitch) {
-        switch self.trackingMode {
-        case .moving:
+        if trakingModeSwitch.isOn {
             trakingModeSwitch.isOn = false
             mainMapView.userTrackingMode = MKUserTrackingMode.none
-            self.trackingMode = .staying
-        case .staying:
-            trakingModeSwitch.isOn = true
+        } else {
             mainMapView.setCenter(mainMapView.userLocation.coordinate, animated: true)
             mainMapView.userTrackingMode = MKUserTrackingMode.follow
-            self.trackingMode = .moving
         }
     }
     
     // ログインボタン(ログイン中はユーザアイコン)を押した際の処理
     @IBAction func tapLoginButton(_ sender: UIButton) {
-        let viewController = viewControllerBuilder.buildUserViewController()
-        self.present(viewController, animated: true, completion: nil)
+        let builtStoryboard = storyboardBuilder.buildUserViewController()
+        self.present(builtStoryboard, animated: true, completion: nil)
     }
     
 }
-

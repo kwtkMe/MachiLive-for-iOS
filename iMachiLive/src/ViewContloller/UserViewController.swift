@@ -11,10 +11,12 @@ import UIKit
 class UserViewController: UIViewController {
     
     /** ----------------------------------------------------------------------
-     # Models
+     # sharedInstance
      ---------------------------------------------------------------------- **/
+    // Model
     var userData = UserData.sharedInstance
-    var viewControllerBuilder = ViewControllerBuilder.sharedInstanse
+    var storyboardBuilder = StoryboardBuilder.sharedInstanse
+
     
     
     /** ----------------------------------------------------------------------
@@ -24,7 +26,6 @@ class UserViewController: UIViewController {
     @IBOutlet weak var menuView: UIView!
     
     override func viewWillAppear(_ animated: Bool) {
-        
         super.viewWillAppear(animated)
         
         let menuPos = self.menuView.layer.position
@@ -47,14 +48,13 @@ class UserViewController: UIViewController {
     /** ----------------------------------------------------------------------
      UI actions
      ---------------------------------------------------------------------- **/
-    // logout ボタンを押下した際の処理
     @IBAction func tapLogout(_ sender: UIButton) {
         do {
             try userData.authUI.signOut()
             userData.loginMode = .logout
-            let mainViewController = viewControllerBuilder.buildMainViewController()
-
-            self.dismiss(animated: true)
+            // MainViewController で dissmiss
+            let notification = Notification(name: Notification.SoftwareRestartNotification)
+            NotificationCenter.default.post(notification)
         }catch {
             print("error")
         }
