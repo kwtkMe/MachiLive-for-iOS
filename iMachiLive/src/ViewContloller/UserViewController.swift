@@ -70,18 +70,35 @@ class UserViewController: UIViewController {
         }
     }
     
+    func doLogout() {
+        do {
+            try userData.authUI.signOut()
+            notification.post(name: .LogOut, object: nil)
+        } catch let err as NSError {
+            print ("Error signing out: %@", err)
+        }
+    }
+    
     
     /** ----------------------------------------------------------------------
      UI actions
      ---------------------------------------------------------------------- **/
     @IBAction func tapLogout(_ sender: UIButton) {
-        do {
-            try userData.authUI.signOut()
-            notification.post(name: .LogOut, object: nil)
-        }catch {
-            print("error")
-        }
+        let cancelAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:{
+            (action: UIAlertAction!) in
+            
+        })
+        let defaultAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+            (action: UIAlertAction!) in
+            
+            self.doLogout()
+        })
+        let alert = UIAlertController(title: "ログアウト", message: "アプリを再起動してよろしいですか？", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(cancelAction)
+        alert.addAction(defaultAction)
+        present(alert, animated: true, completion: nil)
     }
+    
     // エリア外のタップをした際の処理
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)

@@ -108,6 +108,7 @@ class MainViewController:
         locationManager.delegate = self
         mainMapView.delegate = self
         setupLocationManager()
+        // マップ中心地を東京に設定
         let mapViewCenterDefault = CLLocationCoordinate2DMake(35.5, 139.8)
         let coordinateSpanDefault = MKCoordinateSpan(latitudeDelta: 1.0, longitudeDelta: 1.0)
         let regionDefault = MKCoordinateRegion(center: mapViewCenterDefault, span: coordinateSpanDefault)
