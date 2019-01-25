@@ -14,7 +14,8 @@ import Firebase
 import FirebaseUI
 
 extension Notification.Name {
-    static let RestartCenter = Notification.Name("restart")
+    static let LogOut = Notification.Name("logout")
+    static let LogIn = Notification.Name("login")
 }
 
 class MainViewController:
@@ -27,34 +28,45 @@ class MainViewController:
     /** ----------------------------------------------------------------------
      # sharedInstance
      ---------------------------------------------------------------------- **/
-    // Model
+    // UserData
     var userData = UserData.sharedInstance
-    var storyboardBuilder = StoryboardBuilder.sharedInstanse
-    
-    
-    /** ----------------------------------------------------------------------
-     # NotificationCenter
-     ---------------------------------------------------------------------- **/
+    // NotificationCenter
     let notification = NotificationCenter.default
     
     deinit {
         notification.removeObserver(self)
     }
+
+    @objc func handleLoginNotification(_ notification: Notification) {
+        if let currentUser = userData.authUI.auth?.currentUser {
+            // アイコンの表示
+            let avatarUrl = currentUser.photoURL
+            do {
+                let data = try Data(contentsOf: avatarUrl!)
+                let image = UIImage(data: data)
+                loginButton.setImage(image, for: UIControl.State())
+            }catch let err {
+                print("Error : \(err.localizedDescription)")
+            }
+        }
+    }
     
-    // viewDidLoad() で add した Notification.SoftwareRestartNotification の selector
-    @objc func handleSoftwareResetNotification(_ notification: Notification) {
+    @objc func handleLogoutNotification(_ notification: Notification) {
         self.dismiss(animated: true) {
             self.showLoginViewController()
-            self.setupUserView()
         }
     }
     
     func initObservers() {
-        // ログアウトした際のリスタート(見せかけだけ)
         notification.addObserver(self,
-                         selector: #selector(handleSoftwareResetNotification(_:)),
-                         name: .RestartCenter,
+                                 selector: #selector(handleLoginNotification(_:)),
+                                 name: .LogIn,
+                                 object: nil)
+        notification.addObserver(self,
+                         selector: #selector(handleLogoutNotification(_:)),
+                         name: .LogOut,
                          object: nil)
+        
     }
     
     
@@ -63,9 +75,9 @@ class MainViewController:
     ---------------------------------------------------------------------- **/
     // main
     @IBOutlet weak var mainMapView: MKMapView!
-    @IBOutlet weak var trakingModeSwitch: UISwitch!
-    // pinView
     
+    @IBOutlet weak var trackingModeSwitch: UISwitch!
+    @IBOutlet weak var loginButton: UIButton!
     // delegatations
     var locationManager: CLLocationManager!
     var player: MPMusicPlayerController!
@@ -79,7 +91,6 @@ class MainViewController:
         initSubviewLayout()
         initSubviewConfiguration()
         showLoginViewController()
-        setupUserView()
     }
     
     private func initSubview() {
@@ -104,18 +115,13 @@ class MainViewController:
     }
     
     
-    public func showLoginViewController() {
-        switch userData.loginMode {
-        case .logout:
+    func showLoginViewController() {
+        if userData.authUI.auth?.currentUser == nil {
             let authViewController = userData.authUI.authViewController()
             self.present(authViewController, animated: true, completion: nil)
-        case .login:
-            break
+        } else {
+            
         }
-    }
-    
-    public func setupUserView() {
-        
     }
     
     // 位置情報の設定を適用
@@ -162,21 +168,21 @@ class MainViewController:
             5. 登録したユーザの名前、登録日
             6. (ピンの)削除ボタン
      ---------------------------------------------------------------------- **/
-    //    // 初期状態のアノテーションビューを返す
-    //    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-    //
-    //        if annotation is MKUserLocation {return nil}
-    //
-    //        let annotationIdNothingselected = "nothing"
-    //
-    //        let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationIdNothingselected)
-    //        let button = UIButton.init(type: .detailDisclosure)
-    //        annotationView.rightCalloutAccessoryView = button
-    //        annotationView.canShowCallout = true
-    //        annotationView.animatesDrop = true
-    //
-    //        return annotationView
-    //    }
+        // 初期状態のアノテーションビューを返す
+        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+    
+            if annotation is MKUserLocation {return nil}
+    
+            let annotationIdNothingselected = "nothing"
+    
+            let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationIdNothingselected)
+            let button = UIButton.init(type: .detailDisclosure)
+            annotationView.rightCalloutAccessoryView = button
+            annotationView.canShowCallout = true
+            annotationView.animatesDrop = true
+    
+            return annotationView
+        }
     
     // ピンの削除ボタンを押下した時
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
@@ -234,8 +240,8 @@ class MainViewController:
     
     // (位置情報の追跡モード)スイッチを切り替えた際の処理
     @IBAction func changeTrackingMode(_ sender: UISwitch) {
-        if trakingModeSwitch.isOn {
-            trakingModeSwitch.isOn = false
+        if trackingModeSwitch.isOn {
+            trackingModeSwitch.isOn = false
             mainMapView.userTrackingMode = MKUserTrackingMode.none
         } else {
             mainMapView.setCenter(mainMapView.userLocation.coordinate, animated: true)
@@ -245,7 +251,8 @@ class MainViewController:
     
     // ログインボタン(ログイン中はユーザアイコン)を押した際の処理
     @IBAction func tapLoginButton(_ sender: UIButton) {
-        let builtStoryboard = storyboardBuilder.buildUserViewController()
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let builtStoryboard = mainStoryboard.instantiateViewController(withIdentifier: "User")
         self.present(builtStoryboard, animated: true, completion: nil)
     }
     

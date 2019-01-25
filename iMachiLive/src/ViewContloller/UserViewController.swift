@@ -15,16 +15,23 @@ class UserViewController: UIViewController {
      ---------------------------------------------------------------------- **/
     // Model
     var userData = UserData.sharedInstance
-    var storyboardBuilder = StoryboardBuilder.sharedInstanse
-
+    // NotificationCenter
     let notification = NotificationCenter.default
-    
     
     /** ----------------------------------------------------------------------
      UI settings
      ---------------------------------------------------------------------- **/
     
     @IBOutlet weak var menuView: UIView!
+    @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var usernameLabel: UILabel!
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupUserView()
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -45,6 +52,24 @@ class UserViewController: UIViewController {
         )
     }
     
+    func setupUserView() {
+        if let currentUser = userData.authUI.auth?.currentUser {
+            // アイコンの表示
+            let avatarUrl = currentUser.photoURL
+            do {
+                let data = try Data(contentsOf: avatarUrl!)
+                let image = UIImage(data: data)
+                avatarImageView.image = image
+            }catch let err {
+                print("Error : \(err.localizedDescription)")
+            }
+            // ユーザ名の取得
+            let userName = currentUser.displayName
+            usernameLabel.text = userName
+            
+        }
+    }
+    
     
     /** ----------------------------------------------------------------------
      UI actions
@@ -52,9 +77,7 @@ class UserViewController: UIViewController {
     @IBAction func tapLogout(_ sender: UIButton) {
         do {
             try userData.authUI.signOut()
-            userData.loginMode = .logout
-            // MainViewController で dissmiss
-            notification.post(name: .RestartCenter, object: nil)
+            notification.post(name: .LogOut, object: nil)
         }catch {
             print("error")
         }
