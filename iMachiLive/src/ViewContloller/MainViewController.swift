@@ -45,6 +45,7 @@ class MainViewController:
                 let data = try Data(contentsOf: avatarUrl!)
                 let image = UIImage(data: data)
                 loginButton.setImage(image, for: UIControl.State())
+                print("login")
             }catch let err {
                 print("Error : \(err.localizedDescription)")
             }
@@ -120,7 +121,7 @@ class MainViewController:
             let authViewController = userData.authUI.authViewController()
             self.present(authViewController, animated: true, completion: nil)
         } else {
-            
+            notification.post(name: .LogIn, object: nil)
         }
     }
     
@@ -241,11 +242,10 @@ class MainViewController:
     // (位置情報の追跡モード)スイッチを切り替えた際の処理
     @IBAction func changeTrackingMode(_ sender: UISwitch) {
         if trackingModeSwitch.isOn {
-            trackingModeSwitch.isOn = false
-            mainMapView.userTrackingMode = MKUserTrackingMode.none
-        } else {
             mainMapView.setCenter(mainMapView.userLocation.coordinate, animated: true)
             mainMapView.userTrackingMode = MKUserTrackingMode.follow
+        } else if !trackingModeSwitch.isOn{
+            mainMapView.userTrackingMode = MKUserTrackingMode.none
         }
     }
     
