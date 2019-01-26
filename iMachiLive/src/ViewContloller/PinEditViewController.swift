@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class PinViewController: UIViewController {
+class PinEditViewController: UIViewController {
     
     // Model
     var userData = UserData.sharedInstance
