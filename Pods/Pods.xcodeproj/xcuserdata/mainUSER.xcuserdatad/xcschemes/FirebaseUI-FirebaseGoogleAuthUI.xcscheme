@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AFE29654FABFF923EA68602F2F95FFAF"
+               BlueprintIdentifier = "040598C98BB420FC44949EB68C66E906"
                BuildableName = "FirebaseGoogleAuthUI.bundle"
                BlueprintName = "FirebaseUI-FirebaseGoogleAuthUI"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AFE29654FABFF923EA68602F2F95FFAF"
+            BlueprintIdentifier = "040598C98BB420FC44949EB68C66E906"
             BuildableName = "FirebaseGoogleAuthUI.bundle"
             BlueprintName = "FirebaseUI-FirebaseGoogleAuthUI"
             ReferencedContainer = "container:Pods.xcodeproj">

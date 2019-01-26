@@ -37,6 +37,13 @@ class UserData: NSObject, FUIAuthDelegate {
         FUITwitterAuth(),
     ]
     
+//    // ログイン画面を返す(未実装)
+//    func authPickerViewController(forAuthUI authUI: FUIAuth) -> FUIAuthPickerViewController {
+//        return FUIAuthPickerViewController(nibName: "FUICustomAuthPickerViewController",
+//                                                 bundle: Bundle.main,
+//                                                 authUI: authUI)
+//    }
+    
     /** ----------------------------------------------------------------------
      # init()
      ---------------------------------------------------------------------- **/

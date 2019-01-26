@@ -16,13 +16,14 @@
 
 #import <Foundation/Foundation.h>
 
-#import "Firestore/Source/Core/FSTTypes.h"
-#import "Firestore/Source/Model/FSTDocumentDictionary.h"
+#import "Firestore/Source/Local/FSTLRUGarbageCollector.h"
 
 #include "Firestore/core/src/firebase/firestore/auth/user.h"
 #include "Firestore/core/src/firebase/firestore/model/document_key.h"
 #include "Firestore/core/src/firebase/firestore/model/document_key_set.h"
+#include "Firestore/core/src/firebase/firestore/model/document_map.h"
 #include "Firestore/core/src/firebase/firestore/model/snapshot_version.h"
+#include "Firestore/core/src/firebase/firestore/model/types.h"
 
 @class FSTLocalViewChanges;
 @class FSTLocalWriteResult;
@@ -33,7 +34,6 @@
 @class FSTQueryData;
 @class FSTRemoteEvent;
 @protocol FSTPersistence;
-@protocol FSTGarbageCollector;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -67,12 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
  * that has already been applied to the LocalDocument (typically done by replaying all remaining
  * LocalMutations to the RemoteDocument to re-apply).
  *
- * The LocalStore is responsible for the garbage collection of the documents it contains. For now,
- * it every doc referenced by a view, the mutation queue, or the RemoteStore.
- *
- * It also maintains the persistence of mapping queries to resume tokens and target ids. It needs
- * to know this data about queries to properly know what docs it would be allowed to garbage
- * collect.
+ * It also maintains the persistence of mapping queries to resume tokens and target ids.
  *
  * The LocalStore must be able to efficiently execute queries against its local cache of the
  * documents, to provide the initial set of results before any remote changes have been received.
@@ -81,7 +76,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Creates a new instance of the FSTLocalStore with its required dependencies as parameters. */
 - (instancetype)initWithPersistence:(id<FSTPersistence>)persistence
-                   garbageCollector:(id<FSTGarbageCollector>)garbageCollector
                         initialUser:(const firebase::firestore::auth::User &)initialUser
     NS_DESIGNATED_INITIALIZER;
 
@@ -96,7 +90,8 @@ NS_ASSUME_NONNULL_BEGIN
  * In response the local store switches the mutation queue to the new user and returns any
  * resulting document changes.
  */
-- (FSTMaybeDocumentDictionary *)userDidChange:(const firebase::firestore::auth::User &)user;
+- (firebase::firestore::model::MaybeDocumentMap)userDidChange:
+    (const firebase::firestore::auth::User &)user;
 
 /** Accepts locally generated Mutations and commits them to storage. */
 - (FSTLocalWriteResult *)locallyWriteMutations:(NSArray<FSTMutation *> *)mutations;
@@ -117,7 +112,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return The resulting (modified) documents.
  */
-- (FSTMaybeDocumentDictionary *)acknowledgeBatchWithResult:(FSTMutationBatchResult *)batchResult;
+- (firebase::firestore::model::MaybeDocumentMap)acknowledgeBatchWithResult:
+    (FSTMutationBatchResult *)batchResult;
 
 /**
  * Removes mutations from the MutationQueue for the specified batch. LocalDocuments will be
@@ -125,7 +121,8 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @return The resulting (modified) documents.
  */
-- (FSTMaybeDocumentDictionary *)rejectBatchID:(FSTBatchID)batchID;
+- (firebase::firestore::model::MaybeDocumentMap)rejectBatchID:
+    (firebase::firestore::model::BatchId)batchID;
 
 /** Returns the last recorded stream token for the current user. */
 - (nullable NSData *)lastStreamToken;
@@ -150,21 +147,14 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * LocalDocuments are re-calculated if there are remaining mutations in the queue.
  */
-- (FSTMaybeDocumentDictionary *)applyRemoteEvent:(FSTRemoteEvent *)remoteEvent;
+- (firebase::firestore::model::MaybeDocumentMap)applyRemoteEvent:(FSTRemoteEvent *)remoteEvent;
 
 /**
  * Returns the keys of the documents that are associated with the given targetID in the remote
  * table.
  */
-- (firebase::firestore::model::DocumentKeySet)remoteDocumentKeysForTarget:(FSTTargetID)targetID;
-
-/**
- * Collects garbage if necessary.
- *
- * Should be called periodically by Sync Engine to recover resources. The implementation must
- * guarantee that GC won't happen in other places than this method call.
- */
-- (void)collectGarbage;
+- (firebase::firestore::model::DocumentKeySet)remoteDocumentKeysForTarget:
+    (firebase::firestore::model::TargetId)targetID;
 
 /**
  * Assigns @a query an internal ID so that its results can be pinned so they don't get GC'd.
@@ -176,7 +166,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)releaseQuery:(FSTQuery *)query;
 
 /** Runs @a query against all the documents in the local store and returns the results. */
-- (FSTDocumentDictionary *)executeQuery:(FSTQuery *)query;
+- (firebase::firestore::model::DocumentMap)executeQuery:(FSTQuery *)query;
 
 /** Notify the local store of the changed views to locally pin / unpin documents. */
 - (void)notifyLocalViewChanges:(NSArray<FSTLocalViewChanges *> *)viewChanges;
@@ -187,7 +177,10 @@ NS_ASSUME_NONNULL_BEGIN
  * @param batchID The batch to search after, or -1 for the first mutation in the queue.
  * @return the next mutation or nil if there wasn't one.
  */
-- (nullable FSTMutationBatch *)nextMutationBatchAfterBatchID:(FSTBatchID)batchID;
+- (nullable FSTMutationBatch *)nextMutationBatchAfterBatchID:
+    (firebase::firestore::model::BatchId)batchID;
+
+- (firebase::firestore::local::LruResults)collectGarbage:(FSTLRUGarbageCollector *)garbageCollector;
 
 @end
 

@@ -93,7 +93,9 @@ class UserViewController: UIViewController {
             
             self.doLogout()
         })
-        let alert = UIAlertController(title: "ログアウト", message: "アプリを再起動してよろしいですか？", preferredStyle: UIAlertController.Style.alert)
+        let alert = UIAlertController(title: "ログアウト",
+                                      message: "ログイン画面に戻ってよろしいですか？",
+                                      preferredStyle: UIAlertController.Style.alert)
         alert.addAction(cancelAction)
         alert.addAction(defaultAction)
         present(alert, animated: true, completion: nil)

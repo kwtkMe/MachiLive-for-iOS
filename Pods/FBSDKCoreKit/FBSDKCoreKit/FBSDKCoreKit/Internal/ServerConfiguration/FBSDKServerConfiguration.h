@@ -24,17 +24,17 @@
 #import "FBSDKErrorConfiguration.h"
 
 // login kit
-extern NSString *const FBSDKDialogConfigurationNameLogin;
+FOUNDATION_EXPORT NSString *const FBSDKDialogConfigurationNameLogin;
 
 // share kit
-extern NSString *const FBSDKDialogConfigurationNameAppInvite;
-extern NSString *const FBSDKDialogConfigurationNameGameRequest;
-extern NSString *const FBSDKDialogConfigurationNameGroup;
-extern NSString *const FBSDKDialogConfigurationNameLike;
-extern NSString *const FBSDKDialogConfigurationNameMessage;
-extern NSString *const FBSDKDialogConfigurationNameShare;
+FOUNDATION_EXPORT NSString *const FBSDKDialogConfigurationNameAppInvite;
+FOUNDATION_EXPORT NSString *const FBSDKDialogConfigurationNameGameRequest;
+FOUNDATION_EXPORT NSString *const FBSDKDialogConfigurationNameGroup;
+FOUNDATION_EXPORT NSString *const FBSDKDialogConfigurationNameLike;
+FOUNDATION_EXPORT NSString *const FBSDKDialogConfigurationNameMessage;
+FOUNDATION_EXPORT NSString *const FBSDKDialogConfigurationNameShare;
 
-extern const NSInteger FBSDKServerConfigurationVersion;
+FOUNDATION_EXPORT const NSInteger FBSDKServerConfigurationVersion;
 
 typedef NS_OPTIONS(NSUInteger, FBSDKServerConfigurationSmartLoginOptions)
 {
@@ -44,6 +44,9 @@ typedef NS_OPTIONS(NSUInteger, FBSDKServerConfigurationSmartLoginOptions)
 };
 
 @interface FBSDKServerConfiguration : NSObject <FBSDKCopying, NSSecureCoding>
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
 
 - (instancetype)initWithAppID:(NSString *)appID
                       appName:(NSString *)appName
@@ -56,6 +59,7 @@ implicitPurchaseLoggingEnabled:(BOOL)implicitPurchaseLoggingEnabled
         codelessEventsEnabled:(BOOL)codelessEventsEnabled
   systemAuthenticationEnabled:(BOOL)systemAuthenticationEnabled
         nativeAuthFlowEnabled:(BOOL)nativeAuthFlowEnabled
+     uninstallTrackingEnabled:(BOOL)uninstallTrackingEnabled
          dialogConfigurations:(NSDictionary *)dialogConfigurations
                   dialogFlows:(NSDictionary *)dialogFlows
                     timestamp:(NSDate *)timestamp
@@ -82,6 +86,7 @@ NS_DESIGNATED_INITIALIZER;
 @property (nonatomic, assign, readonly, getter=isLoginTooltipEnabled) BOOL loginTooltipEnabled;
 @property (nonatomic, assign, readonly, getter=isNativeAuthFlowEnabled) BOOL nativeAuthFlowEnabled;
 @property (nonatomic, assign, readonly, getter=isSystemAuthenticationEnabled) BOOL systemAuthenticationEnabled;
+@property (nonatomic, assign, readonly, getter=isUninstallTrackingEnabled) BOOL uninstallTrackingEnabled;
 @property (nonatomic, copy, readonly) NSString *loginTooltipText;
 @property (nonatomic, copy, readonly) NSDate *timestamp;
 @property (nonatomic, assign) NSTimeInterval sessionTimoutInterval;

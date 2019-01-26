@@ -32,7 +32,15 @@ namespace util {
 // outlive the operation, but it *cannot* outlive the executor that created it.
 class DelayedOperation {
  public:
+  // Creates an empty `DelayedOperation` not associated with any actual
+  // operation. Calling `Cancel` on it is a no-op.
   DelayedOperation() {
+  }
+
+  // Returns whether this `DelayedOperation` is associated with an actual
+  // operation.
+  explicit operator bool() const {
+    return static_cast<bool>(cancel_func_);
   }
 
   // If the operation has not been run yet, cancels the operation. Otherwise,
@@ -40,6 +48,7 @@ class DelayedOperation {
   void Cancel() {
     if (cancel_func_) {
       cancel_func_();
+      cancel_func_ = {};
     }
   }
 
@@ -51,8 +60,6 @@ class DelayedOperation {
  private:
   std::function<void()> cancel_func_;
 };
-
-namespace internal {
 
 // An interface to a platform-specific executor of asynchronous operations
 // (called tasks on other platforms).
@@ -123,7 +130,6 @@ class Executor {
   virtual absl::optional<TaggedOperation> PopFromSchedule() = 0;
 };
 
-}  // namespace internal
 }  // namespace util
 }  // namespace firestore
 }  // namespace firebase

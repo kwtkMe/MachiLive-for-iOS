@@ -37,6 +37,8 @@ class MainViewController:
         notification.removeObserver(self)
     }
 
+    // ログインした場合
+    // 認証したアカウントのユーザーアイコンを表示
     @objc func handleLoginNotification(_ notification: Notification) {
         if let currentUser = userData.authUI.auth?.currentUser {
             // アイコンの表示
@@ -52,6 +54,8 @@ class MainViewController:
         }
     }
     
+    // ログアウトした場合
+    // ログイン画面の表示
     @objc func handleLogoutNotification(_ notification: Notification) {
         self.dismiss(animated: true) {
             self.showLoginViewController()
@@ -170,21 +174,34 @@ class MainViewController:
             5. 登録したユーザの名前、登録日
             6. (ピンの)削除ボタン
      ---------------------------------------------------------------------- **/
-        // 初期状態のアノテーションビューを返す
-        func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+    // ピンの登録画面に遷移したときの処理
+    func editAnnotition(annotation: MKPointAnnotation) -> MKPointAnnotation {
+        var annotation = annotation
+        
+        let mainStoryboard = UIStoryboard(name: "PinView", bundle: nil)
+        let builtStoryboard = mainStoryboard.instantiateViewController(withIdentifier: "edit")
+        self.present(builtStoryboard, animated: true, completion: nil)
+        // アノテーションための最低限のデータを付与
+        annotation.title = "nothig_selected"
+        annotation.subtitle = "guest_user"
+        return annotation
+    }
     
-            if annotation is MKUserLocation {return nil}
-    
-            let annotationIdNothingselected = "nothing"
-    
-            let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationIdNothingselected)
-            let button = UIButton.init(type: .detailDisclosure)
-            annotationView.rightCalloutAccessoryView = button
-            annotationView.canShowCallout = true
-            annotationView.animatesDrop = true
-    
-            return annotationView
-        }
+    // 初期状態のアノテーションビューを返す
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+
+        if annotation is MKUserLocation {return nil}
+
+        let annotationIdNothingselected = "nothing"
+
+        let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationIdNothingselected)
+        let button = UIButton.init(type: .detailDisclosure)
+        annotationView.rightCalloutAccessoryView = button
+        annotationView.canShowCallout = true
+        annotationView.animatesDrop = true
+
+        return annotationView
+    }
     
     // ピンの削除ボタンを押下した時
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
@@ -214,7 +231,7 @@ class MainViewController:
         let location:CGPoint = sender.location(in: mainMapView)
         let mapPoint:CLLocationCoordinate2D
             = mainMapView.convert(location, toCoordinateFrom: mainMapView)
-        let annotation = MKPointAnnotation()
+        var annotation = MKPointAnnotation()
         annotation.coordinate = CLLocationCoordinate2DMake(mapPoint.latitude, mapPoint.longitude)
         
         // アラートを作成
@@ -224,10 +241,7 @@ class MainViewController:
         let defaultAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
             (action: UIAlertAction!) in
             // 画面遷移、ピンのための情報を取得
-            
-            // アノテーションための最低限のデータを付与
-            annotation.title = "nothig_selected"
-            annotation.subtitle = "guest_user"
+            annotation = self.editAnnotition(annotation: annotation)
             self.mainMapView.addAnnotation(annotation)
         })
         let alert = UIAlertController(title: "ピンを登録", message: "楽曲を登録しますか？", preferredStyle: UIAlertController.Style.alert)
