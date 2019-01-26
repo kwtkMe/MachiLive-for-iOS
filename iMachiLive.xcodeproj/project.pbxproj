@@ -10,7 +10,7 @@
 		4612E96A21F1C52E0078569B /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4612E96921F1C52E0078569B /* UserViewController.swift */; };
 		4612E96C21F375850078569B /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4612E96B21F375850078569B /* UserData.swift */; };
 		464373B221FB22FD007D2521 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 464373B121FB22FD007D2521 /* LoginView.xib */; };
-		464373B421FB27E6007D2521 /* PinEditiView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 464373B321FB27E6007D2521 /* PinEditiView.storyboard */; };
+		464373B421FB27E6007D2521 /* PinEditView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 464373B321FB27E6007D2521 /* PinEditView.storyboard */; };
 		465705FA21CB6FE80088C7E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465705F921CB6FE80088C7E5 /* AppDelegate.swift */; };
 		465705FC21CB6FE80088C7E5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465705FB21CB6FE80088C7E5 /* MainViewController.swift */; };
 		465705FF21CB6FE80088C7E5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 465705FD21CB6FE80088C7E5 /* Main.storyboard */; };
@@ -29,7 +29,7 @@
 		4612E96921F1C52E0078569B /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		4612E96B21F375850078569B /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		464373B121FB22FD007D2521 /* LoginView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
-		464373B321FB27E6007D2521 /* PinEditiView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PinEditiView.storyboard; sourceTree = "<group>"; };
+		464373B321FB27E6007D2521 /* PinEditView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PinEditView.storyboard; sourceTree = "<group>"; };
 		465705F621CB6FE80088C7E5 /* iMachiLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMachiLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		465705F921CB6FE80088C7E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		465705FB21CB6FE80088C7E5 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -98,7 +98,7 @@
 			children = (
 				4657060221CB6FE90088C7E5 /* LaunchScreen.storyboard */,
 				465705FD21CB6FE80088C7E5 /* Main.storyboard */,
-				464373B321FB27E6007D2521 /* PinEditiView.storyboard */,
+				464373B321FB27E6007D2521 /* PinEditView.storyboard */,
 			);
 			path = storyboard;
 			sourceTree = "<group>";
@@ -234,7 +234,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4657060421CB6FE90088C7E5 /* LaunchScreen.storyboard in Resources */,
-				464373B421FB27E6007D2521 /* PinEditiView.storyboard in Resources */,
+				464373B421FB27E6007D2521 /* PinEditView.storyboard in Resources */,
 				4657060121CB6FE90088C7E5 /* Assets.xcassets in Resources */,
 				465705FF21CB6FE80088C7E5 /* Main.storyboard in Resources */,
 				464373B221FB22FD007D2521 /* LoginView.xib in Resources */,

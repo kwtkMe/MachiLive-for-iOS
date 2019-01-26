@@ -178,7 +178,7 @@ class MainViewController:
     func editAnnotition(annotation: MKPointAnnotation) -> MKPointAnnotation {
         var annotation = annotation
         
-        let mainStoryboard = UIStoryboard(name: "PinView", bundle: nil)
+        let mainStoryboard = UIStoryboard(name: "PinEditView", bundle: nil)
         let builtStoryboard = mainStoryboard.instantiateViewController(withIdentifier: "edit")
         self.present(builtStoryboard, animated: true, completion: nil)
         // アノテーションための最低限のデータを付与
