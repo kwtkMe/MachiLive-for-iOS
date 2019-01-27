@@ -75,7 +75,6 @@ class MainViewController:
         
     }
     
-    
     /** ----------------------------------------------------------------------
      # UI settings
     ---------------------------------------------------------------------- **/
@@ -141,7 +140,6 @@ class MainViewController:
         mainMapView.userTrackingMode = MKUserTrackingMode.none
     }
     
-    
     /** ----------------------------------------------------------------------
      # PinView settings
      
@@ -178,9 +176,7 @@ class MainViewController:
             6. (ピンの)削除ボタン
      ---------------------------------------------------------------------- **/
     // ピンの登録画面に遷移したときの処理
-    func editAnnotition(annotation: MKPointAnnotation) -> MKPointAnnotation {
-        var annotation = annotation
-        
+    func editAnnotition(annotation: MKPointAnnotation) -> MKPointAnnotation {        
         let mainStoryboard = UIStoryboard(name: "PinEditView", bundle: nil)
         let builtStoryboard = mainStoryboard.instantiateViewController(withIdentifier: "edit")
         self.present(builtStoryboard, animated: true, completion: nil)
@@ -209,7 +205,6 @@ class MainViewController:
     // ピンの削除ボタンを押下した時
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
-            // アラートを定義
             let cancelAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:{
                 (action: UIAlertAction!) in
             })
@@ -224,7 +219,6 @@ class MainViewController:
         }
     }
     
-    
     /** ----------------------------------------------------------------------
      # UI actions
      ---------------------------------------------------------------------- **/
@@ -237,7 +231,6 @@ class MainViewController:
         var annotation = MKPointAnnotation()
         annotation.coordinate = CLLocationCoordinate2DMake(mapPoint.latitude, mapPoint.longitude)
         
-        // アラートを作成
         let cancelAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:{
             (action: UIAlertAction!) in
         })

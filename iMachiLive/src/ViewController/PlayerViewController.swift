@@ -6,17 +6,39 @@
 //  Copyright © 2019 Reverse. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import MediaPlayer
 
-class PlayerViewController: UIViewController {
+
+class PlayerViewController:
+    UIViewController,
+    MPMediaPickerControllerDelegate
+{
     /** ----------------------------------------------------------------------
      # sharedInstance
      ---------------------------------------------------------------------- **/
     // Model
     var userData = UserData.sharedInstance
+    var musicPlayerData = MusicPlayerData.sharedInstance
     // NotificationCenter
     let notification = NotificationCenter.default
+    
+    deinit {
+        notification.removeObserver(self)
+    }
+    
+    @objc func handlePlayingItemChangedNotification(_ notification: Notification) {
+        if let mediaItem = musicPlayerData.player.nowPlayingItem {
+            updateSongInformationUI(mediaItem: mediaItem)
+        }
+    }
+    
+    func initObservers() {
+        notification.addObserver(self,
+                                 selector: #selector(handlePlayingItemChangedNotification(_:)),
+                                 name: .PlayingItemChanged,
+                                 object: nil)
+    }
     
     /** ----------------------------------------------------------------------
      UI settings
@@ -28,11 +50,26 @@ class PlayerViewController: UIViewController {
     @IBOutlet weak var playerSubtitleLabel: UILabel!
     @IBOutlet weak var playerStatusButton: UIButton!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        initObservers()
     }
     
+    // 再生中の音源の変更をUIに反映させる
+    func updateSongInformationUI(mediaItem: MPMediaItem) {
+        playerSongtitleLabel.text = mediaItem.title ?? "不明な曲"
+        playerSubtitleLabel.text = mediaItem.artist ?? "不明なアーティスト"
+        
+        // アートワーク表示
+        if let artwork = mediaItem.artwork {
+            let image = artwork.image(at: playerImageView.bounds.size)
+            playerImageView.image = image
+        } else {
+            playerImageView.image = nil
+            playerImageView.backgroundColor = .gray
+        }
+    }
     
     /** ----------------------------------------------------------------------
      UI actions

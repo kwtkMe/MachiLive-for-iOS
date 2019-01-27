@@ -10,8 +10,7 @@ import UIKit
 import MediaPlayer
 
 class MusicPlayerData:
-    NSObject,
-    MPMediaPickerControllerDelegate
+    NSObject
 {
     /** ----------------------------------------------------------------------
      # MusicPlayerData()
@@ -29,17 +28,8 @@ class MusicPlayerData:
         player.endGeneratingPlaybackNotifications()
     }
     
-    // ログインした場合
-    // 認証したアカウントのユーザーアイコンを表示
-    @objc func handlePlayingItemChangedNotification(_ notification: Notification) {
-        
-    }
-    
     func initObservers() {
-        notification.addObserver(self,
-                                 selector: #selector(handlePlayingItemChangedNotification(_:)),
-                                 name: .LogIn,
-                                 object: nil)
+        
     }
     
     

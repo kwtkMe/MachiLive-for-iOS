@@ -18,6 +18,10 @@ class UserViewController: UIViewController {
     // NotificationCenter
     let notification = NotificationCenter.default
     
+    deinit {
+        notification.removeObserver(self)
+    }
+    
     /** ----------------------------------------------------------------------
      UI settings
      ---------------------------------------------------------------------- **/

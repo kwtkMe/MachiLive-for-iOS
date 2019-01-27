@@ -12,7 +12,8 @@ import MediaPlayer
 
 class PinEditViewController:
     UIViewController,
-    UITextFieldDelegate
+    UITextFieldDelegate,
+    MPMediaPickerControllerDelegate
 {
     
     /** ----------------------------------------------------------------------
@@ -20,6 +21,7 @@ class PinEditViewController:
      ---------------------------------------------------------------------- **/
     // Model
     var userData = UserData.sharedInstance
+    var musicPlayerData = MusicPlayerData.sharedInstance
     // NotificationCenter
     let notification = NotificationCenter.default
     
@@ -27,15 +29,44 @@ class PinEditViewController:
      UI settings
      ---------------------------------------------------------------------- **/
     @IBOutlet weak var locationnameField: UITextField!
-    @IBOutlet weak var songTItleLabel: UILabel!
+    @IBOutlet weak var songAlbumWorkImageView: UIImageView!
     @IBOutlet weak var songArtistLabel: UILabel!
-    @IBOutlet weak var songAlbumLabel: UILabel!
+    @IBOutlet weak var songTitleLabel: UILabel!
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         locationnameField.delegate = self
+        picker.delegate = self
+    }
+    
+    /** ----------------------------------------------------------------------
+     Media
+     ---------------------------------------------------------------------- **/
+    let picker = MPMediaPickerController()
+    
+    func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
+        musicPlayerData.player.setQueue(with: mediaItemCollection)
+        // 楽曲情報を反映
+        if let mediaItem = mediaItemCollection.items.first {
+            songTitleLabel.text = mediaItem.title ?? "不明な楽曲"
+            songArtistLabel.text = mediaItem.artist ?? "不明なアーティスト"
+            // アートワークを反映
+            if let artwork = mediaItem.artwork {
+                let image = artwork.image(at: songAlbumWorkImageView.bounds.size)
+                songAlbumWorkImageView.image = image
+            } else {
+                songAlbumWorkImageView.image = nil
+                songAlbumWorkImageView.backgroundColor = .lightGray
+            }
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
+        // ピッカーを閉じ、破棄する
+        dismiss(animated: true, completion: nil)
     }
     
     /** ----------------------------------------------------------------------
@@ -59,8 +90,8 @@ class PinEditViewController:
         // (未実装)アラートを表示して音源リソースを選択(デフォルトのライブラリ or iTunes視聴ライブラリ)
         
         // デフォルトのミュージックライブラリを開く
-        
-        
+        picker.allowsPickingMultipleItems = false
+        present(picker, animated: true, completion: nil)
     }
     
     @IBAction func tapCompleteButton(_ sender: UIButton) {
