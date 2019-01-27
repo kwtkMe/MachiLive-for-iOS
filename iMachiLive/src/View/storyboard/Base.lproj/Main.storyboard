@@ -46,7 +46,7 @@
                                 <rect key="frame" x="0.0" y="60" width="375" height="40"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kf0-fv-pxt">
-                                        <rect key="frame" x="337" y="2" width="30" height="30"/>
+                                        <rect key="frame" x="335" y="5" width="30" height="30"/>
                                         <accessibility key="accessibilityConfiguration">
                                             <accessibilityTraits key="traits" button="YES" image="YES"/>
                                         </accessibility>
@@ -66,7 +66,7 @@
                                         </state>
                                         <connections>
                                             <action selector="tapPlayerButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TtX-9A-wCe"/>
-                                            <segue destination="8zq-a7-UK5" kind="presentation" modalTransitionStyle="crossDissolve" id="gZU-eQ-exk"/>
+                                            <segue destination="8zq-a7-UK5" kind="presentation" identifier="showPlayer" modalTransitionStyle="crossDissolve" id="gZU-eQ-exk"/>
                                         </connections>
                                     </button>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="7cV-Nt-xqj">
@@ -78,12 +78,11 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="kf0-fv-pxt" firstAttribute="centerY" secondItem="tVg-NX-KQF" secondAttribute="centerY" id="3uj-T5-4FQ"/>
                                     <constraint firstAttribute="height" constant="40" id="74n-G3-SMV"/>
-                                    <constraint firstAttribute="trailing" secondItem="kf0-fv-pxt" secondAttribute="trailing" constant="8" id="Jot-xO-b1g"/>
+                                    <constraint firstAttribute="trailing" secondItem="kf0-fv-pxt" secondAttribute="trailing" constant="10" id="Jot-xO-b1g"/>
                                     <constraint firstItem="kyQ-MO-ib8" firstAttribute="leading" secondItem="tVg-NX-KQF" secondAttribute="leading" constant="10" id="O79-t8-ztg"/>
                                     <constraint firstItem="7cV-Nt-xqj" firstAttribute="centerY" secondItem="tVg-NX-KQF" secondAttribute="centerY" id="UO7-Zt-Dj0"/>
-                                    <constraint firstItem="kf0-fv-pxt" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="7cV-Nt-xqj" secondAttribute="trailing" constant="8" symbolic="YES" id="Vyn-Z1-Br7"/>
-                                    <constraint firstItem="kf0-fv-pxt" firstAttribute="bottom" secondItem="tVg-NX-KQF" secondAttribute="bottomMargin" id="kFt-Vi-ZhQ"/>
                                     <constraint firstItem="kyQ-MO-ib8" firstAttribute="centerY" secondItem="tVg-NX-KQF" secondAttribute="centerY" id="pff-pw-8xr"/>
                                     <constraint firstItem="7cV-Nt-xqj" firstAttribute="centerX" secondItem="tVg-NX-KQF" secondAttribute="centerX" id="yZi-Ry-4vh"/>
                                 </constraints>
