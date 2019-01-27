@@ -16,6 +16,7 @@ import FirebaseUI
 extension Notification.Name {
     static let LogOut = Notification.Name("logout")
     static let LogIn = Notification.Name("login")
+    static let PlayingItemChanged = Notification.Name("playing_item_changed")
 }
 
 class MainViewController:
@@ -81,6 +82,8 @@ class MainViewController:
     // main
     @IBOutlet weak var mainMapView: MKMapView!
     
+    
+    @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet weak var trackingModeSwitch: UISwitch!
     @IBOutlet weak var loginButton: UIButton!
     // delegatations
@@ -259,15 +262,24 @@ class MainViewController:
         if trackingModeSwitch.isOn {
             mainMapView.setCenter(mainMapView.userLocation.coordinate, animated: true)
             mainMapView.userTrackingMode = MKUserTrackingMode.follow
+            headerLabel.textColor = #colorLiteral(red: 1, green: 0.4932718873, blue: 0.4739984274, alpha: 1)
         } else if !trackingModeSwitch.isOn{
             mainMapView.userTrackingMode = MKUserTrackingMode.none
+            headerLabel.textColor = .black
         }
+    }
+    
+    // プレイヤーボタンを押した際の処理
+    @IBAction func tapPlayerButton(_ sender: UIButton) {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let builtStoryboard = mainStoryboard.instantiateViewController(withIdentifier: "player")
+        self.present(builtStoryboard, animated: true, completion: nil)
     }
     
     // ログインボタン(ログイン中はユーザアイコン)を押した際の処理
     @IBAction func tapLoginButton(_ sender: UIButton) {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let builtStoryboard = mainStoryboard.instantiateViewController(withIdentifier: "User")
+        let builtStoryboard = mainStoryboard.instantiateViewController(withIdentifier: "user")
         self.present(builtStoryboard, animated: true, completion: nil)
     }
     
