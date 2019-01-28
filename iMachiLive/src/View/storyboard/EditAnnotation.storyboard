@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Pin Edit View Controller-->
+        <!--Edit Annotation View Controller-->
         <scene sceneID="9ui-kW-xFx">
             <objects>
-                <viewController storyboardIdentifier="edit" id="rgw-Pt-WLV" customClass="PinEditViewController" customModule="iMachiLive" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="edit" id="rgw-Pt-WLV" customClass="EditAnnotationViewController" customModule="iMachiLive" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lkS-r3-qEu">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

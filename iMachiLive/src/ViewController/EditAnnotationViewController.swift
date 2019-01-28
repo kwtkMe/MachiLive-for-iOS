@@ -10,23 +10,34 @@ import Foundation
 import UIKit
 import MediaPlayer
 
-class PinEditViewController:
+struct STAnnotationViewData {
+    var locationName: String?
+    var songTitle: String?
+    var songArtist: String?
+    var songArtwork: UIImage?
+}
+
+class EditAnnotationViewController:
     UIViewController,
     UITextFieldDelegate,
     MPMediaPickerControllerDelegate
 {
-    
     /** ----------------------------------------------------------------------
      # sharedInstance
      ---------------------------------------------------------------------- **/
     // Model
     var userData = UserData.sharedInstance
     var musicPlayerData = MusicPlayerData.sharedInstance
+    var editAnnoatationData = EditAnnotationData.sharedInstance
     // NotificationCenter
     let notification = NotificationCenter.default
     
+    deinit {
+        notification.removeObserver(self)
+    }
+    
     /** ----------------------------------------------------------------------
-     UI settings
+     # UI settings
      ---------------------------------------------------------------------- **/
     @IBOutlet weak var locationnameField: UITextField!
     @IBOutlet weak var songAlbumWorkImageView: UIImageView!
@@ -42,17 +53,15 @@ class PinEditViewController:
     }
     
     /** ----------------------------------------------------------------------
-     Media
+     # Media
      ---------------------------------------------------------------------- **/
     let picker = MPMediaPickerController()
     
     func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
         musicPlayerData.player.setQueue(with: mediaItemCollection)
-        // 楽曲情報を反映
         if let mediaItem = mediaItemCollection.items.first {
             songTitleLabel.text = mediaItem.title ?? "不明な楽曲"
             songArtistLabel.text = mediaItem.artist ?? "不明なアーティスト"
-            // アートワークを反映
             if let artwork = mediaItem.artwork {
                 let image = artwork.image(at: songAlbumWorkImageView.bounds.size)
                 songAlbumWorkImageView.image = image
@@ -70,15 +79,18 @@ class PinEditViewController:
     }
     
     /** ----------------------------------------------------------------------
+     # Annotation
+     ---------------------------------------------------------------------- **/
+    var annotationViewInfo = STAnnotationViewData()
+    
+    /** ----------------------------------------------------------------------
      # locationnameField
      ---------------------------------------------------------------------- **/
-    // 入力でリターンした時キーボードを閉じる
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         locationnameField.resignFirstResponder()
         return true
     }
     
-    // キーボード以外の部分をタップするとキーボードを閉じる
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -94,15 +106,19 @@ class PinEditViewController:
         present(picker, animated: true, completion: nil)
     }
     
+    // 原則アノテーションを追加するのでバリデーションしっかり
     @IBAction func tapCompleteButton(_ sender: UIButton) {
         // バリデーションしてアノテーションとピンの情報(Firebase)を付与
         
-        // 戻る
-        self.dismiss(animated: true, completion: nil)
+        let annotationViewInfo = STAnnotationViewData(locationName: locationnameField.text,
+                                                      songTitle: songTitleLabel.text,
+                                                      songArtist: songArtistLabel.text,
+                                                      songArtwork: songAlbumWorkImageView.image)
+        editAnnoatationData.editedAnnotationViewInfo = annotationViewInfo
+        notification.post(name: .AnnotationEdited, object: nil)
     }
     
     @IBAction func tapCancelButton(_ sender: UIButton) {
-        // 戻る
         self.dismiss(animated: true, completion: nil)
     }
     

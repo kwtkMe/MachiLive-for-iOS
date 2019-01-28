@@ -16,6 +16,7 @@ import FirebaseUI
 extension Notification.Name {
     static let LogOut = Notification.Name("logout")
     static let LogIn = Notification.Name("login")
+    static let AnnotationEdited = Notification.Name("annotation_edited")
     static let PlayingItemChanged = Notification.Name("playing_item_changed")
 }
 
@@ -31,6 +32,8 @@ class MainViewController:
      ---------------------------------------------------------------------- **/
     // UserData
     var userData = UserData.sharedInstance
+    var musicPlayerData = MusicPlayerData.sharedInstance
+    var editAnnotationData = EditAnnotationData.sharedInstance
     // NotificationCenter
     let notification = NotificationCenter.default
     
@@ -63,6 +66,14 @@ class MainViewController:
         }
     }
     
+    // アノテーションの編集が行われた場合
+    @objc func handleAnnotationEditedNotification(_ notification: Notification){
+        self.dismiss(animated: true) {
+            self.nowEditAnnotationView.title = self.editAnnotationData.editedAnnotationViewInfo.locationName
+            self.mainMapView.addAnnotation(self.nowEditAnnotationView)
+        }
+    }
+    
     func initObservers() {
         notification.addObserver(self,
                                  selector: #selector(handleLoginNotification(_:)),
@@ -72,7 +83,10 @@ class MainViewController:
                          selector: #selector(handleLogoutNotification(_:)),
                          name: .LogOut,
                          object: nil)
-        
+        notification.addObserver(self,
+                                 selector: #selector(handleAnnotationEditedNotification(_:)),
+                                 name: .AnnotationEdited,
+                                 object: nil)
     }
     
     /** ----------------------------------------------------------------------
@@ -80,7 +94,6 @@ class MainViewController:
     ---------------------------------------------------------------------- **/
     // main
     @IBOutlet weak var mainMapView: MKMapView!
-    
     
     @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet weak var trackingModeSwitch: UISwitch!
@@ -142,58 +155,23 @@ class MainViewController:
     
     /** ----------------------------------------------------------------------
      # PinView settings
-     
-     ## ビューの種類について
-    
-     - ビューの表示形態は
-         1. .normal
-         2. .selected
-         3. .expanded
-        の3つを用意したい
-     
-     - .normal
-        - ピンを何も選択していない状態
-        - 検索できることを想定
-     
-     - .selected
-        - ピンを選択した状態
-        - 以下の情報を表示
-            1. 登録した位置情報についての名前
-            2. 現在地点からの距離
-            3. 共有ボタン(ピンの情報を共有)
-            4. 編集ボタン(ピンの登録情報更新)
-            5. .normalにもどる(選択解除)ためのボタン
-     
-     - .expanded
-        - ピンを選択した上で、PinViewをタップorスワイプした状態
-        - 表示する内容の情報量を想定し、スクロールできるように実装
-        - .selected のビューの下部にさらに以下の情報を表示
-            1. 登録した楽曲のジャケット写真
-            2. iPhoneのプレイヤー準拠の再生ステータス(再生/一時停止)ボタン
-            3. 楽曲のタイトル名、アーティスト名、アルバム名
-            4. 登録したユーザのアイコン
-            5. 登録したユーザの名前、登録日
-            6. (ピンの)削除ボタン
      ---------------------------------------------------------------------- **/
+    var wasViewEditSuccessed = false
     // ピンの登録画面に遷移したときの処理
-    func editAnnotition(annotation: MKPointAnnotation) -> MKPointAnnotation {        
-        let mainStoryboard = UIStoryboard(name: "PinEditView", bundle: nil)
+    func editAnnotation(){
+        // 画面遷移
+        let mainStoryboard = UIStoryboard(name: "EditAnnotation", bundle: nil)
         let builtStoryboard = mainStoryboard.instantiateViewController(withIdentifier: "edit")
         self.present(builtStoryboard, animated: true, completion: nil)
-        // アノテーションための最低限のデータを付与
-        annotation.title = "nothig_selected"
-        annotation.subtitle = "guest_user"
-        return annotation
     }
     
     // 初期状態のアノテーションビューを返す
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-
         if annotation is MKUserLocation {return nil}
 
-        let annotationIdNothingselected = "nothing"
-
-        let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationIdNothingselected)
+        let annotationID = "nothing"
+        let annotationView = MKPinAnnotationView(annotation: annotation,
+                                                 reuseIdentifier: annotationID)
         let button = UIButton.init(type: .detailDisclosure)
         annotationView.rightCalloutAccessoryView = button
         annotationView.canShowCallout = true
@@ -222,6 +200,8 @@ class MainViewController:
     /** ----------------------------------------------------------------------
      # UI actions
      ---------------------------------------------------------------------- **/
+    var nowEditAnnotationView: MKPointAnnotation!
+    
     // マップを長押しした際の処理
     @IBAction func longpressMap(_ sender: UILongPressGestureRecognizer) {
         // タップされた位置情報をもとに、アノテーションを作成
@@ -231,16 +211,19 @@ class MainViewController:
         var annotation = MKPointAnnotation()
         annotation.coordinate = CLLocationCoordinate2DMake(mapPoint.latitude, mapPoint.longitude)
         
-        let cancelAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:{
-            (action: UIAlertAction!) in
+        let cancelAction = UIAlertAction(title: "キャンセル",
+                                         style: UIAlertAction.Style.cancel,
+                                         handler:{(action: UIAlertAction!) in
         })
-        let defaultAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
-            (action: UIAlertAction!) in
-            // 画面遷移、ピンのための情報を取得
-            annotation = self.editAnnotition(annotation: annotation)
-            self.mainMapView.addAnnotation(annotation)
+        let defaultAction = UIAlertAction(title: "OK",
+                                          style: UIAlertAction.Style.default,
+                                          handler:{(action: UIAlertAction!) in
+                                            self.nowEditAnnotationView = annotation
+                                            self.editAnnotation()
         })
-        let alert = UIAlertController(title: "ピンを登録", message: "楽曲を登録しますか？", preferredStyle: UIAlertController.Style.alert)
+        let alert = UIAlertController(title: "ピンを登録",
+                                      message: "楽曲を登録しますか？",
+                                      preferredStyle: UIAlertController.Style.alert)
         alert.addAction(cancelAction)
         alert.addAction(defaultAction)
         
@@ -253,7 +236,8 @@ class MainViewController:
     // (位置情報の追跡モード)スイッチを切り替えた際の処理
     @IBAction func changeTrackingMode(_ sender: UISwitch) {
         if trackingModeSwitch.isOn {
-            mainMapView.setCenter(mainMapView.userLocation.coordinate, animated: true)
+            mainMapView.setCenter(mainMapView.userLocation.coordinate,
+                                  animated: true)
             mainMapView.userTrackingMode = MKUserTrackingMode.follow
             headerLabel.textColor = #colorLiteral(red: 1, green: 0.4932718873, blue: 0.4739984274, alpha: 1)
         } else if !trackingModeSwitch.isOn{
