@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		46016500220003A700080DD3 /* CustomAnnotationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 460164FF220003A700080DD3 /* CustomAnnotationView.xib */; };
+		4601650422000F1500080DD3 /* CustomAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4601650322000F1500080DD3 /* CustomAnnotationView.swift */; };
 		4612E96A21F1C52E0078569B /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4612E96921F1C52E0078569B /* UserViewController.swift */; };
 		4612E96C21F375850078569B /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4612E96B21F375850078569B /* UserData.swift */; };
 		464373B221FB22FD007D2521 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 464373B121FB22FD007D2521 /* LoginView.xib */; };
@@ -31,6 +33,8 @@
 /* Begin PBXFileReference section */
 		08D7E30B1392259D14492DFA /* Pods-iMachiLive.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMachiLive.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iMachiLive/Pods-iMachiLive.debug.xcconfig"; sourceTree = "<group>"; };
 		1820AD80282ADD381A71DA71 /* Pods_iMachiLive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iMachiLive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		460164FF220003A700080DD3 /* CustomAnnotationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomAnnotationView.xib; sourceTree = "<group>"; };
+		4601650322000F1500080DD3 /* CustomAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotationView.swift; sourceTree = "<group>"; };
 		4612E96921F1C52E0078569B /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		4612E96B21F375850078569B /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		464373B121FB22FD007D2521 /* LoginView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
@@ -67,6 +71,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		460164FB21FFE2C900080DD3 /* xib */ = {
+			isa = PBXGroup;
+			children = (
+				464373B121FB22FD007D2521 /* LoginView.xib */,
+				460164FF220003A700080DD3 /* CustomAnnotationView.xib */,
+			);
+			path = xib;
+			sourceTree = "<group>";
+		};
 		465705ED21CB6FE80088C7E5 = {
 			isa = PBXGroup;
 			children = (
@@ -97,7 +110,8 @@
 		4657060B21CB6FFA0088C7E5 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				464373B121FB22FD007D2521 /* LoginView.xib */,
+				4601650322000F1500080DD3 /* CustomAnnotationView.swift */,
+				460164FB21FFE2C900080DD3 /* xib */,
 				4657060C21CB70040088C7E5 /* storyboard */,
 			);
 			path = View;
@@ -248,6 +262,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46016500220003A700080DD3 /* CustomAnnotationView.xib in Resources */,
 				4657060421CB6FE90088C7E5 /* LaunchScreen.storyboard in Resources */,
 				46D2E51221FDF48C008F8BB0 /* play.png in Resources */,
 				464373B421FB27E6007D2521 /* EditAnnotation.storyboard in Resources */,
@@ -373,6 +388,7 @@
 				46D2E50A21FC1E78008F8BB0 /* EditAnnotationViewController.swift in Sources */,
 				46D2E51621FEAF71008F8BB0 /* EditAnnotationData.swift in Sources */,
 				4657061D21CD91D00088C7E5 /* PinStract.swift in Sources */,
+				4601650422000F1500080DD3 /* CustomAnnotationView.swift in Sources */,
 				46D2E50C21FD5A8F008F8BB0 /* MusicPlayerData.swift in Sources */,
 				465705FC21CB6FE80088C7E5 /* MainViewController.swift in Sources */,
 				465705FA21CB6FE80088C7E5 /* AppDelegate.swift in Sources */,

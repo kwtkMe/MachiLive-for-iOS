@@ -39,10 +39,12 @@ class EditAnnotationViewController:
     /** ----------------------------------------------------------------------
      # UI settings
      ---------------------------------------------------------------------- **/
+    @IBOutlet weak var locationnameLabel: UILabel!
+    @IBOutlet weak var songinfoLabel: UILabel!
     @IBOutlet weak var locationnameField: UITextField!
     @IBOutlet weak var songAlbumWorkImageView: UIImageView!
-    @IBOutlet weak var songArtistLabel: UILabel!
     @IBOutlet weak var songTitleLabel: UILabel!
+    @IBOutlet weak var songArtistLabel: UILabel!
     
 
     override func viewDidLoad() {
@@ -79,7 +81,7 @@ class EditAnnotationViewController:
     }
     
     /** ----------------------------------------------------------------------
-     # Annotation
+     # AnnotationViewInfo
      ---------------------------------------------------------------------- **/
     var annotationViewInfo = STAnnotationViewData()
     
@@ -107,14 +109,40 @@ class EditAnnotationViewController:
     }
     
     // 原則アノテーションを追加するのでバリデーションしっかり
+    let defaultAction = UIAlertAction(title: "OK",
+                                      style: UIAlertAction.Style.default,
+                                      handler:{
+                                        (action: UIAlertAction!) in
+    })
+    
     @IBAction func tapCompleteButton(_ sender: UIButton) {
-        // バリデーションしてアノテーションとピンの情報(Firebase)を付与
-        
-        let annotationViewInfo = STAnnotationViewData(locationName: locationnameField.text,
-                                                      songTitle: songTitleLabel.text,
-                                                      songArtist: songArtistLabel.text,
-                                                      songArtwork: songAlbumWorkImageView.image)
-        editAnnoatationData.editedAnnotationViewInfo = annotationViewInfo
+        if (locationnameLabel.text?.trimmingCharacters(in: .whitespaces).isEmpty)! {
+            let alert = UIAlertController(title: "入力エラー",
+                                          message: "地名を入力してください",
+                                          preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(defaultAction)
+            present(alert, animated: true, completion: nil)
+            return
+        } else if 20 < (locationnameLabel.text?.characters.count)! {
+            let alert = UIAlertController(title: "入力エラー",
+                                          message: "地名を20字以内で入力してください",
+                                          preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(defaultAction)
+            present(alert, animated: true, completion: nil)
+            return
+        } else if (songTitleLabel.text?.isEmpty)! {
+            let alert = UIAlertController(title: "入力エラー",
+                                          message: "楽曲を選択してください",
+                                          preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(defaultAction)
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        editAnnoatationData.editedAnnotationViewInfo
+            = STAnnotationViewData(locationName: locationnameField.text,
+                                   songTitle: songTitleLabel.text,
+                                  songArtist: songArtistLabel.text,
+                                  songArtwork: songAlbumWorkImageView.image)
         notification.post(name: .AnnotationEdited, object: nil)
     }
     

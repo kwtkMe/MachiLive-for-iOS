@@ -34,6 +34,7 @@ class EditAnnotationData: NSObject {
     var editedAnnotationViewInfo: STAnnotationViewData
 }
 
+
 public struct STAnnotationInfoViewData {
     
     /** ----------------------------------------------------------------------

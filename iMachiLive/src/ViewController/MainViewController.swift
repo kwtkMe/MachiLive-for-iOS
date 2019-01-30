@@ -42,7 +42,6 @@ class MainViewController:
     }
 
     // ログインした場合
-    // 認証したアカウントのユーザーアイコンを表示
     @objc func handleLoginNotification(_ notification: Notification) {
         if let currentUser = userData.authUI.auth?.currentUser {
             // アイコンの表示
@@ -52,14 +51,13 @@ class MainViewController:
                 let image = UIImage(data: data)
                 loginButton.setImage(image, for: UIControl.State())
                 print("login")
-            }catch let err {
+            } catch let err {
                 print("Error : \(err.localizedDescription)")
             }
         }
     }
     
     // ログアウトした場合
-    // ログイン画面の表示
     @objc func handleLogoutNotification(_ notification: Notification) {
         self.dismiss(animated: true) {
             self.showLoginViewController()
@@ -169,13 +167,22 @@ class MainViewController:
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {return nil}
 
-        let annotationID = "nothing"
+        let annotationID = editAnnotationData.editedAnnotationViewInfo.locationName!
+                            + editAnnotationData.editedAnnotationViewInfo.songTitle!
         let annotationView = MKPinAnnotationView(annotation: annotation,
                                                  reuseIdentifier: annotationID)
-        let button = UIButton.init(type: .detailDisclosure)
-        annotationView.rightCalloutAccessoryView = button
-        annotationView.canShowCallout = true
-        annotationView.animatesDrop = true
+        
+        let customAnnotationView = CustomAnnotationView()
+        customAnnotationView.locationnameLabel.text
+            = editAnnotationData.editedAnnotationViewInfo.locationName!
+        customAnnotationView.songartworkImageView.image
+            = editAnnotationData.editedAnnotationViewInfo.songArtwork
+        customAnnotationView.songnameLabel.text
+            = editAnnotationData.editedAnnotationViewInfo.songTitle!
+        customAnnotationView.songartistLabel.text
+            = editAnnotationData.editedAnnotationViewInfo.songArtist
+        
+        annotationView.detailCalloutAccessoryView = customAnnotationView
 
         return annotationView
     }
@@ -226,7 +233,6 @@ class MainViewController:
                                       preferredStyle: UIAlertController.Style.alert)
         alert.addAction(cancelAction)
         alert.addAction(defaultAction)
-        
         // マップから指を離した際にアラートを呼ぶ
         if sender.state == UIGestureRecognizer.State.ended {
             present(alert, animated: true, completion: nil)

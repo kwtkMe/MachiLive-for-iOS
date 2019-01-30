@@ -47,7 +47,7 @@
                                     <constraint firstItem="IzG-tE-x2S" firstAttribute="centerX" secondItem="tEA-Io-lD0" secondAttribute="centerX" id="jvv-HB-FBq"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ND3-v5-176" userLabel="Contents">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ND3-v5-176" userLabel="Contents" customClass="EditAnnotation" customModule="iMachiLive" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="70" width="375" height="597"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="地名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fjF-Db-qi7">
@@ -56,7 +56,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="location name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="emn-Qu-5ZM" userLabel="locationNameLabel">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="20 character limit" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="emn-Qu-5ZM" userLabel="locationNameLabel">
                                         <rect key="frame" x="0.0" y="77" width="375" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="Qfq-Jv-sW6"/>
@@ -71,7 +71,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vzs-SV-TYm" userLabel="songInfoView">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vzs-SV-TYm" userLabel="songinfoView">
                                         <rect key="frame" x="0.0" y="154" width="375" height="150"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="U6r-2a-g6U" userLabel="songTumb">
@@ -95,16 +95,22 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="nothing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iGc-mt-wk8" userLabel="insert1">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iGc-mt-wk8" userLabel="insert1">
                                                 <rect key="frame" x="142" y="45.5" width="225" height="21"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="21" id="DVL-hd-fRT"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="nothing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebV-3H-MKX" userLabel="insert2">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ebV-3H-MKX" userLabel="insert2">
                                                 <rect key="frame" x="142" y="102" width="225" height="21"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="21" id="2wY-fX-lVc"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -188,9 +194,11 @@
                     </view>
                     <connections>
                         <outlet property="locationnameField" destination="emn-Qu-5ZM" id="59r-mR-4ku"/>
+                        <outlet property="locationnameLabel" destination="fjF-Db-qi7" id="30F-Bm-YaS"/>
                         <outlet property="songAlbumWorkImageView" destination="U6r-2a-g6U" id="RZB-Kf-Vpw"/>
                         <outlet property="songArtistLabel" destination="ebV-3H-MKX" id="fvr-V5-Id7"/>
                         <outlet property="songTitleLabel" destination="iGc-mt-wk8" id="9Er-rH-WbG"/>
+                        <outlet property="songinfoLabel" destination="eAG-5a-us8" id="3Oh-gv-tM9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aC3-wB-wVy" userLabel="First Responder" sceneMemberID="firstResponder"/>
