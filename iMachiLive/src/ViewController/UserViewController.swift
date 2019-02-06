@@ -34,7 +34,30 @@ class UserViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        initSubView()
         setupUserView()
+    }
+    
+    private func initSubView() {
+        avatarImageView.layer.cornerRadius = 75
+        avatarImageView.layer.masksToBounds = true
+    }
+    
+    func setupUserView() {
+        if let currentUser = userData.authUI.auth?.currentUser {
+            // アイコンの表示
+            let avatarUrl = currentUser.photoURL
+            do {
+                let data = try Data(contentsOf: avatarUrl!)
+                let image = UIImage(data: data)
+                avatarImageView.image = image
+            }catch let err {
+                print("Error : \(err.localizedDescription)")
+            }
+            // ユーザ名の取得
+            let userName = currentUser.displayName
+            usernameLabel.text = userName
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,28 +79,9 @@ class UserViewController: UIViewController {
         )
     }
     
-    func setupUserView() {
-        if let currentUser = userData.authUI.auth?.currentUser {
-            // アイコンの表示
-            let avatarUrl = currentUser.photoURL
-            do {
-                let data = try Data(contentsOf: avatarUrl!)
-                let image = UIImage(data: data)
-                avatarImageView.image = image
-            }catch let err {
-                print("Error : \(err.localizedDescription)")
-            }
-            // ユーザ名の取得
-            let userName = currentUser.displayName
-            usernameLabel.text = userName
-            
-        }
-    }
-    
     func doLogout() {
         do {
             try userData.authUI.signOut()
-            notification.post(name: .LogOut, object: nil)
         } catch let err as NSError {
             print ("Error signing out: %@", err)
         }
@@ -103,6 +107,7 @@ class UserViewController: UIViewController {
         alert.addAction(cancelAction)
         alert.addAction(defaultAction)
         present(alert, animated: true, completion: nil)
+        notification.post(name: .LoginstateChanged, object: nil)
     }
     
     // エリア外のタップをした際の処理

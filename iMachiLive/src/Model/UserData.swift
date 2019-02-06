@@ -37,6 +37,8 @@ class UserData: NSObject, FUIAuthDelegate {
         FUITwitterAuth(),
     ]
     
+    var handle = Auth.auth()
+
 //    // ログイン画面を返す(未実装)
 //    func authPickerViewController(forAuthUI authUI: FUIAuth) -> FUIAuthPickerViewController {
 //        return FUIAuthPickerViewController(nibName: "FUICustomAuthPickerViewController",
@@ -53,15 +55,21 @@ class UserData: NSObject, FUIAuthDelegate {
         // FirebaseUI
         authUI.delegate = self
         authUI.providers = providers
+        
+        handle.addStateDidChangeListener{ (auth, user) in
+            self.notification.post(name: .LoginstateChanged, object: nil)
+        }
     }
     
     // FirabaseUIのデリゲートメソッド
     public func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?){
         // 認証に成功した場合
         if error == nil {
-            notification.post(name: .LogIn, object: nil)
+            
         }
-        // エラー時
+        if authUI.auth?.currentUser == nil {
+            self.notification.post(name: .LoginstateChanged, object: nil)
+        }
     }
     
 }

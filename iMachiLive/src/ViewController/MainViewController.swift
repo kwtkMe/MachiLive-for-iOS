@@ -13,11 +13,10 @@ import MediaPlayer
 import Firebase
 import FirebaseUI
 
-extension Notification.Name {
-    static let LogOut = Notification.Name("logout")
-    static let LogIn = Notification.Name("login")
-    static let AnnotationEdited = Notification.Name("annotation_edited")
-    static let PlayingItemChanged = Notification.Name("playing_item_changed")
+enum SliderViewState {
+    case normal
+    case selected
+    case selectedEx
 }
 
 class MainViewController:
@@ -42,7 +41,7 @@ class MainViewController:
     }
 
     // ログインした場合
-    @objc func handleLoginNotification(_ notification: Notification) {
+    @objc func handleLoginstateChangedNotification(_ notification: Notification) {
         if let currentUser = userData.authUI.auth?.currentUser {
             // アイコンの表示
             let avatarUrl = currentUser.photoURL
@@ -54,33 +53,30 @@ class MainViewController:
             } catch let err {
                 print("Error : \(err.localizedDescription)")
             }
-        }
-    }
-    
-    // ログアウトした場合
-    @objc func handleLogoutNotification(_ notification: Notification) {
-        self.dismiss(animated: true) {
-            self.showLoginViewController()
+            //ログアウトした
+        } else {
+            self.dismiss(animated: true) {
+                let authViewController = self.userData.authUI.authViewController()
+                self.present(authViewController, animated: true, completion: nil)
+            }
         }
     }
     
     // アノテーションの編集が行われた場合
     @objc func handleAnnotationEditedNotification(_ notification: Notification){
         self.dismiss(animated: true) {
-            self.nowEditAnnotationView.title = self.editAnnotationData.editedAnnotationViewInfo.locationName
+            self.nowEditAnnotationView.title = self.editAnnotationData.editedAnnotationViewInfo.songTitle
+            self.nowEditAnnotationView.subtitle =
+                self.editAnnotationData.editedAnnotationViewInfo.songArtist
             self.mainMapView.addAnnotation(self.nowEditAnnotationView)
         }
     }
     
     func initObservers() {
         notification.addObserver(self,
-                                 selector: #selector(handleLoginNotification(_:)),
-                                 name: .LogIn,
+                                 selector: #selector(handleLoginstateChangedNotification(_:)),
+                                 name: .LoginstateChanged,
                                  object: nil)
-        notification.addObserver(self,
-                         selector: #selector(handleLogoutNotification(_:)),
-                         name: .LogOut,
-                         object: nil)
         notification.addObserver(self,
                                  selector: #selector(handleAnnotationEditedNotification(_:)),
                                  name: .AnnotationEdited,
@@ -92,63 +88,115 @@ class MainViewController:
     ---------------------------------------------------------------------- **/
     // main
     @IBOutlet weak var mainMapView: MKMapView!
-    
     @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet weak var trackingModeSwitch: UISwitch!
     @IBOutlet weak var loginButton: UIButton!
     // delegatations
     var locationManager: CLLocationManager!
     var player: MPMusicPlayerController!
-    
+    // Constant
+    let sliderView_collapsed_Height: CGFloat = 80.0
+    let sliderView_expanded_Height: CGFloat = 500.0
+    let animatorDuration: TimeInterval = 1
+    // UI
+    var sliderView = UIView()
+    var sliderNormalView = NormalView()
+    var sliderSelectedView = SelectedView()
+    var sliderSelectedExView = SelectedExView()
+    // Tracks all running aninmators
+    var state: SliderViewState = .normal
+    var progressWhenInterrupted: CGFloat = 0
+    var runningAnimators = [UIViewPropertyAnimator]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         initObservers()
         initSubview()
-        initSubviewLayout()
         initSubviewConfiguration()
-        showLoginViewController()
     }
     
     private func initSubview() {
+        // ログインボタンを丸くする
+        loginButton.layer.cornerRadius = 20
+        loginButton.layer.masksToBounds = true
         
-    }
-    
-    private func initSubviewLayout() {
+        // スライダービューの初期設定
+        self.view.addSubview(sliderView)
+        sliderView.layer.cornerRadius = 10
+        sliderView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        sliderView.layer.masksToBounds = true
+        sliderNormalView.backgroundColor = .white
+        sliderView.frame = collapsedFrame()
         
+        // スライダービューの子要素ビューの初期設定
+        sliderNormalView.layer.cornerRadius = 10
+        sliderNormalView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        sliderNormalView.layer.masksToBounds = true
+        sliderNormalView.frame
+            = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 80)
+        
+        sliderSelectedView.layer.cornerRadius = 10
+        sliderSelectedView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        sliderSelectedView.layer.masksToBounds = true
+        sliderSelectedView.frame
+            = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 60)
+        
+        sliderSelectedExView.frame
+            = CGRect(x: 0, y: 60, width: self.view.frame.width, height: 500)
+        
+        sliderView.addSubview(sliderNormalView)
     }
     
     private func initSubviewConfiguration() {
-        // MapView
+        // locationManager
         locationManager = CLLocationManager()
         locationManager.delegate = self
+        if locationManager != nil { return }
+        locationManager.requestWhenInUseAuthorization()
+        // mainMapView
         mainMapView.delegate = self
-        setupLocationManager()
+        mainMapView.showsUserLocation = false
+        mainMapView.userTrackingMode = MKUserTrackingMode.none
         // マップ中心地を東京に設定
         let mapViewCenterDefault = CLLocationCoordinate2DMake(35.5, 139.8)
         let coordinateSpanDefault = MKCoordinateSpan(latitudeDelta: 1.0, longitudeDelta: 1.0)
         let regionDefault = MKCoordinateRegion(center: mapViewCenterDefault, span: coordinateSpanDefault)
         mainMapView.setRegion(regionDefault, animated:true)
-        // PinView
     }
     
-    
-    func showLoginViewController() {
-        if userData.authUI.auth?.currentUser == nil {
-            let authViewController = userData.authUI.authViewController()
-            self.present(authViewController, animated: true, completion: nil)
-        } else {
-            notification.post(name: .LogIn, object: nil)
-        }
+    private func addGestures() {
+        // Tap gesture
+        sliderView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleTapGesture(_:))))
+        
+        // Pan gesutre
+        sliderView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.handlePanGesture(_:))))
     }
     
-    // 位置情報の設定を適用
-    func setupLocationManager() {
-        if locationManager != nil { return }
-        locationManager.requestWhenInUseAuthorization()
-        mainMapView.showsUserLocation = false
-        mainMapView.userTrackingMode = MKUserTrackingMode.none
+    private func collapsedFrame() -> CGRect {
+        return CGRect(
+            x: 0,
+            y: self.view.frame.height - sliderView_collapsed_Height,
+            width: self.view.frame.width,
+            height: sliderView_collapsed_Height)
+    }
+    
+    private func expandedFrame() -> CGRect {
+        return CGRect(
+            x: 0,
+            y: self.view.frame.height - sliderView_expanded_Height,
+            width: self.view.frame.width,
+            height: sliderView_expanded_Height
+        )
+    }
+    
+    // MARK: Gesture
+    @objc private func handleTapGesture(_ recognizer: UITapGestureRecognizer) {
+        
+    }
+    
+    @objc private func handlePanGesture(_ recognizer: UIPanGestureRecognizer) {
+        
     }
     
     /** ----------------------------------------------------------------------
@@ -163,7 +211,6 @@ class MainViewController:
         self.present(builtStoryboard, animated: true, completion: nil)
     }
     
-    // 初期状態のアノテーションビューを返す
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {return nil}
 
@@ -172,18 +219,18 @@ class MainViewController:
         let annotationView = MKPinAnnotationView(annotation: annotation,
                                                  reuseIdentifier: annotationID)
         
-        let customAnnotationView = CustomAnnotationView()
-        customAnnotationView.locationnameLabel.text
-            = editAnnotationData.editedAnnotationViewInfo.locationName!
-        customAnnotationView.songartworkImageView.image
-            = editAnnotationData.editedAnnotationViewInfo.songArtwork
-        customAnnotationView.songnameLabel.text
-            = editAnnotationData.editedAnnotationViewInfo.songTitle!
-        customAnnotationView.songartistLabel.text
-            = editAnnotationData.editedAnnotationViewInfo.songArtist
+        let artworkImageView = UIImageView()
+        artworkImageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        if let artwork = editAnnotationData.editedAnnotationViewInfo.songArtwork {
+            artworkImageView.image = artwork
+        } else {
+            artworkImageView.image = nil
+            artworkImageView.backgroundColor = .lightGray
+        }
+        annotationView.leftCalloutAccessoryView = artworkImageView
+        annotationView.canShowCallout = true
+        annotationView.animatesDrop = true
         
-        annotationView.detailCalloutAccessoryView = customAnnotationView
-
         return annotationView
     }
     
@@ -215,7 +262,7 @@ class MainViewController:
         let location:CGPoint = sender.location(in: mainMapView)
         let mapPoint:CLLocationCoordinate2D
             = mainMapView.convert(location, toCoordinateFrom: mainMapView)
-        var annotation = MKPointAnnotation()
+        let annotation = MKPointAnnotation()
         annotation.coordinate = CLLocationCoordinate2DMake(mapPoint.latitude, mapPoint.longitude)
         
         let cancelAction = UIAlertAction(title: "キャンセル",

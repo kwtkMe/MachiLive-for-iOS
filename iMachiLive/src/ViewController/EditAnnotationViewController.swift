@@ -113,31 +113,30 @@ class EditAnnotationViewController:
                                       style: UIAlertAction.Style.default,
                                       handler:{
                                         (action: UIAlertAction!) in
+                                        return
     })
     
     @IBAction func tapCompleteButton(_ sender: UIButton) {
         if (locationnameLabel.text?.trimmingCharacters(in: .whitespaces).isEmpty)! {
-            let alert = UIAlertController(title: "入力エラー",
-                                          message: "地名を入力してください",
-                                          preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(defaultAction)
-            present(alert, animated: true, completion: nil)
-            return
+//            let alert = UIAlertController(title: "入力エラー",
+//                                          message: "地名を入力してください",
+//                                          preferredStyle: UIAlertController.Style.alert)
+//            alert.addAction(defaultAction)
+//            present(alert, animated: true, completion: nil)
         } else if 20 < (locationnameLabel.text?.characters.count)! {
-            let alert = UIAlertController(title: "入力エラー",
-                                          message: "地名を20字以内で入力してください",
-                                          preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(defaultAction)
-            present(alert, animated: true, completion: nil)
-            return
+//            let alert = UIAlertController(title: "入力エラー",
+//                                          message: "地名を20字以内で入力してください",
+//                                          preferredStyle: UIAlertController.Style.alert)
+//            alert.addAction(defaultAction)
+//            present(alert, animated: true, completion: nil)
         } else if (songTitleLabel.text?.isEmpty)! {
-            let alert = UIAlertController(title: "入力エラー",
-                                          message: "楽曲を選択してください",
-                                          preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(defaultAction)
-            present(alert, animated: true, completion: nil)
-            return
+//            let alert = UIAlertController(title: "入力エラー",
+//                                          message: "楽曲を選択してください",
+//                                          preferredStyle: UIAlertController.Style.alert)
+//            alert.addAction(defaultAction)
+//            present(alert, animated: true, completion: nil)
         }
+        // バリデーション完了
         editAnnoatationData.editedAnnotationViewInfo
             = STAnnotationViewData(locationName: locationnameField.text,
                                    songTitle: songTitleLabel.text,

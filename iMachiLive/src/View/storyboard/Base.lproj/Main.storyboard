@@ -46,27 +46,20 @@
                                 <rect key="frame" x="0.0" y="60" width="375" height="40"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" verticalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kf0-fv-pxt">
-                                        <rect key="frame" x="335" y="5" width="30" height="30"/>
+                                        <rect key="frame" x="325" y="0.0" width="40" height="40"/>
                                         <accessibility key="accessibilityConfiguration">
                                             <accessibilityTraits key="traits" button="YES" image="YES"/>
                                         </accessibility>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="5ag-CJ-8Jw"/>
                                             <constraint firstAttribute="width" secondItem="kf0-fv-pxt" secondAttribute="height" multiplier="1:1" id="W4r-Ba-yRM"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="50"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="tapLoginButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CUp-Zc-5PA"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kyQ-MO-ib8">
-                                        <rect key="frame" x="10" y="-10" width="30" height="60"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="40"/>
-                                        <state key="normal" title="♪">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="tapPlayerButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="TtX-9A-wCe"/>
-                                            <segue destination="8zq-a7-UK5" kind="presentation" identifier="showPlayer" modalTransitionStyle="crossDissolve" id="gZU-eQ-exk"/>
                                         </connections>
                                     </button>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="7cV-Nt-xqj">
@@ -78,12 +71,11 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="kf0-fv-pxt" firstAttribute="centerY" secondItem="tVg-NX-KQF" secondAttribute="centerY" id="3uj-T5-4FQ"/>
                                     <constraint firstAttribute="height" constant="40" id="74n-G3-SMV"/>
+                                    <constraint firstItem="kf0-fv-pxt" firstAttribute="top" secondItem="tVg-NX-KQF" secondAttribute="top" id="JVp-nt-d10"/>
                                     <constraint firstAttribute="trailing" secondItem="kf0-fv-pxt" secondAttribute="trailing" constant="10" id="Jot-xO-b1g"/>
-                                    <constraint firstItem="kyQ-MO-ib8" firstAttribute="leading" secondItem="tVg-NX-KQF" secondAttribute="leading" constant="10" id="O79-t8-ztg"/>
                                     <constraint firstItem="7cV-Nt-xqj" firstAttribute="centerY" secondItem="tVg-NX-KQF" secondAttribute="centerY" id="UO7-Zt-Dj0"/>
-                                    <constraint firstItem="kyQ-MO-ib8" firstAttribute="centerY" secondItem="tVg-NX-KQF" secondAttribute="centerY" id="pff-pw-8xr"/>
+                                    <constraint firstAttribute="bottom" secondItem="kf0-fv-pxt" secondAttribute="bottom" id="d3P-C9-acs"/>
                                     <constraint firstItem="7cV-Nt-xqj" firstAttribute="centerX" secondItem="tVg-NX-KQF" secondAttribute="centerX" id="yZi-Ry-4vh"/>
                                 </constraints>
                             </view>
@@ -165,12 +157,15 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fa8-9h-vCE">
-                                        <rect key="frame" x="62" y="151" width="128" height="128"/>
+                                        <rect key="frame" x="51" y="129" width="150" height="150"/>
                                         <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="fa8-9h-vCE" secondAttribute="height" multiplier="1:1" id="DgV-pe-JEg"/>
-                                            <constraint firstAttribute="height" constant="128" id="OC6-PI-izN"/>
+                                            <constraint firstAttribute="height" constant="150" id="OC6-PI-izN"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="50"/>
+                                        </userDefinedRuntimeAttributes>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -180,7 +175,6 @@
                                     <constraint firstItem="jZg-z9-scP" firstAttribute="top" secondItem="fa8-9h-vCE" secondAttribute="bottom" constant="40" id="EYd-TT-j27"/>
                                     <constraint firstItem="fa8-9h-vCE" firstAttribute="centerX" secondItem="Krh-xO-rYc" secondAttribute="centerX" id="Puu-6J-FWQ"/>
                                     <constraint firstItem="fa8-9h-vCE" firstAttribute="centerX" secondItem="jZg-z9-scP" secondAttribute="centerX" id="ie0-Ls-H7r"/>
-                                    <constraint firstItem="fa8-9h-vCE" firstAttribute="leading" secondItem="Krh-xO-rYc" secondAttribute="leading" constant="62" id="lM5-pR-h9A"/>
                                     <constraint firstItem="nfH-SZ-NvC" firstAttribute="top" secondItem="jZg-z9-scP" secondAttribute="bottom" constant="34" id="pHq-Jx-Ugb"/>
                                 </constraints>
                             </view>
