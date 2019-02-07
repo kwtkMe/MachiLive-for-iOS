@@ -54,7 +54,6 @@ class MainViewController:
                 print("Error : \(err.localizedDescription)")
             }
             // ユーザ登録？
-
         } else {
             self.dismiss(animated: true) {let image = UIImage(named: "ic_account_circle")
                 self.loginButton.setImage(image, for: .normal)
@@ -65,6 +64,19 @@ class MainViewController:
     }
     
     // アノテーションの編集が行われた場合
+    /**
+     # 新規作成or編集で処理を切り分ける
+     ## 新規作成
+     - EditAnnotation: notification.post(name: .AnnotationAdd, object: nil)
+        - マップの長押しで発火
+     - Main: notification.post(name: .AnnotationAdded, object: nil)
+        - firebase 削除せずに追加
+     # 編集
+     - EditAnnotation: notification.post(name: .AnnotationEdit, object: nil)
+        - 編集ボタンで発火
+     - Main: notification.post(name: .AnnotationEdited, object: nil)
+        - firebase 更新
+    **/
     @objc func handleAnnotationEditedNotification(_ notification: Notification){
         self.dismiss(animated: true) {
             self.nowEditAnnotation.title = self.editAnnotationData.editedAnnotationViewInfo.songTitle
@@ -72,18 +84,18 @@ class MainViewController:
                 self.editAnnotationData.editedAnnotationViewInfo.songArtist
             self.mainMapView.addAnnotation(self.nowEditAnnotation)
         }
+        // post to realtime database
         if let currentUser = userData.authUI.auth?.currentUser {
+            let childPath = "users/\(currentUser.uid)/pin"
             let post
                 = ["locationName": editAnnotationData.editedSliderViewInfo.locationName!,
                    "songTitle": editAnnotationData.editedSliderViewInfo.songTitle!,
                    "songArtist": editAnnotationData.editedSliderViewInfo.songArtist!,
                    "songArtwork": editAnnotationData.editedSliderViewInfo.songArtwork?.toString() ?? "",
                    "latitude": "\(String(describing: editAnnotationData.editedSliderViewInfo.coordinate!.latitude))",
-                    "longitude": "\(String(describing: editAnnotationData.editedSliderViewInfo.coordinate!.longitude))",
-                   "contributerUid": currentUser.displayName!]
-            //let childUpdates = ["users/\(currentUser.uid)/pin": post]
-            let childUpdates = ["users/uid/pin": post]
-            userData.ref.updateChildValues(childUpdates)
+                   "longitude": "\(String(describing: editAnnotationData.editedSliderViewInfo.coordinate!.longitude))",
+                   "contributerUid": currentUser.uid]
+            userData.ref.child(childPath).childByAutoId().setValue(post)
         }
     }
     
@@ -219,14 +231,33 @@ class MainViewController:
      ---------------------------------------------------------------------- **/
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {return nil}
-        // 位置情報をIDに設定
-        let annotationID
-            = String(nowEditAnnotationPoint.latitude) + "+"
-                + String(nowEditAnnotationPoint.longitude)
+        
+        let annotationID = "ohYhea"
         let annotationView = MKPinAnnotationView(annotation: annotation,
                                                  reuseIdentifier: annotationID)
         
         // アートワークを leftCalloutAccessoryView に追加
+        /**
+         # 新規登録と読み込みの差別化
+         ## マップ上で発火するパターン(新規登録)
+         ### 読み込み手順
+         - addAnnotation()
+             - Main: notification.post(name: .AnnotationAdded, object: nil)
+             - nowEditなんとか を追加
+         - mapView()
+            - 新規なんだからfirebaseでヒットしないはず(else的な)
+            - editAnnotation.# から取ってくる
+         ## データを読んだパターン
+         ### 読み込み手順
+         - addAnnotation()を繰り返す
+            - firebaseから取り出し
+            - ロケーションで特定したannotationを追加(addAnnotation())
+                - title, subbtitleを設定
+         - mapView()
+            - IDの設定不要では
+            - lattitude が一致する pin からアートワーク設定
+        
+        **/
         let artworkImageView = UIImageView()
         artworkImageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         if let artwork = editAnnotationData.editedAnnotationViewInfo.songArtwork {
@@ -243,6 +274,7 @@ class MainViewController:
     }
     
     // ピンの削除ボタンを押下した時
+    // ！(未実装)SliderViewの削除ボタンで発火(したい)
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
             let cancelAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:{
