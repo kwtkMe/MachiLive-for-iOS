@@ -99,15 +99,18 @@ class UserViewController: UIViewController {
         let defaultAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
             (action: UIAlertAction!) in
             
-            self.doLogout()
+            do {
+                try self.userData.authUI.signOut()
+            } catch let err as NSError {
+                print ("Error signing out: %@", err)
+            }
         })
         let alert = UIAlertController(title: "ログアウト",
-                                      message: "ログイン画面に戻ってよろしいですか？",
+                                      message: "ログアウトしますか？",
                                       preferredStyle: UIAlertController.Style.alert)
         alert.addAction(cancelAction)
         alert.addAction(defaultAction)
         present(alert, animated: true, completion: nil)
-        notification.post(name: .LoginstateChanged, object: nil)
     }
     
     // エリア外のタップをした際の処理

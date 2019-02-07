@@ -12,7 +12,6 @@ import FirebaseUI
 
 // Firebaseに保存されているデータを保持
 class UserData: NSObject, FUIAuthDelegate {
-    
     /** ----------------------------------------------------------------------
      # UserData()
      ---------------------------------------------------------------------- **/
@@ -29,15 +28,16 @@ class UserData: NSObject, FUIAuthDelegate {
     /** ----------------------------------------------------------------------
      # Firebase
      ---------------------------------------------------------------------- **/
-    // FirebaseUIの状態を保持
     var authUI: FUIAuth { get { return FUIAuth.defaultAuthUI()!}}
-    // プロバイダの設定
     let providers: [FUIAuthProvider] = [
         FUIGoogleAuth(),
         FUITwitterAuth(),
     ]
-    
     var handle = Auth.auth()
+
+    // realtime databaseへの参照
+    var ref: DatabaseReference!
+
 
 //    // ログイン画面を返す(未実装)
 //    func authPickerViewController(forAuthUI authUI: FUIAuth) -> FUIAuthPickerViewController {
@@ -56,12 +56,18 @@ class UserData: NSObject, FUIAuthDelegate {
         authUI.delegate = self
         authUI.providers = providers
         
+        // realtime database
+        ref = Database.database().reference()
+        
         handle.addStateDidChangeListener{ (auth, user) in
             self.notification.post(name: .LoginstateChanged, object: nil)
         }
     }
     
-    // FirabaseUIのデリゲートメソッド
+    public func userRest() {
+        
+    }
+    
     public func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?){
         // 認証に成功した場合
         if error == nil {

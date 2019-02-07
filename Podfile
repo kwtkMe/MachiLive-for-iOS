@@ -3,6 +3,7 @@
 
 target 'iMachiLive' do
 
+pod 'Firebase'
 pod 'Firebase/Core'
 pod 'Firebase/Database'
 pod 'FirebaseUI'

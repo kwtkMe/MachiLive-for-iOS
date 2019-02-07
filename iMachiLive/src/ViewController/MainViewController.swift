@@ -53,9 +53,11 @@ class MainViewController:
             } catch let err {
                 print("Error : \(err.localizedDescription)")
             }
-            //ログアウトした
+            // ユーザ登録？
+
         } else {
-            self.dismiss(animated: true) {
+            self.dismiss(animated: true) {let image = UIImage(named: "ic_account_circle")
+                self.loginButton.setImage(image, for: .normal)
                 let authViewController = self.userData.authUI.authViewController()
                 self.present(authViewController, animated: true, completion: nil)
             }
@@ -65,10 +67,23 @@ class MainViewController:
     // アノテーションの編集が行われた場合
     @objc func handleAnnotationEditedNotification(_ notification: Notification){
         self.dismiss(animated: true) {
-            self.nowEditAnnotationView.title = self.editAnnotationData.editedAnnotationViewInfo.songTitle
-            self.nowEditAnnotationView.subtitle =
+            self.nowEditAnnotation.title = self.editAnnotationData.editedAnnotationViewInfo.songTitle
+            self.nowEditAnnotation.subtitle =
                 self.editAnnotationData.editedAnnotationViewInfo.songArtist
-            self.mainMapView.addAnnotation(self.nowEditAnnotationView)
+            self.mainMapView.addAnnotation(self.nowEditAnnotation)
+        }
+        if let currentUser = userData.authUI.auth?.currentUser {
+            let post
+                = ["locationName": editAnnotationData.editedSliderViewInfo.locationName!,
+                   "songTitle": editAnnotationData.editedSliderViewInfo.songTitle!,
+                   "songArtist": editAnnotationData.editedSliderViewInfo.songArtist!,
+                   "songArtwork": editAnnotationData.editedSliderViewInfo.songArtwork?.toString() ?? "",
+                   "latitude": "\(String(describing: editAnnotationData.editedSliderViewInfo.coordinate!.latitude))",
+                    "longitude": "\(String(describing: editAnnotationData.editedSliderViewInfo.coordinate!.longitude))",
+                   "contributerUid": currentUser.displayName!]
+            //let childUpdates = ["users/\(currentUser.uid)/pin": post]
+            let childUpdates = ["users/uid/pin": post]
+            userData.ref.updateChildValues(childUpdates)
         }
     }
     
@@ -202,23 +217,16 @@ class MainViewController:
     /** ----------------------------------------------------------------------
      # PinView settings
      ---------------------------------------------------------------------- **/
-    var wasViewEditSuccessed = false
-    // ピンの登録画面に遷移したときの処理
-    func editAnnotation(){
-        // 画面遷移
-        let mainStoryboard = UIStoryboard(name: "EditAnnotation", bundle: nil)
-        let builtStoryboard = mainStoryboard.instantiateViewController(withIdentifier: "edit")
-        self.present(builtStoryboard, animated: true, completion: nil)
-    }
-    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {return nil}
-
-        let annotationID = editAnnotationData.editedAnnotationViewInfo.locationName!
-                            + editAnnotationData.editedAnnotationViewInfo.songTitle!
+        // 位置情報をIDに設定
+        let annotationID
+            = String(nowEditAnnotationPoint.latitude) + "+"
+                + String(nowEditAnnotationPoint.longitude)
         let annotationView = MKPinAnnotationView(annotation: annotation,
                                                  reuseIdentifier: annotationID)
         
+        // アートワークを leftCalloutAccessoryView に追加
         let artworkImageView = UIImageView()
         artworkImageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         if let artwork = editAnnotationData.editedAnnotationViewInfo.songArtwork {
@@ -254,8 +262,8 @@ class MainViewController:
     /** ----------------------------------------------------------------------
      # UI actions
      ---------------------------------------------------------------------- **/
-    var nowEditAnnotationView: MKPointAnnotation!
-    
+    var nowEditAnnotation: MKPointAnnotation!
+    var nowEditAnnotationPoint : CLLocationCoordinate2D!
     // マップを長押しした際の処理
     @IBAction func longpressMap(_ sender: UILongPressGestureRecognizer) {
         // タップされた位置情報をもとに、アノテーションを作成
@@ -263,7 +271,12 @@ class MainViewController:
         let mapPoint:CLLocationCoordinate2D
             = mainMapView.convert(location, toCoordinateFrom: mainMapView)
         let annotation = MKPointAnnotation()
-        annotation.coordinate = CLLocationCoordinate2DMake(mapPoint.latitude, mapPoint.longitude)
+        annotation.coordinate
+            = CLLocationCoordinate2DMake(mapPoint.latitude, mapPoint.longitude)
+        
+        nowEditAnnotation = annotation
+        nowEditAnnotationPoint = mapPoint
+        editAnnotationData.coordinate = mapPoint
         
         let cancelAction = UIAlertAction(title: "キャンセル",
                                          style: UIAlertAction.Style.cancel,
@@ -272,8 +285,9 @@ class MainViewController:
         let defaultAction = UIAlertAction(title: "OK",
                                           style: UIAlertAction.Style.default,
                                           handler:{(action: UIAlertAction!) in
-                                            self.nowEditAnnotationView = annotation
-                                            self.editAnnotation()
+                                            let mainStoryboard = UIStoryboard(name: "EditAnnotation", bundle: nil)
+                                            let builtStoryboard = mainStoryboard.instantiateViewController(withIdentifier: "edit")
+                                            self.present(builtStoryboard, animated: true, completion: nil)
         })
         let alert = UIAlertController(title: "ピンを登録",
                                       message: "楽曲を登録しますか？",
@@ -308,9 +322,15 @@ class MainViewController:
     
     // ログインボタン(ログイン中はユーザアイコン)を押した際の処理
     @IBAction func tapLoginButton(_ sender: UIButton) {
-        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let builtStoryboard = mainStoryboard.instantiateViewController(withIdentifier: "user")
-        self.present(builtStoryboard, animated: true, completion: nil)
+        if (userData.authUI.auth?.currentUser) != nil {
+            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let builtStoryboard = mainStoryboard.instantiateViewController(withIdentifier: "user")
+            self.present(builtStoryboard, animated: true, completion: nil)
+        }
+        else {
+            let authViewController = self.userData.authUI.authViewController()
+            self.present(authViewController, animated: true, completion: nil)
+        }
     }
     
 }

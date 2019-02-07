@@ -53,6 +53,10 @@
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="kf0-fv-pxt" secondAttribute="height" multiplier="1:1" id="W4r-Ba-yRM"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <state key="normal">
+                                            <color key="titleColor" red="1" green="0.49327188729999999" blue="0.47399842739999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                 <integer key="value" value="50"/>

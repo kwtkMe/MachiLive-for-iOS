@@ -10,12 +10,12 @@ import Foundation
 import UIKit
 import MediaPlayer
 
-struct STAnnotationViewData {
-    var locationName: String?
-    var songTitle: String?
-    var songArtist: String?
-    var songArtwork: UIImage?
-}
+//struct STAnnotationViewData {
+//    var locationName: String?
+//    var songTitle: String?
+//    var songArtist: String?
+//    var songArtwork: UIImage?
+//}
 
 class EditAnnotationViewController:
     UIViewController,
@@ -55,7 +55,7 @@ class EditAnnotationViewController:
     }
     
     /** ----------------------------------------------------------------------
-     # Media
+     # MPMediaPickerController()
      ---------------------------------------------------------------------- **/
     let picker = MPMediaPickerController()
     
@@ -79,11 +79,6 @@ class EditAnnotationViewController:
         // ピッカーを閉じ、破棄する
         dismiss(animated: true, completion: nil)
     }
-    
-    /** ----------------------------------------------------------------------
-     # AnnotationViewInfo
-     ---------------------------------------------------------------------- **/
-    var annotationViewInfo = STAnnotationViewData()
     
     /** ----------------------------------------------------------------------
      # locationnameField
@@ -138,10 +133,15 @@ class EditAnnotationViewController:
         }
         // バリデーション完了
         editAnnoatationData.editedAnnotationViewInfo
-            = STAnnotationViewData(locationName: locationnameField.text,
-                                   songTitle: songTitleLabel.text,
+            = STAnnotationViewData(songTitle: songTitleLabel.text,
                                   songArtist: songArtistLabel.text,
                                   songArtwork: songAlbumWorkImageView.image)
+        editAnnoatationData.editedSliderViewInfo
+            = STSliderViewData(locationName: locationnameField.text,
+                               songTitle: songTitleLabel.text,
+                               songArtist: songArtistLabel.text,
+                               songArtwork: songAlbumWorkImageView.image,
+                               coordinate: editAnnoatationData.coordinate)
         notification.post(name: .AnnotationEdited, object: nil)
     }
     

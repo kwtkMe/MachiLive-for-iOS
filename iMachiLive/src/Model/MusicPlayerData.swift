@@ -9,28 +9,11 @@
 import UIKit
 import MediaPlayer
 
-class MusicPlayerData:
-    NSObject
-{
+class MusicPlayerData: NSObject {
     /** ----------------------------------------------------------------------
      # MusicPlayerData()
      ---------------------------------------------------------------------- **/
     static let sharedInstance = MusicPlayerData()
-    
-    /** ----------------------------------------------------------------------
-     # sharedInstance
-     ---------------------------------------------------------------------- **/
-    // NotificationCenter
-    let notification = NotificationCenter.default
-    
-    deinit {
-        notification.removeObserver(self)
-        player.endGeneratingPlaybackNotifications()
-    }
-    
-    func initObservers() {
-        
-    }
     
     
     /** ----------------------------------------------------------------------
@@ -46,8 +29,6 @@ class MusicPlayerData:
         
         player = MPMusicPlayerController.systemMusicPlayer
         player.beginGeneratingPlaybackNotifications()
-        
-        initObservers()
     }
     
 }

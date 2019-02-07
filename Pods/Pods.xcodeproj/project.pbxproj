@@ -3272,7 +3272,6 @@
 		B1A2F99FE6D914346F8A09AA096DA651 /* filename.cc in Sources */ = {isa = PBXBuildFile; fileRef = D7612036502130E3C2A706FB2FDA4BA6 /* filename.cc */; settings = {COMPILER_FLAGS = "-DOS_MACOSX -DLEVELDB_PLATFORM_POSIX -fno-objc-arc"; }; };
 		B1B01B438BCA0B9B2FBAC716909286E5 /* NSImage+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 57C98A2E12A5D7D770F8026D2AED720E /* NSImage+WebCache.m */; };
 		B1B044C456E374049E05CC88644D41BB /* sockaddr_posix.h in Copy ../../src/core/lib/iomgr Private Headers */ = {isa = PBXBuildFile; fileRef = 702FA98A0235F129E2AAA7C2FACAEB00 /* sockaddr_posix.h */; };
-		B1B4746F80293038D7DCC57B16818E7D /* ic_account_circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 394C73FA36936D30D148A41BFB045A69 /* ic_account_circle.png */; };
 		B1C4CF3596001367FD1AAF8CBB2800F3 /* handshaker_factory.h in Headers */ = {isa = PBXBuildFile; fileRef = 2DE134418CC3621A8E3CA8F82E8ABD7A /* handshaker_factory.h */; };
 		B1D709D66BA7DEC0CDE0BC751DB1D4A2 /* FIRListenerRegistration.mm in Sources */ = {isa = PBXBuildFile; fileRef = 06E5474C7BA102399CBCEE1CBE9783F2 /* FIRListenerRegistration.mm */; settings = {COMPILER_FLAGS = "$(inherited) -Wreorder -Werror=reorder"; }; };
 		B2145A9680811A1F52AB011F7DBF37A1 /* FUIInputTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEC8B4860BA5776094E04D0295CCFC44 /* FUIInputTableViewCell.xib */; };
@@ -8651,7 +8650,6 @@
 		39345C9FE8BE5CDA6FBFCFE6DB38B43C /* GPBArray_PackagePrivate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GPBArray_PackagePrivate.h; path = objectivec/GPBArray_PackagePrivate.h; sourceTree = "<group>"; };
 		393E80E77F4CE014373FC736A4C110B4 /* FLeafNode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FLeafNode.h; path = Firebase/Database/Snapshot/FLeafNode.h; sourceTree = "<group>"; };
 		3946B258E66903679A2E10961846699A /* ic_visibility_off@3x.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = "ic_visibility_off@3x.png"; path = "FirebaseAuthUI/Resources/ic_visibility_off@3x.png"; sourceTree = "<group>"; };
-		394C73FA36936D30D148A41BFB045A69 /* ic_account_circle.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = ic_account_circle.png; path = FirebaseAuthUI/Resources/ic_account_circle.png; sourceTree = "<group>"; };
 		3973BD13641AC274626D16EFEC8977F6 /* aes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = aes.h; path = include/openssl/aes.h; sourceTree = "<group>"; };
 		3978B27052F2707EA951A56CE3C560B1 /* Write.pbobjc.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = Write.pbobjc.m; path = Firestore/Protos/objc/google/firestore/v1/Write.pbobjc.m; sourceTree = "<group>"; };
 		3987A4531A2825DB99B9B34887A9E099 /* FNamedNode.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FNamedNode.m; path = Firebase/Database/FNamedNode.m; sourceTree = "<group>"; };
@@ -8850,6 +8848,7 @@
 		45F6F0F840D1F8256013F554B666F433 /* err_data.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = err_data.c; sourceTree = "<group>"; };
 		460E8BFB4E8F2E2BFFD99E0C0C33C681 /* raw_logging.cc */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = raw_logging.cc; path = "Firestore/third_party/abseil-cpp/absl/base/internal/raw_logging.cc"; sourceTree = "<group>"; };
 		460EF53948C619FBDADE25BD97AE552D /* endpoint.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = endpoint.h; path = src/core/lib/iomgr/endpoint.h; sourceTree = "<group>"; };
+		4613357D220B09C3000DA268 /* ic_account_circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_account_circle.png; sourceTree = "<group>"; };
 		463AED7A769A8C7C9C7551BEE4C3380D /* ev_epollex_linux.cc */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = ev_epollex_linux.cc; path = src/core/lib/iomgr/ev_epollex_linux.cc; sourceTree = "<group>"; };
 		4640EA2536D90A9BE3FC40BBC3FF9D75 /* thread_identity.cc */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.cpp; name = thread_identity.cc; path = "Firestore/third_party/abseil-cpp/absl/base/internal/thread_identity.cc"; sourceTree = "<group>"; };
 		464EA3C4C46B95AE1FAD908B7B40DCFD /* comparison.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = comparison.h; path = Firestore/core/src/firebase/firestore/util/comparison.h; sourceTree = "<group>"; };
@@ -16582,7 +16581,7 @@
 				2DCE6A622885F8912EE2900EABAE4745 /* hi.lproj */,
 				FADD7DCD1931C6DADA4FDEF70CC9C9A5 /* hr.lproj */,
 				CC0A1C74487E6EB7BA4A7F5D349EDC8A /* hu.lproj */,
-				394C73FA36936D30D148A41BFB045A69 /* ic_account_circle.png */,
+				4613357D220B09C3000DA268 /* ic_account_circle.png */,
 				E34006363F1E9C7BF0DE6BCDF48D7636 /* ic_account_circle2x.png */,
 				282E39C49B48E962CEEA4CDCFDC87F22 /* ic_account_circle3x.png */,
 				51A88504471531499EE3D5B86F6A1EF4 /* ic_email.png */,
@@ -19391,7 +19390,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0930;
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 0930;
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -19503,7 +19502,6 @@
 				39FA5D920F4BFFCFCDA6A1D2082B0B46 /* hi.lproj in Resources */,
 				5EBD5A9E246727F34B7B7432A807023D /* hr.lproj in Resources */,
 				E85A3E5D63B30FF551C697E5C7D3C209 /* hu.lproj in Resources */,
-				B1B4746F80293038D7DCC57B16818E7D /* ic_account_circle.png in Resources */,
 				F12BDD306C006CA7395B2E129C748949 /* ic_account_circle2x.png in Resources */,
 				D26C82E447E8703E87B1A5AB5E2B0E96 /* ic_account_circle3x.png in Resources */,
 				3089B81BA1660F75AC0892920AB8C45C /* ic_email.png in Resources */,
@@ -22224,7 +22222,6 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Release;
