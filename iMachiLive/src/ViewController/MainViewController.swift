@@ -92,8 +92,9 @@ class MainViewController:
                    "songTitle": editAnnotationData.editedSliderViewInfo.songTitle!,
                    "songArtist": editAnnotationData.editedSliderViewInfo.songArtist!,
                    "songArtwork": editAnnotationData.editedSliderViewInfo.songArtwork?.toString() ?? "",
-                   "latitude": "\(String(describing: editAnnotationData.editedSliderViewInfo.coordinate!.latitude))",
-                   "longitude": "\(String(describing: editAnnotationData.editedSliderViewInfo.coordinate!.longitude))",
+                   "location":
+                    "\(String(describing: editAnnotationData.editedSliderViewInfo.coordinate!.latitude))" + ","
+                        + "\(String(describing: editAnnotationData.editedSliderViewInfo.coordinate!.longitude))",
                    "contributerUid": currentUser.uid]
             userData.ref.child(childPath).childByAutoId().setValue(post)
         }
@@ -130,6 +131,9 @@ class MainViewController:
     var sliderNormalView = NormalView()
     var sliderSelectedView = SelectedView()
     var sliderSelectedExView = SelectedExView()
+    var nowEditAnnotation: MKPointAnnotation!
+    var nowEditAnnotationPoint: CLLocationCoordinate2D!
+    var annoatationArray: [MKAnnotation]!
     // Tracks all running aninmators
     var state: SliderViewState = .normal
     var progressWhenInterrupted: CGFloat = 0
@@ -190,6 +194,19 @@ class MainViewController:
         let coordinateSpanDefault = MKCoordinateSpan(latitudeDelta: 1.0, longitudeDelta: 1.0)
         let regionDefault = MKCoordinateRegion(center: mapViewCenterDefault, span: coordinateSpanDefault)
         mainMapView.setRegion(regionDefault, animated:true)
+        // ピンを打つ
+        if let currentUser = userData.authUI.auth?.currentUser {
+            let childPath = "users/\(currentUser.uid)/pin"
+            
+            userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapShot) in
+                let value = snapShot.value as? NSDictionary
+                for location in value?["location"] as? String ?? "" {
+                    annoatationArray.append(location.toCLLocationCoordinate2D())
+                }
+                let location = value?["location"] as? String ?? ""
+            })
+        }
+        
     }
     
     private func addGestures() {
@@ -256,7 +273,6 @@ class MainViewController:
          - mapView()
             - IDの設定不要では
             - lattitude が一致する pin からアートワーク設定
-        
         **/
         let artworkImageView = UIImageView()
         artworkImageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
@@ -294,8 +310,6 @@ class MainViewController:
     /** ----------------------------------------------------------------------
      # UI actions
      ---------------------------------------------------------------------- **/
-    var nowEditAnnotation: MKPointAnnotation!
-    var nowEditAnnotationPoint : CLLocationCoordinate2D!
     // マップを長押しした際の処理
     @IBAction func longpressMap(_ sender: UILongPressGestureRecognizer) {
         // タップされた位置情報をもとに、アノテーションを作成
