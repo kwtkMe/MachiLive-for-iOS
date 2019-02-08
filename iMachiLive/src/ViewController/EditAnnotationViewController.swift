@@ -36,6 +36,25 @@ class EditAnnotationViewController:
         notification.removeObserver(self)
     }
     
+    @objc func handleAnnotationAddNotification(_ notification: Notification) {
+        
+    }
+    
+    @objc func handleAnnotationEditNotification(_ notification: Notification) {
+        
+    }
+    
+    func initObservers() {
+        notification.addObserver(self,
+                                 selector: #selector(handleAnnotationAddNotification(_:)),
+                                 name: .AnnotationAdd,
+                                 object: nil)
+        notification.addObserver(self,
+                                 selector: #selector(handleAnnotationEditNotification(_:)),
+                                 name: .AnnotationEdit,
+                                 object: nil)
+    }
+    
     /** ----------------------------------------------------------------------
      # UI settings
      ---------------------------------------------------------------------- **/
@@ -49,6 +68,8 @@ class EditAnnotationViewController:
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        initObservers()
         
         locationnameField.delegate = self
         picker.delegate = self
@@ -142,7 +163,7 @@ class EditAnnotationViewController:
                                songArtist: songArtistLabel.text,
                                songArtwork: songAlbumWorkImageView.image,
                                coordinate: editAnnoatationData.coordinate)
-        notification.post(name: .AnnotationEdited, object: nil)
+        notification.post(name: .AnnotationAdded, object: nil)
     }
     
     @IBAction func tapCancelButton(_ sender: UIButton) {

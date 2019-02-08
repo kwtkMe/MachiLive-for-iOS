@@ -77,11 +77,11 @@ class MainViewController:
      - Main: notification.post(name: .AnnotationEdited, object: nil)
         - firebase 更新
     **/
-    @objc func handleAnnotationEditedNotification(_ notification: Notification){
+    @objc func handleAnnotationAddedNotification(_ notification: Notification){
+        // 新規作成
         self.dismiss(animated: true) {
             self.nowEditAnnotation.title = self.editAnnotationData.editedAnnotationViewInfo.songTitle
-            self.nowEditAnnotation.subtitle =
-                self.editAnnotationData.editedAnnotationViewInfo.songArtist
+            self.nowEditAnnotation.subtitle = self.editAnnotationData.editedAnnotationViewInfo.songArtist
             self.mainMapView.addAnnotation(self.nowEditAnnotation)
         }
         // post to realtime database
@@ -93,17 +93,27 @@ class MainViewController:
                    "songArtist": editAnnotationData.editedSliderViewInfo.songArtist!,
                    "songArtwork": editAnnotationData.editedSliderViewInfo.songArtwork?.toString() ?? "",
                    "location":
-                    "\(String(describing: editAnnotationData.editedSliderViewInfo.coordinate!.latitude))" + ","
-                        + "\(String(describing: editAnnotationData.editedSliderViewInfo.coordinate!.longitude))",
+                    "\(String(describing: editAnnotationData.editedSliderViewInfo.coordinate!.latitude))"
+                    + ","
+                    + "\(String(describing: editAnnotationData.editedSliderViewInfo.coordinate!.longitude))",
                    "contributerUid": currentUser.uid]
             userData.ref.child(childPath).childByAutoId().setValue(post)
+            
         }
+    }
+    
+    @objc func handleAnnotationEditedNotification(_ notification: Notification) {
+        
     }
     
     func initObservers() {
         notification.addObserver(self,
                                  selector: #selector(handleLoginstateChangedNotification(_:)),
                                  name: .LoginstateChanged,
+                                 object: nil)
+        notification.addObserver(self,
+                                 selector: #selector(handleAnnotationAddedNotification(_:)),
+                                 name: .AnnotationAdded,
                                  object: nil)
         notification.addObserver(self,
                                  selector: #selector(handleAnnotationEditedNotification(_:)),
@@ -133,7 +143,6 @@ class MainViewController:
     var sliderSelectedExView = SelectedExView()
     var nowEditAnnotation: MKPointAnnotation!
     var nowEditAnnotationPoint: CLLocationCoordinate2D!
-    var annoatationArray: [MKAnnotation]!
     // Tracks all running aninmators
     var state: SliderViewState = .normal
     var progressWhenInterrupted: CGFloat = 0
@@ -183,7 +192,6 @@ class MainViewController:
         // locationManager
         locationManager = CLLocationManager()
         locationManager.delegate = self
-        if locationManager != nil { return }
         locationManager.requestWhenInUseAuthorization()
         // mainMapView
         mainMapView.delegate = self
@@ -197,13 +205,32 @@ class MainViewController:
         // ピンを打つ
         if let currentUser = userData.authUI.auth?.currentUser {
             let childPath = "users/\(currentUser.uid)/pin"
-            
-            userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapShot) in
-                let value = snapShot.value as? NSDictionary
-                for location in value?["location"] as? String ?? "" {
-                    annoatationArray.append(location.toCLLocationCoordinate2D())
+            userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
+                for item in snapshot.children {
+                    let child = item as! DataSnapshot
+                    let dic = child.value as! NSDictionary
+                    
+                    let strLocation = dic["location"] as! String
+                    let strLocationName = dic["locationName"] as! String
+                    let strSongTitle = dic["songTitle"] as! String
+                    let strSongArtist = dic["songArtist"] as! String
+                    let strSongArtwork = dic["songArtwork"] as! String
+                    
+                    let point: MKMapPoint = strLocation.toMKMapPoint()!
+                    let annotation = MKPointAnnotation()
+                    annotation.coordinate = CLLocationCoordinate2DMake(point.x, point.y)
+                    
+                    self.editAnnotationData.editedSliderViewInfo
+                        = STSliderViewData(locationName: strLocationName,
+                                           songTitle: strSongTitle,
+                                           songArtist: strSongArtist,
+                                           songArtwork: strSongArtwork.toImage(),
+                                           coordinate: annotation.coordinate)
+                    
+                    annotation.title = strSongTitle
+                    annotation.subtitle = strSongArtist
+                    self.mainMapView.addAnnotation(annotation)
                 }
-                let location = value?["location"] as? String ?? ""
             })
         }
         
@@ -253,40 +280,29 @@ class MainViewController:
         let annotationView = MKPinAnnotationView(annotation: annotation,
                                                  reuseIdentifier: annotationID)
         
-        // アートワークを leftCalloutAccessoryView に追加
-        /**
-         # 新規登録と読み込みの差別化
-         ## マップ上で発火するパターン(新規登録)
-         ### 読み込み手順
-         - addAnnotation()
-             - Main: notification.post(name: .AnnotationAdded, object: nil)
-             - nowEditなんとか を追加
-         - mapView()
-            - 新規なんだからfirebaseでヒットしないはず(else的な)
-            - editAnnotation.# から取ってくる
-         ## データを読んだパターン
-         ### 読み込み手順
-         - addAnnotation()を繰り返す
-            - firebaseから取り出し
-            - ロケーションで特定したannotationを追加(addAnnotation())
-                - title, subbtitleを設定
-         - mapView()
-            - IDの設定不要では
-            - lattitude が一致する pin からアートワーク設定
-        **/
         let artworkImageView = UIImageView()
         artworkImageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         if let artwork = editAnnotationData.editedAnnotationViewInfo.songArtwork {
             artworkImageView.image = artwork
         } else {
             artworkImageView.image = nil
-            artworkImageView.backgroundColor = .lightGray
+            artworkImageView.backgroundColor = .red
         }
         annotationView.leftCalloutAccessoryView = artworkImageView
         annotationView.canShowCallout = true
         annotationView.animatesDrop = true
         
         return annotationView
+    }
+    
+    // ピンをタップした
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        print("hello")
+    }
+    
+    // ピンをタップした後に他の場所をタップした
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        print("bye")
     }
     
     // ピンの削除ボタンを押下した時
