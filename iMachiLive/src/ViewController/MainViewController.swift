@@ -40,10 +40,9 @@ class MainViewController:
         notification.removeObserver(self)
     }
 
-    // ログインした場合
+    // ビューを再設定したい
     @objc func handleLoginstateChangedNotification(_ notification: Notification) {
         if let currentUser = userData.authUI.auth?.currentUser {
-            // アイコンの表示
             let avatarUrl = currentUser.photoURL
             do {
                 let data = try Data(contentsOf: avatarUrl!)
@@ -53,7 +52,6 @@ class MainViewController:
             } catch let err {
                 print("Error : \(err.localizedDescription)")
             }
-            // ユーザ登録？
         } else {
             self.dismiss(animated: true) {let image = UIImage(named: "ic_account_circle")
                 self.loginButton.setImage(image, for: .normal)
@@ -63,47 +61,34 @@ class MainViewController:
         }
     }
     
-    // アノテーションの編集が行われた場合
-    /**
-     # 新規作成or編集で処理を切り分ける
-     ## 新規作成
-     - EditAnnotation: notification.post(name: .AnnotationAdd, object: nil)
-        - マップの長押しで発火
-     - Main: notification.post(name: .AnnotationAdded, object: nil)
-        - firebase 削除せずに追加
-     # 編集
-     - EditAnnotation: notification.post(name: .AnnotationEdit, object: nil)
-        - 編集ボタンで発火
-     - Main: notification.post(name: .AnnotationEdited, object: nil)
-        - firebase 更新
-    **/
+    // マップの長押しで発火
     @objc func handleAnnotationAddedNotification(_ notification: Notification){
-        // 新規作成
         self.dismiss(animated: true) {
-            self.nowEditAnnotation.title = self.editAnnotationData.editedAnnotationViewInfo.songTitle
-            self.nowEditAnnotation.subtitle = self.editAnnotationData.editedAnnotationViewInfo.songArtist
+            self.nowEditAnnotation.title = self.editAnnotationData.editAnnotationInfo.songTitle
+            self.nowEditAnnotation.subtitle = self.editAnnotationData.editAnnotationInfo.songArtist
             self.mainMapView.addAnnotation(self.nowEditAnnotation)
         }
         // post to realtime database
         if let currentUser = userData.authUI.auth?.currentUser {
             let childPath = "users/\(currentUser.uid)/pin"
             let post
-                = ["locationName": editAnnotationData.editedSliderViewInfo.locationName!,
-                   "songTitle": editAnnotationData.editedSliderViewInfo.songTitle!,
-                   "songArtist": editAnnotationData.editedSliderViewInfo.songArtist!,
-                   "songArtwork": editAnnotationData.editedSliderViewInfo.songArtwork?.toString() ?? "",
+                = ["locationName": editAnnotationData.editAnnotationInfo.locationName!,
+                   "songTitle": editAnnotationData.editAnnotationInfo.songTitle!,
+                   "songArtist": editAnnotationData.editAnnotationInfo.songArtist!,
+                   "songArtwork": editAnnotationData.editAnnotationInfo.songArtwork?.toString() ?? "",
                    "location":
-                    "\(String(describing: editAnnotationData.editedSliderViewInfo.coordinate!.latitude))"
+                    "\(String(describing: editAnnotationData.editAnnotationInfo.coordinate!.latitude))"
                     + ","
-                    + "\(String(describing: editAnnotationData.editedSliderViewInfo.coordinate!.longitude))",
+                    + "\(String(describing: editAnnotationData.editAnnotationInfo.coordinate!.longitude))",
                    "contributerUid": currentUser.uid]
             userData.ref.child(childPath).childByAutoId().setValue(post)
             
         }
     }
     
+    // 編集ボタンで発火
     @objc func handleAnnotationEditedNotification(_ notification: Notification) {
-        
+        // 削除して handleAnnotationAddedNotification() を呼ぶ
     }
     
     func initObservers() {
@@ -207,28 +192,18 @@ class MainViewController:
             let childPath = "users/\(currentUser.uid)/pin"
             userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
                 for item in snapshot.children {
-                    let child = item as! DataSnapshot
-                    let dic = child.value as! NSDictionary
-                    
-                    let strLocation = dic["location"] as! String
-                    let strLocationName = dic["locationName"] as! String
-                    let strSongTitle = dic["songTitle"] as! String
-                    let strSongArtist = dic["songArtist"] as! String
-                    let strSongArtwork = dic["songArtwork"] as! String
-                    
-                    let point: MKMapPoint = strLocation.toMKMapPoint()!
+                    let child = Pin(snapshot: item as! DataSnapshot)
                     let annotation = MKPointAnnotation()
-                    annotation.coordinate = CLLocationCoordinate2DMake(point.x, point.y)
-                    
-                    self.editAnnotationData.editedSliderViewInfo
-                        = STSliderViewData(locationName: strLocationName,
-                                           songTitle: strSongTitle,
-                                           songArtist: strSongArtist,
-                                           songArtwork: strSongArtwork.toImage(),
+                    annotation.coordinate
+                        = CLLocationCoordinate2DMake((child?.location!.x)!, (child?.location!.y)!)
+                    self.editAnnotationData.editAnnotationInfo
+                        = STAnnotationData(locationName: child?.locationName,
+                                           songTitle: child?.songTitle,
+                                           songArtist: child?.songArtist,
+                                           songArtwork: child?.songArtwork,
                                            coordinate: annotation.coordinate)
-                    
-                    annotation.title = strSongTitle
-                    annotation.subtitle = strSongArtist
+                    annotation.title = child?.songTitle
+                    annotation.subtitle = child?.songArtist
                     self.mainMapView.addAnnotation(annotation)
                 }
             })
@@ -282,7 +257,7 @@ class MainViewController:
         
         let artworkImageView = UIImageView()
         artworkImageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        if let artwork = editAnnotationData.editedAnnotationViewInfo.songArtwork {
+        if let artwork = editAnnotationData.editAnnotationInfo.songArtwork {
             artworkImageView.image = artwork
         } else {
             artworkImageView.image = nil

@@ -153,12 +153,8 @@ class EditAnnotationViewController:
 //            present(alert, animated: true, completion: nil)
         }
         // バリデーション完了
-        editAnnoatationData.editedAnnotationViewInfo
-            = STAnnotationViewData(songTitle: songTitleLabel.text,
-                                  songArtist: songArtistLabel.text,
-                                  songArtwork: songAlbumWorkImageView.image)
-        editAnnoatationData.editedSliderViewInfo
-            = STSliderViewData(locationName: locationnameField.text,
+        editAnnoatationData.editAnnotationInfo
+            = STAnnotationData(locationName: locationnameField.text,
                                songTitle: songTitleLabel.text,
                                songArtist: songArtistLabel.text,
                                songArtwork: songAlbumWorkImageView.image,

@@ -11,13 +11,7 @@ import UIKit
 import CoreLocation
 import MapKit
 
-struct STAnnotationViewData {
-    var songTitle: String?
-    var songArtist: String?
-    var songArtwork: UIImage?
-}
-
-public struct STSliderViewData {
+public struct STAnnotationData {
     var locationName: String?
     var songTitle: String?
     var songArtist: String?

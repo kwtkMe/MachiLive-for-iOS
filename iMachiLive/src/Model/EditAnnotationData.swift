@@ -23,8 +23,7 @@ class EditAnnotationData: NSObject {
      # init()
      ---------------------------------------------------------------------- **/
     private override init() {
-        editedAnnotationViewInfo = STAnnotationViewData()
-        editedSliderViewInfo = STSliderViewData()
+        editAnnotationInfo = STAnnotationData()
         
         super.init()
     }
@@ -32,8 +31,7 @@ class EditAnnotationData: NSObject {
     /** ----------------------------------------------------------------------
      # annotationView
      ---------------------------------------------------------------------- **/
-    var editedAnnotationViewInfo: STAnnotationViewData
-    var editedSliderViewInfo: STSliderViewData
+    var editAnnotationInfo: STAnnotationData
     
     var coordinate: CLLocationCoordinate2D?
 }
