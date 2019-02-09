@@ -20,35 +20,21 @@
             <rect key="frame" x="0.0" y="0.0" width="365" height="71"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="horizontal-line" translatesAutoresizingMaskIntoConstraints="NO" id="KVi-Tr-Dzh">
-                    <rect key="frame" x="0.0" y="0.0" width="365" height="20"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="20" id="bi7-du-udA"/>
-                    </constraints>
-                </imageView>
                 <searchBar contentMode="redraw" barStyle="black" placeholder="地名を検索" translatesAutoresizingMaskIntoConstraints="NO" id="jJd-6d-BlV">
-                    <rect key="frame" x="0.0" y="20" width="365" height="56"/>
+                    <rect key="frame" x="0.0" y="0.0" width="365" height="71"/>
                     <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <textInputTraits key="textInputTraits"/>
                 </searchBar>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="KVi-Tr-Dzh" firstAttribute="leading" secondItem="dkt-dN-rG4" secondAttribute="leading" id="8Rt-9M-W7m"/>
                 <constraint firstItem="jJd-6d-BlV" firstAttribute="leading" secondItem="dkt-dN-rG4" secondAttribute="leading" id="N6B-SI-gkl"/>
-                <constraint firstAttribute="trailing" secondItem="KVi-Tr-Dzh" secondAttribute="trailing" id="OsY-MN-4Lw"/>
-                <constraint firstItem="jJd-6d-BlV" firstAttribute="top" secondItem="dkt-dN-rG4" secondAttribute="top" constant="20" id="f54-AN-5gS"/>
-                <constraint firstItem="jJd-6d-BlV" firstAttribute="top" secondItem="KVi-Tr-Dzh" secondAttribute="bottom" id="nJE-Y4-nxK"/>
+                <constraint firstItem="jJd-6d-BlV" firstAttribute="top" secondItem="dkt-dN-rG4" secondAttribute="top" id="f54-AN-5gS"/>
                 <constraint firstAttribute="trailing" secondItem="jJd-6d-BlV" secondAttribute="trailing" id="pZe-cK-sSm"/>
-                <constraint firstItem="KVi-Tr-Dzh" firstAttribute="top" secondItem="dkt-dN-rG4" secondAttribute="top" id="tzt-ZU-yqX"/>
+                <constraint firstAttribute="bottom" secondItem="jJd-6d-BlV" secondAttribute="bottom" id="prU-2g-GKp"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="xqp-no-FTE"/>
             <point key="canvasLocation" x="639.20000000000005" y="-115.59220389805098"/>
         </view>
     </objects>
-    <resources>
-        <image name="horizontal-line" width="45" height="45"/>
-    </resources>
 </document>

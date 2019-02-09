@@ -176,12 +176,12 @@ class MainViewController:
         loginButton.layer.masksToBounds = true
         
         // スライダービューの初期設定
-        self.view.addSubview(slideView)
         slideView.layer.cornerRadius = 10
         slideView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         slideView.layer.masksToBounds = true
         slideNormalView.backgroundColor = .white
         slideView.frame = collapsedFrame()
+        self.view.addSubview(slideView)
         
         // スライダービューの子要素ビューの初期設定
         slideNormalView.layer.cornerRadius = 10
@@ -194,7 +194,7 @@ class MainViewController:
         slideSelectedView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         slideSelectedView.layer.masksToBounds = true
         slideSelectedView.frame
-            = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 60)
+            = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 80)
         
         slideSelectedExView.frame
             = CGRect(x: 0, y: 60, width: self.view.frame.width, height: 500)
@@ -263,12 +263,14 @@ class MainViewController:
         
     }
     
-    func changeNextState() -> SlideViewState{
+    //！()
+    func changeNextState() -> SlideViewState {
         switch self.state {
         case .normal:
-            self.state = .selected
+            return .selected
         case .selected:
-            
+            return .normal
+        }
     }
     
     // MARK: Gesture
@@ -316,14 +318,20 @@ class MainViewController:
         return annotationView
     }
     
-    // ピンをタップした
+    // ビューの処理に専念する
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         print("hello")
+        
+        slideNormalView.removeFromSuperview()
+        slideView.addSubview(slideSelectedView)
     }
     
-    // ピンをタップした後に他の場所をタップした
+    // ビューの処理に専念する
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         print("bye")
+        
+        slideSelectedView.removeFromSuperview()
+        slideView.addSubview(slideNormalView)
     }
     
     // ピンの削除ボタンを押下した時
