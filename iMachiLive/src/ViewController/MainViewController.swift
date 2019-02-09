@@ -43,15 +43,8 @@ class MainViewController:
     // ビューを再設定したい
     @objc func handleLoginstateChangedNotification(_ notification: Notification) {
         if let currentUser = userData.authUI.auth?.currentUser {
-            let avatarUrl = currentUser.photoURL
-            do {
-                let data = try Data(contentsOf: avatarUrl!)
-                let image = UIImage(data: data)
-                loginButton.setImage(image, for: UIControl.State())
-                print("login")
-            } catch let err {
-                print("Error : \(err.localizedDescription)")
-            }
+            let image = currentUser.photoURL?.toUIImage()
+            loginButton.setImage(image, for: UIControl.State())
         } else {
             self.dismiss(animated: true) {let image = UIImage(named: "ic_account_circle")
                 self.loginButton.setImage(image, for: .normal)
@@ -303,6 +296,7 @@ class MainViewController:
                     }
                 }
             })
+            annotationView.image = currentUser.photoURL?.toUIImage()
         }
         annotationView.leftCalloutAccessoryView = artworkImageView
         annotationView.canShowCallout = true

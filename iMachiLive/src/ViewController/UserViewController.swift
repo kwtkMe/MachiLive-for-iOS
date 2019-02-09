@@ -46,14 +46,7 @@ class UserViewController: UIViewController {
     func setupUserView() {
         if let currentUser = userData.authUI.auth?.currentUser {
             // アイコンの表示
-            let avatarUrl = currentUser.photoURL
-            do {
-                let data = try Data(contentsOf: avatarUrl!)
-                let image = UIImage(data: data)
-                avatarImageView.image = image
-            }catch let err {
-                print("Error : \(err.localizedDescription)")
-            }
+            avatarImageView.image = currentUser.photoURL?.toUIImage()
             // ユーザ名の取得
             let userName = currentUser.displayName
             usernameLabel.text = userName
