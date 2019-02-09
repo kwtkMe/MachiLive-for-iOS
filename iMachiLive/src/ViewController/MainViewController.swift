@@ -13,10 +13,9 @@ import MediaPlayer
 import Firebase
 import FirebaseUI
 
-enum SliderViewState {
+enum SlideViewState {
     case normal
     case selected
-    case selectedEx
 }
 
 class MainViewController:
@@ -103,7 +102,7 @@ class MainViewController:
             var targetPinId = ""
             userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
                 for item in snapshot.children {
-                    let child = Pin(snapshot: item as! DataSnapshot)
+                    let child = STPin(snapshot: item as! DataSnapshot)
                     let annotationCoordinate = CLLocationCoordinate2DMake((child?.location?.x)!,(child?.location!.y)!)
                     if(annotationCoordinate.latitude == self.nowEditAnnotation.coordinate.latitude) {
                         targetPinId = (child?.pinId)!
@@ -148,18 +147,18 @@ class MainViewController:
     var locationManager: CLLocationManager!
     var player: MPMusicPlayerController!
     // Constant
-    let sliderView_collapsed_Height: CGFloat = 80.0
-    let sliderView_expanded_Height: CGFloat = 500.0
+    let slideView_collapsed_Height: CGFloat = 80.0
+    let slideView_expanded_Height: CGFloat = 500.0
     let animatorDuration: TimeInterval = 1
     // UI
-    var sliderView = UIView()
-    var sliderNormalView = NormalView()
-    var sliderSelectedView = SelectedView()
-    var sliderSelectedExView = SelectedExView()
+    var slideView = UIView()
+    var slideNormalView = NormalView()
+    var slideSelectedView = SelectedView()
+    var slideSelectedExView = SelectedExView()
     var nowEditAnnotation: MKPointAnnotation!
     var nowEditAnnotationPoint: CLLocationCoordinate2D!
     // Tracks all running aninmators
-    var state: SliderViewState = .normal
+    var state: SlideViewState = .normal
     var progressWhenInterrupted: CGFloat = 0
     var runningAnimators = [UIViewPropertyAnimator]()
     
@@ -177,30 +176,30 @@ class MainViewController:
         loginButton.layer.masksToBounds = true
         
         // スライダービューの初期設定
-        self.view.addSubview(sliderView)
-        sliderView.layer.cornerRadius = 10
-        sliderView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        sliderView.layer.masksToBounds = true
-        sliderNormalView.backgroundColor = .white
-        sliderView.frame = collapsedFrame()
+        self.view.addSubview(slideView)
+        slideView.layer.cornerRadius = 10
+        slideView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        slideView.layer.masksToBounds = true
+        slideNormalView.backgroundColor = .white
+        slideView.frame = collapsedFrame()
         
         // スライダービューの子要素ビューの初期設定
-        sliderNormalView.layer.cornerRadius = 10
-        sliderNormalView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        sliderNormalView.layer.masksToBounds = true
-        sliderNormalView.frame
+        slideNormalView.layer.cornerRadius = 10
+        slideNormalView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        slideNormalView.layer.masksToBounds = true
+        slideNormalView.frame
             = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 80)
         
-        sliderSelectedView.layer.cornerRadius = 10
-        sliderSelectedView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        sliderSelectedView.layer.masksToBounds = true
-        sliderSelectedView.frame
+        slideSelectedView.layer.cornerRadius = 10
+        slideSelectedView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        slideSelectedView.layer.masksToBounds = true
+        slideSelectedView.frame
             = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 60)
         
-        sliderSelectedExView.frame
+        slideSelectedExView.frame
             = CGRect(x: 0, y: 60, width: self.view.frame.width, height: 500)
         
-        sliderView.addSubview(sliderNormalView)
+        slideView.addSubview(slideNormalView)
     }
     
     private func initSubviewConfiguration() {
@@ -222,7 +221,7 @@ class MainViewController:
             let childPath = "users/\(currentUser.uid)/pin"
             userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
                 for item in snapshot.children {
-                    let child = Pin(snapshot: item as! DataSnapshot)
+                    let child = STPin(snapshot: item as! DataSnapshot)
                     let annotation = MKPointAnnotation()
                     annotation.coordinate
                         = CLLocationCoordinate2DMake((child?.location!.x)!, (child?.location!.y)!)
@@ -237,27 +236,39 @@ class MainViewController:
     
     private func addGestures() {
         // Tap gesture
-        sliderView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleTapGesture(_:))))
+        slideView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleTapGesture(_:))))
         
         // Pan gesutre
-        sliderView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.handlePanGesture(_:))))
+        slideView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.handlePanGesture(_:))))
     }
     
     private func collapsedFrame() -> CGRect {
         return CGRect(
             x: 0,
-            y: self.view.frame.height - sliderView_collapsed_Height,
+            y: self.view.frame.height - slideView_collapsed_Height,
             width: self.view.frame.width,
-            height: sliderView_collapsed_Height)
+            height: slideView_collapsed_Height)
     }
     
     private func expandedFrame() -> CGRect {
         return CGRect(
             x: 0,
-            y: self.view.frame.height - sliderView_expanded_Height,
+            y: self.view.frame.height - slideView_expanded_Height,
             width: self.view.frame.width,
-            height: sliderView_expanded_Height
+            height: slideView_expanded_Height
         )
+    }
+    
+    func replaseSlideViewContents() {
+        
+    }
+    
+    func changeNextState() -> SlideViewState{
+        switch self.state {
+        case .normal:
+            self.state = .selected
+        case .selected:
+            
     }
     
     // MARK: Gesture
@@ -285,7 +296,7 @@ class MainViewController:
             let childPath = "users/\(currentUser.uid)/pin"
             userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
                 for item in snapshot.children {
-                    let child = Pin(snapshot: item as! DataSnapshot)
+                    let child = STPin(snapshot: item as! DataSnapshot)
                     let annotationCoordinate = CLLocationCoordinate2DMake((child?.location?.x)!,(child?.location!.y)!)
                     if(annotationCoordinate.latitude == annotation.coordinate.latitude) {
                         artworkImageView.image = child?.songArtwork

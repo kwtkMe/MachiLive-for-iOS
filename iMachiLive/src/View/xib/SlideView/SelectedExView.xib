@@ -12,7 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SelectedExView" customModule="iMachiLive" customModuleProvider="target"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" ambiguous="YES" id="iN0-l3-epB">
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="247" height="389"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -94,12 +94,10 @@
                         <constraint firstItem="bKL-Vy-Eec" firstAttribute="centerY" secondItem="dbf-Li-05a" secondAttribute="centerY" id="1dh-K0-vwD"/>
                         <constraint firstItem="oEY-4t-82C" firstAttribute="top" secondItem="dbf-Li-05a" secondAttribute="top" constant="8" id="Bgr-kt-5Rx"/>
                         <constraint firstItem="oEY-4t-82C" firstAttribute="top" secondItem="dbf-Li-05a" secondAttribute="topMargin" id="Bi0-0f-MR3"/>
-                        <constraint firstItem="YV5-Zk-u72" firstAttribute="top" secondItem="oEY-4t-82C" secondAttribute="bottom" constant="6" id="FZx-Fa-zEq"/>
                         <constraint firstItem="oEY-4t-82C" firstAttribute="leading" secondItem="bKL-Vy-Eec" secondAttribute="trailing" constant="8" symbolic="YES" id="VdZ-GN-jyb"/>
                         <constraint firstItem="bKL-Vy-Eec" firstAttribute="leading" secondItem="dbf-Li-05a" secondAttribute="leading" constant="16" id="b2F-kO-TEF"/>
                         <constraint firstItem="YV5-Zk-u72" firstAttribute="leading" secondItem="bKL-Vy-Eec" secondAttribute="trailing" constant="8" id="lsS-GD-lpH"/>
                         <constraint firstItem="YV5-Zk-u72" firstAttribute="bottom" secondItem="dbf-Li-05a" secondAttribute="bottomMargin" id="n8a-Hj-Oez"/>
-                        <constraint firstAttribute="height" constant="80" id="vIZ-Xs-4vt"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gee-Zq-ESa">
@@ -123,9 +121,8 @@
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="gee-Zq-ESa" secondAttribute="trailing" constant="16" id="DNm-6r-pDm"/>
                 <constraint firstItem="dbf-Li-05a" firstAttribute="trailing" secondItem="7NR-L0-qxD" secondAttribute="trailing" id="Dps-Z4-hzO"/>
                 <constraint firstItem="gee-Zq-ESa" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="Ei8-Qf-ZPb"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="gee-Zq-ESa" secondAttribute="bottom" constant="25" id="LML-fe-EN9"/>
                 <constraint firstAttribute="trailing" secondItem="7NR-L0-qxD" secondAttribute="trailing" id="LhB-2c-GFS"/>
-                <constraint firstItem="dbf-Li-05a" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="QfU-ki-Hfc"/>
-                <constraint firstItem="7NR-L0-qxD" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="WCm-Kp-AzR"/>
                 <constraint firstItem="dbf-Li-05a" firstAttribute="top" secondItem="7NR-L0-qxD" secondAttribute="bottom" constant="10" id="WFy-cu-8pi"/>
                 <constraint firstItem="7NR-L0-qxD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Yyc-rP-mnX"/>
                 <constraint firstItem="64n-o3-OYZ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="qBW-2W-UUC"/>
