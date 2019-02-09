@@ -25,7 +25,7 @@ public struct STPin {
     let songTitle: String?
     let songArtist: String?
     let songArtwork: UIImage?
-    let location: MKMapPoint?
+    let coordinate: CLLocationCoordinate2D?
     let contributeUid: String?
     let contributeDate: String?
     let pinId: String?
@@ -45,7 +45,7 @@ public struct STPin {
         self.songTitle = songTitle
         self.songArtist = songArtist
         self.songArtwork = strsongArtwork.toImage()
-        self.location = strLocation.toMKMapPoint()
+        self.coordinate = strLocation.toCLLocationCoordinate2D()
         self.contributeUid = contributeUid
         self.contributeDate = contributeDate
         self.pinId = pinId

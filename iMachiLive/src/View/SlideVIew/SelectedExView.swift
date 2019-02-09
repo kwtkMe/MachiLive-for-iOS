@@ -10,6 +10,16 @@ import UIKit
 
 class SelectedExView: UIView {
 
+    
+    @IBOutlet weak var songartworkImageView: UIImageView!
+    @IBOutlet weak var songtitleLabel: UILabel!
+    @IBOutlet weak var songartistLabel: UILabel!
+    @IBOutlet weak var contributernameLabel: UILabel!
+    
+    @IBOutlet weak var contributedateLabel: UILabel!
+    @IBOutlet weak var deleteButton: UIButton!
+    
+    
     // コードから初期化
     override init(frame: CGRect) {
         super.init(frame: frame)

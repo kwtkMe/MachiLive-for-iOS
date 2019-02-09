@@ -25,14 +25,16 @@ extension String {
         return nil
     }
     
-    func toMKMapPoint() -> MKMapPoint? {
+    func toCLLocationCoordinate2D() -> CLLocationCoordinate2D? {
         let separated = self.split(separator: ",")
         let strLattitude = separated[0]
         let strLongitude = separated[1]
         let point: MKMapPoint
             = MKMapPoint(x: (strLattitude as NSString).doubleValue,
                          y: (strLongitude as NSString).doubleValue)
-        return point
+        let location: CLLocationCoordinate2D
+            = CLLocationCoordinate2DMake(point.x, point.y)
+        return location
     }
 }
 

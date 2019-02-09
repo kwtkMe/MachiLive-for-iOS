@@ -10,7 +10,11 @@ import UIKit
 
 class SelectedView: UIView {
 
-    @IBOutlet weak var localnameLabel: UILabel!
+    @IBOutlet weak var locationnameLabel: UILabel!
+    
+    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var shareButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
     
     
     // コードから初期化

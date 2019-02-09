@@ -95,24 +95,22 @@ class MainViewController:
     
     // 削除ボタンで発火
     @objc func handleAnnotationRemovedNotification(_ notification: Notification) {
-        self.mainMapView.removeAnnotation(self.nowEditAnnotation)
-        
         if let currentUser = userData.authUI.auth?.currentUser {
             let childPath = "users/\(currentUser.uid)/pin"
-            var targetPinId = ""
             userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
                 for item in snapshot.children {
                     let child = STPin(snapshot: item as! DataSnapshot)
-                    let annotationCoordinate = CLLocationCoordinate2DMake((child?.location?.x)!,(child?.location!.y)!)
-                    if(annotationCoordinate.latitude == self.nowEditAnnotation.coordinate.latitude) {
-                        targetPinId = (child?.pinId)!
+                    let targetPinId = (child?.pinId)!
+                    let annotationCoordinate = child?.coordinate
+                    if(annotationCoordinate?.latitude == self.nowEditAnnotation.coordinate.latitude) {
+                        self.userData.ref.child(childPath).child(targetPinId).removeValue()
+                        self.mainMapView.removeAnnotation(self.nowEditAnnotation)
                         break
                     } else {
                         //
                     }
                 }
             })
-            userData.ref.child(childPath).child(targetPinId).removeValue()
         }
     }
     
@@ -175,7 +173,7 @@ class MainViewController:
         loginButton.layer.cornerRadius = 20
         loginButton.layer.masksToBounds = true
         
-        // スライダービューの初期設定
+        // スライドビューの初期設定
         slideView.layer.cornerRadius = 10
         slideView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         slideView.layer.masksToBounds = true
@@ -183,7 +181,7 @@ class MainViewController:
         slideView.frame = collapsedFrame()
         self.view.addSubview(slideView)
         
-        // スライダービューの子要素ビューの初期設定
+        // スライドビューの子要素ビューの初期設定
         slideNormalView.layer.cornerRadius = 10
         slideNormalView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         slideNormalView.layer.masksToBounds = true
@@ -223,8 +221,7 @@ class MainViewController:
                 for item in snapshot.children {
                     let child = STPin(snapshot: item as! DataSnapshot)
                     let annotation = MKPointAnnotation()
-                    annotation.coordinate
-                        = CLLocationCoordinate2DMake((child?.location!.x)!, (child?.location!.y)!)
+                    annotation.coordinate = (child?.coordinate)!
                     annotation.title = child?.songTitle
                     annotation.subtitle = child?.songArtist
                     self.mainMapView.addAnnotation(annotation)
@@ -299,8 +296,8 @@ class MainViewController:
             userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
                 for item in snapshot.children {
                     let child = STPin(snapshot: item as! DataSnapshot)
-                    let annotationCoordinate = CLLocationCoordinate2DMake((child?.location?.x)!,(child?.location!.y)!)
-                    if(annotationCoordinate.latitude == annotation.coordinate.latitude) {
+                    let annotationCoordinate = child?.coordinate
+                    if(annotationCoordinate?.latitude == annotation.coordinate.latitude) {
                         artworkImageView.image = child?.songArtwork
                         break
                     } else {
@@ -320,9 +317,24 @@ class MainViewController:
     
     // ビューの処理に専念する
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        print("hello")
+        let subViews = slideView.subviews
+        for subview in subViews {
+            subview.removeFromSuperview()
+        }
+        if let currentUser = userData.authUI.auth?.currentUser {
+            let childPath = "users/\(currentUser.uid)/pin"
+            userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
+                for item in snapshot.children {
+                    let child = STPin(snapshot: item as! DataSnapshot)
+                    let annotationCoordinate = child?.coordinate
+                    if(annotationCoordinate?.latitude == view.annotation!.coordinate.latitude) {
+                        self.slideSelectedView.locationnameLabel.text = child?.locationName
+                        break
+                    }
+                }
+            })
+        }
         
-        slideNormalView.removeFromSuperview()
         slideView.addSubview(slideSelectedView)
     }
     
@@ -330,7 +342,10 @@ class MainViewController:
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         print("bye")
         
-        slideSelectedView.removeFromSuperview()
+        let subViews = slideView.subviews
+        for subview in subViews {
+            subview.removeFromSuperview()
+        }
         slideView.addSubview(slideNormalView)
     }
     
