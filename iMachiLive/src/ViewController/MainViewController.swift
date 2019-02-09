@@ -61,34 +61,67 @@ class MainViewController:
         }
     }
     
-    // マップの長押しで発火
+    // マップの長押しで発火(EditAnnotationViewController 経由)
     @objc func handleAnnotationAddedNotification(_ notification: Notification){
-        self.dismiss(animated: true) {
-            self.nowEditAnnotation.title = self.editAnnotationData.editAnnotationInfo.songTitle
-            self.nowEditAnnotation.subtitle = self.editAnnotationData.editAnnotationInfo.songArtist
-            self.mainMapView.addAnnotation(self.nowEditAnnotation)
-        }
+        self.dismiss(animated: true)
+        // ピンを打つ(新規)
+        self.nowEditAnnotation.title = self.editAnnotationData.editAnnotationInfo.songTitle
+        self.nowEditAnnotation.subtitle = self.editAnnotationData.editAnnotationInfo.songArtist
+        self.mainMapView.addAnnotation(self.nowEditAnnotation)
+        
         // post to realtime database
         if let currentUser = userData.authUI.auth?.currentUser {
             let childPath = "users/\(currentUser.uid)/pin"
+            // childByAutoId() のリファレンス
+            let autoId = userData.ref.child(childPath).childByAutoId().key
+            let nowDate = NSDate()
             let post
                 = ["locationName": editAnnotationData.editAnnotationInfo.locationName!,
                    "songTitle": editAnnotationData.editAnnotationInfo.songTitle!,
                    "songArtist": editAnnotationData.editAnnotationInfo.songArtist!,
                    "songArtwork": editAnnotationData.editAnnotationInfo.songArtwork?.toString() ?? "",
                    "location":
-                    "\(String(describing: editAnnotationData.editAnnotationInfo.coordinate!.latitude))"
-                    + ","
-                    + "\(String(describing: editAnnotationData.editAnnotationInfo.coordinate!.longitude))",
-                   "contributerUid": currentUser.uid]
-            userData.ref.child(childPath).childByAutoId().setValue(post)
-            
+                        "\(String(describing: editAnnotationData.editAnnotationInfo.coordinate!.latitude))"
+                        + ","
+                        + "\(String(describing: editAnnotationData.editAnnotationInfo.coordinate!.longitude))",
+                   "contributeUid": currentUser.uid,
+                   "contributeDate": "\(String(describing: nowDate))",
+                   "pinId": "\(autoId!)"]
+            userData.ref.child(childPath).child(autoId!).setValue(post)
         }
     }
     
-    // 編集ボタンで発火
+    // 編集ボタンで発火(EditAnnotationViewController 経由)
     @objc func handleAnnotationEditedNotification(_ notification: Notification) {
         // 削除して handleAnnotationAddedNotification() を呼ぶ
+        self.dismiss(animated: true)
+        
+        self.notification.post(name: .AnnotationRemoved, object: nil)
+        
+        self.notification.post(name: .AnnotationAdded, object: nil)
+    }
+    
+    // 削除ボタンで発火
+    @objc func handleAnnotationRemovedNotification(_ notification: Notification) {
+        self.mainMapView.removeAnnotation(self.nowEditAnnotation)
+        
+        if let currentUser = userData.authUI.auth?.currentUser {
+            let childPath = "users/\(currentUser.uid)/pin"
+            var targetPinId = ""
+            userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
+                for item in snapshot.children {
+                    let child = Pin(snapshot: item as! DataSnapshot)
+                    let annotationCoordinate = CLLocationCoordinate2DMake((child?.location?.x)!,(child?.location!.y)!)
+                    if(annotationCoordinate.latitude == self.nowEditAnnotation.coordinate.latitude) {
+                        targetPinId = (child?.pinId)!
+                        break
+                    } else {
+                        //
+                    }
+                }
+            })
+            userData.ref.child(childPath).child(targetPinId).removeValue()
+        }
     }
     
     func initObservers() {
@@ -103,6 +136,10 @@ class MainViewController:
         notification.addObserver(self,
                                  selector: #selector(handleAnnotationEditedNotification(_:)),
                                  name: .AnnotationEdited,
+                                 object: nil)
+        notification.addObserver(self,
+                                 selector: #selector(handleAnnotationRemovedNotification(_:)),
+                                 name: .AnnotationRemoved,
                                  object: nil)
     }
     
@@ -187,7 +224,7 @@ class MainViewController:
         let coordinateSpanDefault = MKCoordinateSpan(latitudeDelta: 1.0, longitudeDelta: 1.0)
         let regionDefault = MKCoordinateRegion(center: mapViewCenterDefault, span: coordinateSpanDefault)
         mainMapView.setRegion(regionDefault, animated:true)
-        // ピンを打つ
+        // ピンを打つ(読み込み)
         if let currentUser = userData.authUI.auth?.currentUser {
             let childPath = "users/\(currentUser.uid)/pin"
             userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -196,12 +233,6 @@ class MainViewController:
                     let annotation = MKPointAnnotation()
                     annotation.coordinate
                         = CLLocationCoordinate2DMake((child?.location!.x)!, (child?.location!.y)!)
-                    self.editAnnotationData.editAnnotationInfo
-                        = STAnnotationData(locationName: child?.locationName,
-                                           songTitle: child?.songTitle,
-                                           songArtist: child?.songArtist,
-                                           songArtwork: child?.songArtwork,
-                                           coordinate: annotation.coordinate)
                     annotation.title = child?.songTitle
                     annotation.subtitle = child?.songArtist
                     self.mainMapView.addAnnotation(annotation)
@@ -252,16 +283,26 @@ class MainViewController:
         if annotation is MKUserLocation {return nil}
         
         let annotationID = "ohYhea"
-        let annotationView = MKPinAnnotationView(annotation: annotation,
-                                                 reuseIdentifier: annotationID)
+        let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationID)
         
         let artworkImageView = UIImageView()
         artworkImageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        if let artwork = editAnnotationData.editAnnotationInfo.songArtwork {
-            artworkImageView.image = artwork
-        } else {
-            artworkImageView.image = nil
-            artworkImageView.backgroundColor = .red
+        
+        if let currentUser = userData.authUI.auth?.currentUser {
+            let childPath = "users/\(currentUser.uid)/pin"
+            userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
+                for item in snapshot.children {
+                    let child = Pin(snapshot: item as! DataSnapshot)
+                    let annotationCoordinate = CLLocationCoordinate2DMake((child?.location?.x)!,(child?.location!.y)!)
+                    if(annotationCoordinate.latitude == annotation.coordinate.latitude) {
+                        artworkImageView.image = child?.songArtwork
+                        break
+                    } else {
+                        artworkImageView.image = nil
+                        artworkImageView.backgroundColor = .red
+                    }
+                }
+            })
         }
         annotationView.leftCalloutAccessoryView = artworkImageView
         annotationView.canShowCallout = true
@@ -303,7 +344,6 @@ class MainViewController:
      ---------------------------------------------------------------------- **/
     // マップを長押しした際の処理
     @IBAction func longpressMap(_ sender: UILongPressGestureRecognizer) {
-        // タップされた位置情報をもとに、アノテーションを作成
         let location:CGPoint = sender.location(in: mainMapView)
         let mapPoint:CLLocationCoordinate2D
             = mainMapView.convert(location, toCoordinateFrom: mainMapView)
@@ -348,13 +388,6 @@ class MainViewController:
             mainMapView.userTrackingMode = MKUserTrackingMode.none
             headerLabel.textColor = .black
         }
-    }
-    
-    // プレイヤーボタンを押した際の処理
-    @IBAction func tapPlayerButton(_ sender: UIButton) {
-        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let builtStoryboard = mainStoryboard.instantiateViewController(withIdentifier: "player")
-        self.present(builtStoryboard, animated: true, completion: nil)
     }
     
     // ログインボタン(ログイン中はユーザアイコン)を押した際の処理

@@ -15,5 +15,6 @@ extension Notification.Name {
     static let AnnotationAdded = Notification.Name("annotation_added")
     static let AnnotationEdit = Notification.Name("annotation_edit")
     static let AnnotationEdited = Notification.Name("annotation_edited")
+    static let AnnotationRemoved = Notification.Name("annotation_removed")
     static let PlayingItemChanged = Notification.Name("playing_item_changed")
 }
