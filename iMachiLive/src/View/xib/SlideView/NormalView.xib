@@ -22,7 +22,7 @@
             <subviews>
                 <searchBar contentMode="redraw" barStyle="black" placeholder="地名を検索" translatesAutoresizingMaskIntoConstraints="NO" id="jJd-6d-BlV">
                     <rect key="frame" x="0.0" y="0.0" width="365" height="71"/>
-                    <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="barTintColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <textInputTraits key="textInputTraits"/>
                 </searchBar>
             </subviews>

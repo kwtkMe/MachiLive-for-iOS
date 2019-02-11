@@ -8,18 +8,8 @@
 
 import UIKit
 
-class SelectedExView: UIView {
+class SelectedContentsView: UIView {
 
-    
-    @IBOutlet weak var songartworkImageView: UIImageView!
-    @IBOutlet weak var songtitleLabel: UILabel!
-    @IBOutlet weak var songartistLabel: UILabel!
-    @IBOutlet weak var contributernameLabel: UILabel!
-    
-    @IBOutlet weak var contributedateLabel: UILabel!
-    @IBOutlet weak var deleteButton: UIButton!
-    
-    
     // コードから初期化
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,7 +23,7 @@ class SelectedExView: UIView {
     }
     
     func loadNib(){
-        let view = Bundle.main.loadNibNamed("SelectedExView", owner: self, options: nil)?.first as! UIView
+        let view = Bundle.main.loadNibNamed("SelectedContentsView", owner: self, options: nil)?.first as! UIView
         view.frame = self.bounds
         self.addSubview(view)
     }

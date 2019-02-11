@@ -35,7 +35,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="5MD-C6-8yl"/>
                                     <constraint firstItem="dQf-bn-4Lm" firstAttribute="centerX" secondItem="tUG-hW-6Kx" secondAttribute="centerX" id="Awd-oh-zBJ"/>
@@ -84,7 +84,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="tUG-hW-6Kx" firstAttribute="top" secondItem="TGI-MP-Ezd" secondAttribute="top" id="32f-ah-WB8"/>
                             <constraint firstItem="tVg-NX-KQF" firstAttribute="leading" secondItem="isX-9j-VLn" secondAttribute="leading" id="5Wp-su-6H7"/>
@@ -172,7 +172,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="jZg-z9-scP" firstAttribute="centerY" secondItem="Krh-xO-rYc" secondAttribute="centerY" id="5xZ-BD-ECP"/>
                                     <constraint firstItem="jZg-z9-scP" firstAttribute="centerX" secondItem="nfH-SZ-NvC" secondAttribute="centerX" id="8Zt-1P-TF5"/>

@@ -14,8 +14,8 @@ import Firebase
 import FirebaseUI
 
 enum SlideViewState {
-    case normal
-    case selected
+    case collapsed
+    case expanded
 }
 
 class MainViewController:
@@ -144,21 +144,39 @@ class MainViewController:
     // delegatations
     var locationManager: CLLocationManager!
     var player: MPMusicPlayerController!
-    // Constant
-    let slideView_collapsed_Height: CGFloat = 80.0
-    let slideView_expanded_Height: CGFloat = 500.0
-    let animatorDuration: TimeInterval = 1
     // UI
     var slideView = UIView()
-    var slideNormalView = NormalView()
-    var slideSelectedView = SelectedView()
-    var slideSelectedExView = SelectedExView()
+    var contentsScrollView = UIScrollView()
+    var normalView = NormalView() // ピン選択外の時のビュー
+    var selectedHeaderView = SelectedHeaderView() // ピン選択時のビュー
+    var selectedContentsView = SelectedContentsView()
     var nowEditAnnotation: MKPointAnnotation!
     var nowEditAnnotationPoint: CLLocationCoordinate2D!
+    // UI Constant
+    var state_SelectedView: SlideViewState = .collapsed
+    final let Height_slideView_collapsed: CGFloat = 80.0
+    final let Height_slideView_expanded: CGFloat = 300.0
+    final let Height_selectedContentsView: CGFloat = 500.0
+    final func colleapsedFrame() -> CGRect {
+        return CGRect(
+            x: 0,
+            y: self.view.frame.height - Height_slideView_collapsed,
+            width: self.view.frame.width,
+            height: Height_slideView_collapsed)
+    }
+    final func expandedFrame() -> CGRect {
+        return CGRect(
+            x: 0,
+            y: self.view.frame.height - Height_slideView_expanded,
+            width: self.view.frame.width,
+            height: Height_slideView_expanded
+        )
+    }
     // Tracks all running aninmators
-    var state: SlideViewState = .normal
+    let animatorDuration: TimeInterval = 0.2
     var progressWhenInterrupted: CGFloat = 0
     var runningAnimators = [UIViewPropertyAnimator]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -166,6 +184,8 @@ class MainViewController:
         initObservers()
         initSubview()
         initSubviewConfiguration()
+        
+        addGestures()
     }
     
     private func initSubview() {
@@ -173,31 +193,34 @@ class MainViewController:
         loginButton.layer.cornerRadius = 20
         loginButton.layer.masksToBounds = true
         
-        // スライドビューの初期設定
+        // slideViewを初期化
         slideView.layer.cornerRadius = 10
         slideView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         slideView.layer.masksToBounds = true
-        slideNormalView.backgroundColor = .white
-        slideView.frame = collapsedFrame()
+        slideView.frame = colleapsedFrame()
+        
+        // SlideViewの子要素を初期化
+        normalView.layer.cornerRadius = 10
+        normalView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        normalView.layer.masksToBounds = true
+        normalView.frame
+            = CGRect(x: 0, y: 0, width: self.view.frame.width, height: Height_slideView_collapsed)
+        selectedHeaderView.layer.cornerRadius = 10
+        selectedHeaderView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        selectedHeaderView.layer.masksToBounds = true
+        selectedHeaderView.frame
+            = CGRect(x: 0, y: 0, width: self.view.frame.width, height: Height_slideView_collapsed)
+        // .expanded のContents部分を表示させるためのスクロールビューを定義
+        contentsScrollView.bounces = false
+        contentsScrollView.isScrollEnabled = true
+        contentsScrollView.contentSize = CGSize(width: self.view.frame.width, height: 380)
+        contentsScrollView.frame
+            = CGRect(x: 0, y: selectedHeaderView.frame.maxY, width: self.view.frame.width, height: Height_slideView_expanded - Height_slideView_collapsed)
+        selectedContentsView.frame
+            = CGRect(x: 0, y: 0, width: self.view.frame.width, height: Height_selectedContentsView)
+        
         self.view.addSubview(slideView)
-        
-        // スライドビューの子要素ビューの初期設定
-        slideNormalView.layer.cornerRadius = 10
-        slideNormalView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        slideNormalView.layer.masksToBounds = true
-        slideNormalView.frame
-            = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 80)
-        
-        slideSelectedView.layer.cornerRadius = 10
-        slideSelectedView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        slideSelectedView.layer.masksToBounds = true
-        slideSelectedView.frame
-            = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 80)
-        
-        slideSelectedExView.frame
-            = CGRect(x: 0, y: 60, width: self.view.frame.width, height: 500)
-        
-        slideView.addSubview(slideNormalView)
+        slideView.addSubview(normalView)
     }
     
     private func initSubviewConfiguration() {
@@ -239,44 +262,110 @@ class MainViewController:
         slideView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.handlePanGesture(_:))))
     }
     
-    private func collapsedFrame() -> CGRect {
-        return CGRect(
-            x: 0,
-            y: self.view.frame.height - slideView_collapsed_Height,
-            width: self.view.frame.width,
-            height: slideView_collapsed_Height)
-    }
-    
-    private func expandedFrame() -> CGRect {
-        return CGRect(
-            x: 0,
-            y: self.view.frame.height - slideView_expanded_Height,
-            width: self.view.frame.width,
-            height: slideView_expanded_Height
-        )
-    }
-    
     func replaseSlideViewContents() {
         
     }
     
-    //！()
-    func changeNextState() -> SlideViewState {
-        switch self.state {
-        case .normal:
-            return .selected
-        case .selected:
-            return .normal
+    func changeSlideViewState() -> SlideViewState {
+        switch self.state_SelectedView {
+        case .collapsed:
+            return .expanded
+        case .expanded:
+            return .collapsed
+        }
+    }
+    
+    private func addFrameAnimator(state: SlideViewState, duration: TimeInterval) {
+        let frameAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1) {
+            switch state {
+            case .collapsed:
+                self.slideView.frame = self.colleapsedFrame()
+            case .expanded:
+                self.slideView.frame = self.expandedFrame()
+            }
+        }
+        frameAnimator.addCompletion({ (position) in
+            switch position {
+            case .start:
+                break
+            case .end:
+                self.state_SelectedView = self.changeSlideViewState()
+            default:
+                break
+            }
+            self.runningAnimators.removeAll()
+        })
+        runningAnimators.append(frameAnimator)
+    }
+    
+    func animateTransitionIfNeeded(state: SlideViewState, duration: TimeInterval) {
+        if runningAnimators.isEmpty {
+            self.addFrameAnimator(state: state, duration: duration)
         }
     }
     
     // MARK: Gesture
     @objc private func handleTapGesture(_ recognizer: UITapGestureRecognizer) {
-        
+        self.animateOrReverseRunningTransition(state: self.changeSlideViewState(), duration: animatorDuration)
     }
     
     @objc private func handlePanGesture(_ recognizer: UIPanGestureRecognizer) {
-        
+        let translation = recognizer.translation(in: slideView)
+        switch recognizer.state {
+        case .began:
+            self.startInteractiveTransition(state: self.changeSlideViewState(), duration: animatorDuration)
+        case .changed:
+            self.updateInteractiveTransition(fractionComplete: self.fractionComplete(state: self.changeSlideViewState(), translation: translation))
+        case .ended:
+            self.continueInteractiveTransition(fractionComplete: self.fractionComplete(state: self.changeSlideViewState(), translation: translation))
+        default:
+            break
+        }
+    }
+    
+    private func fractionComplete(state: SlideViewState, translation: CGPoint) -> CGFloat {
+        // 広げようと(changeSlideViewState()で.expand)しているとき、値を負数にする
+        let translationY = state == .expanded ? -translation.y : translation.y
+        return translationY
+            // 左項：画面高さ - 他パーツ高さの合計値
+            // 右項：
+            / (self.view.frame.height) + progressWhenInterrupted
+    }
+    
+    // Starts transition if necessary or reverse it on tap
+    func animateOrReverseRunningTransition(state: SlideViewState, duration: TimeInterval) {
+        if runningAnimators.isEmpty {
+            animateTransitionIfNeeded(state: state, duration: duration)
+            runningAnimators.forEach({ $0.startAnimation() })
+        } else {
+            runningAnimators.forEach({ $0.isReversed = !$0.isReversed })
+        }
+    }
+    
+    // Starts transition if necessary and pauses on pan .began
+    func startInteractiveTransition(state: SlideViewState, duration: TimeInterval) {
+        self.animateTransitionIfNeeded(state: state, duration: duration)
+        runningAnimators.forEach({ $0.pauseAnimation() })
+        progressWhenInterrupted = runningAnimators.first?.fractionComplete ?? 0
+    }
+    
+    // Scrubs transition on pan .changed
+    func updateInteractiveTransition(fractionComplete: CGFloat) {
+        runningAnimators.forEach({ $0.fractionComplete = fractionComplete })
+    }
+    
+    // Continues or reverse transition on pan .ended
+    func continueInteractiveTransition(fractionComplete: CGFloat) {
+        let cancel: Bool = fractionComplete < 0.2
+        if cancel {
+            runningAnimators.forEach({
+                $0.isReversed = !$0.isReversed
+                $0.continueAnimation(withTimingParameters: nil, durationFactor: 0)
+            })
+            return
+        }
+        let timing = UICubicTimingParameters(animationCurve: .easeOut)
+        runningAnimators.forEach({ $0.continueAnimation(withTimingParameters: timing, durationFactor: 0) })
     }
     
     /** ----------------------------------------------------------------------
@@ -315,12 +404,18 @@ class MainViewController:
         return annotationView
     }
     
-    // ビューの処理に専念する
+    // about .selected
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        let subViews = slideView.subviews
-        for subview in subViews {
+        for subview in slideView.subviews {
             subview.removeFromSuperview()
         }
+        // Stateを戻してスライドビューを追加
+        state_SelectedView = .collapsed
+        slideView.frame = colleapsedFrame()
+        slideView.addSubview(selectedHeaderView)
+        slideView.addSubview(contentsScrollView)
+        contentsScrollView.addSubview(selectedContentsView)
+        
         if let currentUser = userData.authUI.auth?.currentUser {
             let childPath = "users/\(currentUser.uid)/pin"
             userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -328,25 +423,23 @@ class MainViewController:
                     let child = STPin(snapshot: item as! DataSnapshot)
                     let annotationCoordinate = child?.coordinate
                     if(annotationCoordinate?.latitude == view.annotation!.coordinate.latitude) {
-                        self.slideSelectedView.locationnameLabel.text = child?.locationName
+                        // ビューへの反映
                         break
                     }
                 }
             })
         }
-        
-        slideView.addSubview(slideSelectedView)
     }
     
-    // ビューの処理に専念する
+    // about .normal
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        print("bye")
-        
-        let subViews = slideView.subviews
-        for subview in subViews {
+        for subview in slideView.subviews {
             subview.removeFromSuperview()
         }
-        slideView.addSubview(slideNormalView)
+        // Stateを戻してスライドビューを追加
+        state_SelectedView = .collapsed
+        slideView.frame = colleapsedFrame()
+        slideView.addSubview(normalView)
     }
     
     // ピンの削除ボタンを押下した時

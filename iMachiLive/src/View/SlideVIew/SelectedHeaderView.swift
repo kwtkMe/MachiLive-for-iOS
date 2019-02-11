@@ -8,13 +8,9 @@
 
 import UIKit
 
-class SelectedView: UIView {
+class SelectedHeaderView: UIView {
 
-    @IBOutlet weak var locationnameLabel: UILabel!
-    
-    @IBOutlet weak var editButton: UIButton!
-    @IBOutlet weak var shareButton: UIButton!
-    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var localnameLabel: UILabel!
     
     
     // コードから初期化
@@ -30,7 +26,7 @@ class SelectedView: UIView {
     }
     
     func loadNib(){
-        let view = Bundle.main.loadNibNamed("SelectedView", owner: self, options: nil)?.first as! UIView
+        let view = Bundle.main.loadNibNamed("SelectedHeaderView", owner: self, options: nil)?.first as! UIView
         view.frame = self.bounds
         self.addSubview(view)
     }
