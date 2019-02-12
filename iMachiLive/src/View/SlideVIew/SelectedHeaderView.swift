@@ -10,8 +10,11 @@ import UIKit
 
 class SelectedHeaderView: UIView {
 
-    @IBOutlet weak var localnameLabel: UILabel!
-    
+
+    @IBOutlet weak var locationnameLabel: UILabel!
+    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var shareButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
     
     // コードから初期化
     override init(frame: CGRect) {
@@ -30,5 +33,11 @@ class SelectedHeaderView: UIView {
         view.frame = self.bounds
         self.addSubview(view)
     }
-
+    @IBAction func tapEditButton(_ sender: UIButton) {
+    }
+    @IBAction func tapShareButton(_ sender: UIButton) {
+    }
+    @IBAction func tapCancelButton(_ sender: UIButton) {
+    }
+    
 }

@@ -35,15 +35,12 @@ class UserViewController: UIViewController {
         super.viewDidLoad()
         
         initSubView()
-        setupUserView()
     }
     
     private func initSubView() {
         avatarImageView.layer.cornerRadius = 75
         avatarImageView.layer.masksToBounds = true
-    }
-    
-    func setupUserView() {
+        
         if let currentUser = userData.authUI.auth?.currentUser {
             // アイコンの表示
             avatarImageView.image = currentUser.photoURL?.toUIImage()
@@ -87,11 +84,9 @@ class UserViewController: UIViewController {
     @IBAction func tapLogout(_ sender: UIButton) {
         let cancelAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:{
             (action: UIAlertAction!) in
-            
         })
         let defaultAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
             (action: UIAlertAction!) in
-            
             do {
                 try self.userData.authUI.signOut()
             } catch let err as NSError {

@@ -20,6 +20,23 @@ public struct STAnnotationData {
     var coordinate: CLLocationCoordinate2D?
 }
 
+public struct STUser {
+    let uid: String?
+    let userName: String?
+    let userIcon: UIImage?
+    
+    init? (snapshot: DataSnapshot) {
+        let dictionary = snapshot.value as! NSDictionary
+        guard let uid = dictionary["uid"] as? String else { return nil }
+        guard let userName = dictionary["userName"] as? String else { return nil }
+        guard let userIcon = dictionary["userIcon"] as? String else { return nil }
+        
+        self.uid = uid
+        self.userName = userName
+        self.userIcon = userIcon.toImage()
+    }
+}
+
 public struct STPin {
     let locationName: String?
     let songTitle: String?
