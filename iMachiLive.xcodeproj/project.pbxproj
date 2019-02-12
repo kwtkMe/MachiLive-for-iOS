@@ -28,7 +28,6 @@
 		46B45C5C22112B8C00FC3641 /* SelectedContentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B45C5A22112B8C00FC3641 /* SelectedContentsView.swift */; };
 		46D2E50A21FC1E78008F8BB0 /* EditAnnotationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D2E50921FC1E78008F8BB0 /* EditAnnotationViewController.swift */; };
 		46D2E50C21FD5A8F008F8BB0 /* MusicPlayerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D2E50B21FD5A8F008F8BB0 /* MusicPlayerData.swift */; };
-		46D2E51621FEAF71008F8BB0 /* EditAnnotationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D2E51521FEAF71008F8BB0 /* EditAnnotationData.swift */; };
 		46EDF4B421DCEDC600FF6B70 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46EDF4B321DCEDC600FF6B70 /* GoogleService-Info.plist */; };
 		DE571A8E8BCB1A063CACE61B /* Pods_iMachiLive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1820AD80282ADD381A71DA71 /* Pods_iMachiLive.framework */; };
 /* End PBXBuildFile section */
@@ -59,7 +58,6 @@
 		46B45C5A22112B8C00FC3641 /* SelectedContentsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedContentsView.swift; sourceTree = "<group>"; };
 		46D2E50921FC1E78008F8BB0 /* EditAnnotationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAnnotationViewController.swift; sourceTree = "<group>"; };
 		46D2E50B21FD5A8F008F8BB0 /* MusicPlayerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerData.swift; sourceTree = "<group>"; };
-		46D2E51521FEAF71008F8BB0 /* EditAnnotationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAnnotationData.swift; sourceTree = "<group>"; };
 		46EDF4B321DCEDC600FF6B70 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BAA5CCF5D28640C03E08744D /* Pods-iMachiLive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMachiLive.release.xcconfig"; path = "Pods/Target Support Files/Pods-iMachiLive/Pods-iMachiLive.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -193,7 +191,6 @@
 			children = (
 				4612E96B21F375850078569B /* UserData.swift */,
 				46D2E50B21FD5A8F008F8BB0 /* MusicPlayerData.swift */,
-				46D2E51521FEAF71008F8BB0 /* EditAnnotationData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -438,7 +435,6 @@
 				46133581220BE092000DA268 /* ExchangeType.swift in Sources */,
 				4612E96C21F375850078569B /* UserData.swift in Sources */,
 				46D2E50A21FC1E78008F8BB0 /* EditAnnotationViewController.swift in Sources */,
-				46D2E51621FEAF71008F8BB0 /* EditAnnotationData.swift in Sources */,
 				46133576220A75EB000DA268 /* NotificationName.swift in Sources */,
 				46D2E50C21FD5A8F008F8BB0 /* MusicPlayerData.swift in Sources */,
 				46B45C5C22112B8C00FC3641 /* SelectedContentsView.swift in Sources */,

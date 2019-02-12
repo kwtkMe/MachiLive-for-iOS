@@ -31,7 +31,6 @@ class MainViewController:
     // UserData
     var userData = UserData.sharedInstance
     var musicPlayerData = MusicPlayerData.sharedInstance
-    var editAnnotationData = EditAnnotationData.sharedInstance
     // NotificationCenter
     let notification = NotificationCenter.default
     
@@ -66,66 +65,106 @@ class MainViewController:
         }
     }
     
+    @objc func handleAnnotationAddNotification(_ notification: Notification) {
+        let cancelAction
+            = UIAlertAction(title: "キャンセル",
+                            style: UIAlertAction.Style.cancel,
+                            handler:{(action: UIAlertAction!) in
+            })
+        let defaultAction
+            = UIAlertAction(title: "OK",
+                            style: UIAlertAction.Style.default,
+                            handler:{(action: UIAlertAction!) in
+                                let mainStoryboard = UIStoryboard(name: "EditAnnotation", bundle: nil)
+                                let builtStoryboard = mainStoryboard.instantiateViewController(withIdentifier: "edit")
+                                self.present(builtStoryboard, animated: true, completion: nil)
+            })
+        let alert
+            = UIAlertController(title: "ピンを登録",
+                                message: "楽曲を登録しますか？",
+                                preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(cancelAction)
+        alert.addAction(defaultAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
     @objc func handleAnnotationAddedNotification(_ notification: Notification){
         self.dismiss(animated: true)
-
-        self.nowEditAnnotation.title = self.editAnnotationData.editAnnotationInfo.songTitle
-        self.nowEditAnnotation.subtitle = self.editAnnotationData.editAnnotationInfo.songArtist
-        self.mainMapView.addAnnotation(self.nowEditAnnotation)
-        self.annotationArray.append(self.nowEditAnnotation)
         
-        if let currentUser = userData.authUI.auth?.currentUser {
-            let childPath = "users/\(currentUser.uid)/pin"
-            let autoId = userData.ref.child(childPath).childByAutoId().key
-            let nowDate = NSDate()
-            let post
-                = ["locationName": editAnnotationData.editAnnotationInfo.locationName!,
-                   "songTitle": editAnnotationData.editAnnotationInfo.songTitle!,
-                   "songArtist": editAnnotationData.editAnnotationInfo.songArtist!,
-                   "songArtwork": editAnnotationData.editAnnotationInfo.songArtwork?.toString() ?? "",
-                   "location":
-                        "\(String(describing: editAnnotationData.editAnnotationInfo.coordinate!.latitude))"
-                        + ","
-                        + "\(String(describing: editAnnotationData.editAnnotationInfo.coordinate!.longitude))",
-                   "contributeUid": currentUser.uid,
-                   "contributeDate": "\(String(describing: nowDate))",
-                   "pinId": "\(autoId!)"]
-            userData.ref.child(childPath).child(autoId!).setValue(post)
+        if let currentUser = self.userData.authUI.auth?.currentUser {
+            let childPath = "users/\(currentUser.uid)/annotation"
+            self.userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
+                let child = STAnnotation(snapshot: snapshot)
+                self.nowEditAnnotation.title = child?.songTitle
+                self.nowEditAnnotation.subtitle = child?.songArtist
+                self.mainMapView.addAnnotation(self.nowEditAnnotation)
+                self.annotationArray.append(self.nowEditAnnotation)
+                
+                let childPath = "users/\(currentUser.uid)/pin"
+                let autoId = self.userData.ref.child(childPath).childByAutoId().key
+                let post
+                    = ["locationName": child?.locationName,
+                       "songTitle": child?.songTitle,
+                       "songArtist": child?.songArtist,
+                       "songArtwork": child?.songArtwork?.toString(),
+                       "location":
+                        "\(String(describing: self.nowEditAnnotation.coordinate.latitude))"
+                            + ","
+                            + "\(String(describing: self.nowEditAnnotation.coordinate.longitude))",
+                        "contributeUid": currentUser.uid,
+                        "contributeDate": "\(String(describing: NSDate()))",
+                        "pinId": "\(autoId!)"]
+                self.userData.ref.child(childPath).child(autoId!).setValue(post)
+            })
         }
     }
     
+    @objc func handleAnnotationEditNotification(_ notification: Notification) {
+        let cancelAction
+            = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:{
+                (action: UIAlertAction!) in
+            })
+        let defaultAction
+            = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+                (action: UIAlertAction!) in
+                let mainStoryboard = UIStoryboard(name: "EditAnnotation", bundle: nil)
+                let builtStoryboard = mainStoryboard.instantiateViewController(withIdentifier: "edit")
+                self.present(builtStoryboard, animated: true, completion: nil)
+            })
+        let alert
+            = UIAlertController(title: "ピンを編集", message: "登録したピンを編集しますか？", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(cancelAction)
+        alert.addAction(defaultAction)
+        present(alert, animated: true, completion: nil)
+    }
+    
     @objc func handleAnnotationEditedNotification(_ notification: Notification) {
-        self.dismiss(animated: true)
         self.notification.post(name: .AnnotationRemoved, object: nil)
         self.notification.post(name: .AnnotationAdded, object: nil)
     }
     
-    @objc func handleAnnotationRemovedNotification(_ notification: Notification) {
+    @objc func handleAnnotationAddedOrEditedNotification(_ notification: Notification) {
+        self.dismiss(animated: true)
+
+        for annotation in self.annotationArray {
+            if(annotation.coordinate.latitude == nowEditAnnotation.coordinate.latitude) {
+                self.notification.post(name: .AnnotationEdited, object: nil)
+                break
+            }
+        }
+        self.notification.post(name: .AnnotationAdded, object: nil)
+    }
+    
+    @objc func handleAnnotationRemoveNotification(_ notification: Notification) {
         let cancelAction
             = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:{
-            (action: UIAlertAction!) in
-        })
+                (action: UIAlertAction!) in
+            })
         let defaultAction
             = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
-            (action: UIAlertAction!) in
-            if let currentUser = self.userData.authUI.auth?.currentUser {
-                let childPath = "users/\(currentUser.uid)/pin"
-                self.userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
-                    for item in snapshot.children {
-                        let child = STPin(snapshot: item as! DataSnapshot)
-                        let targetPinId = (child?.pinId)!
-                        let annotationCoordinate = child?.coordinate
-                        if(annotationCoordinate?.latitude == self.nowEditAnnotation.coordinate.latitude) {
-                            self.userData.ref.child(childPath).child(targetPinId).removeValue()
-                            self.mainMapView.removeAnnotation(self.nowEditAnnotation)
-                            break
-                        } else {
-
-                        }
-                    }
-                })
-            }
-        })
+                (action: UIAlertAction!) in
+                self.notification.post(name: .AnnotationRemoved, object: nil)
+            })
         let alert
             = UIAlertController(title: "ピンを削除", message: "本当に削除しますか？", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(cancelAction)
@@ -133,27 +172,66 @@ class MainViewController:
         present(alert, animated: true, completion: nil)
     }
     
+    @objc func handleAnnotationRemovedNotification(_ notification: Notification) {
+        if let currentUser = self.userData.authUI.auth?.currentUser {
+            let childPath = "users/\(currentUser.uid)/pin"
+            self.userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
+                for item in snapshot.children {
+                    let child = STPin(snapshot: item as! DataSnapshot)
+                    let targetPinId = (child?.pinId)!
+                    let annotationCoordinate = child?.coordinate
+                    if(annotationCoordinate?.latitude == self.nowEditAnnotation.coordinate.latitude) {
+                        self.mainMapView.removeAnnotation(self.nowEditAnnotation)
+                        self.userData.ref.child(childPath).child(targetPinId).removeValue()
+                        break
+                    }
+                }
+            })
+        }
+    }
+    
+    @objc func handleAnnotationShareNotification(_ notification: Notification) {
+        
+    }
+    
+    @objc func handleAnnotationSharedNotification(_ notification: Notification) {
+        
+    }
+    
     func initObservers() {
         notification.addObserver(self,
                                  selector: #selector(handleLoginstateChangedNotification(_:)),
-                                 name: .LoginstateChanged,
-                                 object: nil)
+                                 name: .LoginstateChanged, object: nil)
         notification.addObserver(self,
                                  selector: #selector(handleUserInfoUpdateNotification(_:)),
-                                 name: .UserInfoUpdate,
-                                 object: nil)
+                                 name: .UserInfoUpdate, object: nil)
+        notification.addObserver(self,
+                                 selector: #selector(handleAnnotationAddNotification(_:)),
+                                 name: .AnnotationAdd, object: nil)
         notification.addObserver(self,
                                  selector: #selector(handleAnnotationAddedNotification(_:)),
-                                 name: .AnnotationAdded,
-                                 object: nil)
+                                 name: .AnnotationAdded, object: nil)
+        notification.addObserver(self,
+                                 selector: #selector(handleAnnotationEditNotification(_:)),
+                                 name: .AnnotationEdit, object: nil)
         notification.addObserver(self,
                                  selector: #selector(handleAnnotationEditedNotification(_:)),
-                                 name: .AnnotationEdited,
-                                 object: nil)
+                                 name: .AnnotationEdited, object: nil)
+        notification.addObserver(self,
+                                 selector: #selector(handleAnnotationAddedOrEditedNotification(_:)),
+                                 name: .AnnotationAddedOrEdited, object: nil)
+        notification.addObserver(self,
+                                 selector: #selector(handleAnnotationRemoveNotification(_:)),
+                                 name: .AnnotationRemove, object: nil)
         notification.addObserver(self,
                                  selector: #selector(handleAnnotationRemovedNotification(_:)),
-                                 name: .AnnotationRemoved,
-                                 object: nil)
+                                 name: .AnnotationRemoved, object: nil)
+        notification.addObserver(self,
+                                 selector: #selector(handleAnnotationShareNotification(_:)),
+                                 name: .AnnotationShare, object: nil)
+        notification.addObserver(self,
+                                 selector: #selector(handleAnnotationSharedNotification(_:)),
+                                 name: .AnnotationShared, object: nil)
     }
     
     /** ----------------------------------------------------------------------
@@ -175,7 +253,6 @@ class MainViewController:
     var selectedContentsView = SelectedContentsView()
     var annotationArray: [MKAnnotation] = []
     var nowEditAnnotation: MKPointAnnotation!
-    var nowEditAnnotationPoint: CLLocationCoordinate2D!
     // UI Constant
     var state_SelectedView: SlideViewState = .collapsed
     final let Height_slideView_collapsed: CGFloat = 80.0
@@ -408,7 +485,7 @@ class MainViewController:
                         break
                     } else {
                         artworkImageView.image = nil
-                        artworkImageView.backgroundColor = .red
+                        artworkImageView.backgroundColor = .lightGray
                     }
                 }
             })
@@ -423,6 +500,8 @@ class MainViewController:
     
     // about .selected
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        nowEditAnnotation = (view.annotation as! MKPointAnnotation)
+        
         for subview in slideView.subviews {
             subview.removeFromSuperview()
         }
@@ -443,16 +522,12 @@ class MainViewController:
                         self.selectedContentsView.songartistImageView.text = child?.songArtist
                         self.selectedContentsView.contributedateLabel.text = child?.contributeDate
                         self.selectedContentsView.songartworkImageView.image = child?.songArtwork
-                        // 登録したユーザと突き合わせる
                         // STUserで解決したい
                         let childPath = "users/\(child?.contributeUid ?? "")/userInfo"
                         self.userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
-                            let dict = snapshot.value as? NSDictionary
-                            let userName = dict?["userName"] as? String ?? ""
-                            let strUserIcon = dict?["userIcon"] as? String ?? ""
-                            
-                            self.selectedContentsView.contributernameLabel.text = userName
-                            self.selectedContentsView.contributeravatarImageView.image = strUserIcon.toImage()
+                            let child = STUser(snapshot: snapshot)
+                            self.selectedContentsView.contributernameLabel.text = child?.userName
+                            self.selectedContentsView.contributeravatarImageView.image = child?.userIcon
                         })
                     }
                 }
@@ -476,38 +551,15 @@ class MainViewController:
     // マップを長押しした際の処理
     @IBAction func longpressMap(_ sender: UILongPressGestureRecognizer) {
         let location:CGPoint = sender.location(in: mainMapView)
-        let mapPoint:CLLocationCoordinate2D
-            = mainMapView.convert(location, toCoordinateFrom: mainMapView)
+        let mapPoint:CLLocationCoordinate2D = mainMapView.convert(location, toCoordinateFrom: mainMapView)
         let annotation = MKPointAnnotation()
         annotation.coordinate
             = CLLocationCoordinate2DMake(mapPoint.latitude, mapPoint.longitude)
         
         nowEditAnnotation = annotation
-        nowEditAnnotationPoint = mapPoint
-        editAnnotationData.coordinate = mapPoint
         
-        let cancelAction
-            = UIAlertAction(title: "キャンセル",
-                            style: UIAlertAction.Style.cancel,
-                            handler:{(action: UIAlertAction!) in
-            })
-        let defaultAction
-            = UIAlertAction(title: "OK",
-                            style: UIAlertAction.Style.default,
-                            handler:{(action: UIAlertAction!) in
-                                let mainStoryboard = UIStoryboard(name: "EditAnnotation", bundle: nil)
-                                let builtStoryboard = mainStoryboard.instantiateViewController(withIdentifier: "edit")
-                                self.present(builtStoryboard, animated: true, completion: nil)
-            })
-        let alert
-            = UIAlertController(title: "ピンを登録",
-                                message: "楽曲を登録しますか？",
-                                preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(cancelAction)
-        alert.addAction(defaultAction)
-
         if sender.state == UIGestureRecognizer.State.ended {
-            present(alert, animated: true, completion: nil)
+            notification.post(name: .AnnotationAdd, object: nil)
         }
     }
     

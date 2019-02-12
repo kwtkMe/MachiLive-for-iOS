@@ -28,7 +28,6 @@ class EditAnnotationViewController:
     // Model
     var userData = UserData.sharedInstance
     var musicPlayerData = MusicPlayerData.sharedInstance
-    var editAnnoatationData = EditAnnotationData.sharedInstance
     // NotificationCenter
     let notification = NotificationCenter.default
     
@@ -36,23 +35,10 @@ class EditAnnotationViewController:
         notification.removeObserver(self)
     }
     
-    @objc func handleAnnotationAddNotification(_ notification: Notification) {
-        
-    }
     
-    @objc func handleAnnotationEditNotification(_ notification: Notification) {
-        
-    }
     
     func initObservers() {
-        notification.addObserver(self,
-                                 selector: #selector(handleAnnotationAddNotification(_:)),
-                                 name: .AnnotationAdd,
-                                 object: nil)
-        notification.addObserver(self,
-                                 selector: #selector(handleAnnotationEditNotification(_:)),
-                                 name: .AnnotationEdit,
-                                 object: nil)
+        
     }
     
     /** ----------------------------------------------------------------------
@@ -153,13 +139,16 @@ class EditAnnotationViewController:
 //            present(alert, animated: true, completion: nil)
         }
         // バリデーション完了
-        editAnnoatationData.editAnnotationInfo
-            = STAnnotationData(locationName: locationnameField.text,
-                               songTitle: songTitleLabel.text,
-                               songArtist: songArtistLabel.text,
-                               songArtwork: songAlbumWorkImageView.image,
-                               coordinate: editAnnoatationData.coordinate)
-        notification.post(name: .AnnotationAdded, object: nil)
+        if let currentUser = userData.authUI.auth?.currentUser {
+            let childPath = "users/\(currentUser.uid)/annotation"
+            let post
+                = ["locationName": locationnameField.text,
+                   "songTitle": songTitleLabel.text,
+                   "songArtist": songArtistLabel.text,
+                   "songArtwork": songAlbumWorkImageView.image?.toString()]
+            userData.ref.child(childPath).updateChildValues(post as [AnyHashable : Any])
+        }
+        notification.post(name: .AnnotationAddedOrEdited, object: nil)
     }
     
     @IBAction func tapCancelButton(_ sender: UIButton) {

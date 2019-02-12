@@ -16,6 +16,12 @@ class SelectedHeaderView: UIView {
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     
+    let notification = NotificationCenter.default
+    
+    deinit {
+        notification.removeObserver(self)
+    }
+    
     // コードから初期化
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,10 +40,13 @@ class SelectedHeaderView: UIView {
         self.addSubview(view)
     }
     @IBAction func tapEditButton(_ sender: UIButton) {
+        notification.post(name: .AnnotationEdit, object: nil)
     }
     @IBAction func tapShareButton(_ sender: UIButton) {
+        notification.post(name: .AnnotationShare, object: nil)
     }
     @IBAction func tapCancelButton(_ sender: UIButton) {
+        // デタッチしたい
     }
     
 }

@@ -18,6 +18,12 @@ class SelectedContentsView: UIView {
     @IBOutlet weak var contributernameLabel: UILabel!
     @IBOutlet weak var contributedateLabel: UILabel!
     
+    let notification = NotificationCenter.default
+    
+    deinit {
+        notification.removeObserver(self)
+    }
+    
     // コードから初期化
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,9 +43,11 @@ class SelectedContentsView: UIView {
     }
 
     @IBAction func tapMusicStatusButton(_ sender: UIButton) {
+        // 音楽再生or一時停止
+        notification.post(name: .PlayerStatusChanged, object: nil)
     }
     @IBAction func tapDeleteButton(_ sender: UIButton) {
-        
+        notification.post(name: .AnnotationRemove, object: nil)
     }
     
 }
