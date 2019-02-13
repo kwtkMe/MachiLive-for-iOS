@@ -149,7 +149,7 @@ class MainViewController:
         for annotation in self.annotationArray {
             if(annotation.coordinate.latitude == nowEditAnnotation.coordinate.latitude) {
                 self.notification.post(name: .AnnotationEdited, object: nil)
-                break
+                return
             }
         }
         self.notification.post(name: .AnnotationAdded, object: nil)
