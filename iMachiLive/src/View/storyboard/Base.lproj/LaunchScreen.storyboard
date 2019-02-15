@@ -18,17 +18,69 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Machi Live!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nC1-OC-erb">
-                                <rect key="frame" x="63.5" y="303.5" width="248" height="60"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="50"/>
-                                <color key="textColor" red="1" green="0.49327188729999999" blue="0.47399842739999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nC1-OC-erb">
+                                <rect key="frame" x="9" y="20" width="356" height="82"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="70"/>
+                                <color key="textColor" red="0.71534234285354614" green="0.35453647375106812" blue="0.45488560199737549" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Machi Live!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z4D-w3-lHF">
+                                <rect key="frame" x="9" y="385" width="356" height="82"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="70"/>
+                                <color key="textColor" red="0.71534234285354614" green="0.35453647375106812" blue="0.45488560199737549" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Machi Live!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qCQ-5x-Xrg">
+                                <rect key="frame" x="11" y="475" width="356" height="82"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="70"/>
+                                <color key="textColor" red="0.71534234285354614" green="0.35453647375106812" blue="0.45488560199737549" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Machi Live!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LLK-QM-WRl">
+                                <rect key="frame" x="11" y="565" width="356" height="82"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="70"/>
+                                <color key="textColor" red="0.71534234285354614" green="0.35453647375106812" blue="0.45488560199737549" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Machi Live!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yfQ-ld-mh5">
+                                <rect key="frame" x="9" y="295" width="356" height="82"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="70"/>
+                                <color key="textColor" red="0.71534234285354614" green="0.35453647375106812" blue="0.45488560199737549" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Machi Live!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KUc-fc-Lx9">
+                                <rect key="frame" x="9" y="110" width="356" height="82"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="70"/>
+                                <color key="textColor" red="0.71534234285354614" green="0.35453647375106812" blue="0.45488560199737549" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Machi Live!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MH0-d1-EnS">
+                                <rect key="frame" x="11" y="200" width="356" height="82"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="70"/>
+                                <color key="textColor" red="0.71534234285354614" green="0.35453647375106812" blue="0.45488560199737549" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="KUc-fc-Lx9" firstAttribute="trailing" secondItem="yfQ-ld-mh5" secondAttribute="trailing" id="0GW-l7-MAJ"/>
+                            <constraint firstAttribute="bottom" secondItem="LLK-QM-WRl" secondAttribute="bottom" constant="20" symbolic="YES" id="2t4-8W-1Ch"/>
+                            <constraint firstItem="yfQ-ld-mh5" firstAttribute="trailing" secondItem="Z4D-w3-lHF" secondAttribute="trailing" id="3Rm-ut-ymN"/>
+                            <constraint firstItem="LLK-QM-WRl" firstAttribute="top" secondItem="qCQ-5x-Xrg" secondAttribute="bottom" constant="8" symbolic="YES" id="6gc-A3-mZ7"/>
+                            <constraint firstItem="KUc-fc-Lx9" firstAttribute="top" secondItem="nC1-OC-erb" secondAttribute="bottom" constant="8" symbolic="YES" id="CJG-0I-EK1"/>
+                            <constraint firstItem="Z4D-w3-lHF" firstAttribute="top" secondItem="yfQ-ld-mh5" secondAttribute="bottom" constant="8" symbolic="YES" id="FDr-zx-kPt"/>
+                            <constraint firstItem="nC1-OC-erb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="9" id="FcO-7s-vs4"/>
+                            <constraint firstItem="MH0-d1-EnS" firstAttribute="leading" secondItem="qCQ-5x-Xrg" secondAttribute="leading" id="Gdr-xb-5uo"/>
+                            <constraint firstItem="MH0-d1-EnS" firstAttribute="top" secondItem="KUc-fc-Lx9" secondAttribute="bottom" constant="8" symbolic="YES" id="Hd3-hm-8EQ"/>
+                            <constraint firstItem="nC1-OC-erb" firstAttribute="trailing" secondItem="KUc-fc-Lx9" secondAttribute="trailing" id="RJZ-0g-yG6"/>
                             <constraint firstItem="nC1-OC-erb" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="b98-QU-7Yc"/>
+                            <constraint firstItem="MH0-d1-EnS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="11" id="dSr-Z1-yyX"/>
+                            <constraint firstItem="qCQ-5x-Xrg" firstAttribute="top" secondItem="Z4D-w3-lHF" secondAttribute="bottom" constant="8" symbolic="YES" id="eZq-ib-5Cl"/>
+                            <constraint firstItem="nC1-OC-erb" firstAttribute="leading" secondItem="KUc-fc-Lx9" secondAttribute="leading" id="iiF-fV-Ks5"/>
                             <constraint firstItem="nC1-OC-erb" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="qox-IY-UEV"/>
+                            <constraint firstItem="KUc-fc-Lx9" firstAttribute="leading" secondItem="yfQ-ld-mh5" secondAttribute="leading" id="x44-ao-cYW"/>
+                            <constraint firstItem="qCQ-5x-Xrg" firstAttribute="leading" secondItem="LLK-QM-WRl" secondAttribute="leading" id="y5Q-4E-z0H"/>
+                            <constraint firstItem="yfQ-ld-mh5" firstAttribute="leading" secondItem="Z4D-w3-lHF" secondAttribute="leading" id="zrf-Vm-u8w"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

@@ -12,9 +12,7 @@ class SelectedHeaderView: UIView {
 
 
     @IBOutlet weak var locationnameLabel: UILabel!
-    @IBOutlet weak var editButton: UIButton!
     @IBOutlet weak var shareButton: UIButton!
-    @IBOutlet weak var cancelButton: UIButton!
     
     let notification = NotificationCenter.default
     
@@ -39,14 +37,8 @@ class SelectedHeaderView: UIView {
         view.frame = self.bounds
         self.addSubview(view)
     }
-    @IBAction func tapEditButton(_ sender: UIButton) {
-        notification.post(name: .AnnotationEdit, object: nil)
-    }
+    
     @IBAction func tapShareButton(_ sender: UIButton) {
         notification.post(name: .AnnotationShare, object: nil)
     }
-    @IBAction func tapCancelButton(_ sender: UIButton) {
-        // デタッチしたい
-    }
-    
 }

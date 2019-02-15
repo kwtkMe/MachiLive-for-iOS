@@ -43,8 +43,10 @@ class SelectedContentsView: UIView {
     }
 
     @IBAction func tapMusicStatusButton(_ sender: UIButton) {
-        // 音楽再生or一時停止
         notification.post(name: .PlayerStatusChanged, object: nil)
+    }
+    @IBAction func tapEditButton(_ sender: UIButton) {
+        notification.post(name: .AnnotationEdit, object: nil)
     }
     @IBAction func tapDeleteButton(_ sender: UIButton) {
         notification.post(name: .AnnotationRemove, object: nil)

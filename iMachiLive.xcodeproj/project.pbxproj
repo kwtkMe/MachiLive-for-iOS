@@ -22,13 +22,13 @@
 		4657060121CB6FE90088C7E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4657060021CB6FE90088C7E5 /* Assets.xcassets */; };
 		4657060421CB6FE90088C7E5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4657060221CB6FE90088C7E5 /* LaunchScreen.storyboard */; };
 		4657061B21CBCA250088C7E5 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4657061A21CBCA250088C7E5 /* MapKit.framework */; };
-		46B45C57221129A800FC3641 /* SelectedContentsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46B45C55221129A800FC3641 /* SelectedContentsView.xib */; };
-		46B45C58221129A800FC3641 /* SelectedHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46B45C56221129A800FC3641 /* SelectedHeaderView.xib */; };
 		46B45C5B22112B8C00FC3641 /* SelectedHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B45C5922112B8C00FC3641 /* SelectedHeaderView.swift */; };
 		46B45C5C22112B8C00FC3641 /* SelectedContentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B45C5A22112B8C00FC3641 /* SelectedContentsView.swift */; };
 		46D2E50A21FC1E78008F8BB0 /* EditAnnotationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D2E50921FC1E78008F8BB0 /* EditAnnotationViewController.swift */; };
 		46D2E50C21FD5A8F008F8BB0 /* MusicPlayerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D2E50B21FD5A8F008F8BB0 /* MusicPlayerData.swift */; };
 		46EDF4B421DCEDC600FF6B70 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46EDF4B321DCEDC600FF6B70 /* GoogleService-Info.plist */; };
+		46F118202216A6D3002F85B2 /* SelectedHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F1181F2216A6D3002F85B2 /* SelectedHeaderView.xib */; };
+		46F118222216A6EC002F85B2 /* SelectedContentsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F118212216A6EC002F85B2 /* SelectedContentsView.xib */; };
 		DE571A8E8BCB1A063CACE61B /* Pods_iMachiLive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1820AD80282ADD381A71DA71 /* Pods_iMachiLive.framework */; };
 /* End PBXBuildFile section */
 
@@ -52,13 +52,13 @@
 		4657060321CB6FE90088C7E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4657060521CB6FE90088C7E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4657061A21CBCA250088C7E5 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		46B45C55221129A800FC3641 /* SelectedContentsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectedContentsView.xib; sourceTree = "<group>"; };
-		46B45C56221129A800FC3641 /* SelectedHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectedHeaderView.xib; sourceTree = "<group>"; };
 		46B45C5922112B8C00FC3641 /* SelectedHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedHeaderView.swift; sourceTree = "<group>"; };
 		46B45C5A22112B8C00FC3641 /* SelectedContentsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedContentsView.swift; sourceTree = "<group>"; };
 		46D2E50921FC1E78008F8BB0 /* EditAnnotationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAnnotationViewController.swift; sourceTree = "<group>"; };
 		46D2E50B21FD5A8F008F8BB0 /* MusicPlayerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayerData.swift; sourceTree = "<group>"; };
 		46EDF4B321DCEDC600FF6B70 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		46F1181F2216A6D3002F85B2 /* SelectedHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectedHeaderView.xib; sourceTree = "<group>"; };
+		46F118212216A6EC002F85B2 /* SelectedContentsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectedContentsView.xib; sourceTree = "<group>"; };
 		BAA5CCF5D28640C03E08744D /* Pods-iMachiLive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMachiLive.release.xcconfig"; path = "Pods/Target Support Files/Pods-iMachiLive/Pods-iMachiLive.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,8 +97,8 @@
 			isa = PBXGroup;
 			children = (
 				46133567220A744F000DA268 /* NormalView.xib */,
-				46B45C56221129A800FC3641 /* SelectedHeaderView.xib */,
-				46B45C55221129A800FC3641 /* SelectedContentsView.xib */,
+				46F1181F2216A6D3002F85B2 /* SelectedHeaderView.xib */,
+				46F118212216A6EC002F85B2 /* SelectedContentsView.xib */,
 			);
 			path = SlideView;
 			sourceTree = "<group>";
@@ -308,15 +308,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				46B45C58221129A800FC3641 /* SelectedHeaderView.xib in Resources */,
+				46F118202216A6D3002F85B2 /* SelectedHeaderView.xib in Resources */,
 				4657060421CB6FE90088C7E5 /* LaunchScreen.storyboard in Resources */,
 				464373B421FB27E6007D2521 /* EditAnnotation.storyboard in Resources */,
-				46B45C57221129A800FC3641 /* SelectedContentsView.xib in Resources */,
 				4613357F220B0AC6000DA268 /* ic_account_circle.png in Resources */,
 				4657060121CB6FE90088C7E5 /* Assets.xcassets in Resources */,
 				4613356A220A744F000DA268 /* NormalView.xib in Resources */,
 				465705FF21CB6FE80088C7E5 /* Main.storyboard in Resources */,
 				46EDF4B421DCEDC600FF6B70 /* GoogleService-Info.plist in Resources */,
+				46F118222216A6EC002F85B2 /* SelectedContentsView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

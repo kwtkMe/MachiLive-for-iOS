@@ -12,88 +12,59 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SelectedHeaderView" customModule="iMachiLive" customModuleProvider="target">
             <connections>
-                <outlet property="cancelButton" destination="7h2-Lc-P4z" id="mrr-Gf-ElA"/>
-                <outlet property="editButton" destination="hUv-xZ-jXC" id="alk-Es-s7z"/>
-                <outlet property="locationnameLabel" destination="Fo8-DL-OkU" id="rY4-E3-qaM"/>
-                <outlet property="shareButton" destination="HNs-Qc-Iwb" id="2Bl-R0-sqK"/>
+                <outlet property="locationnameLabel" destination="cgs-gv-rfn" id="7N4-JU-r8L"/>
+                <outlet property="shareButton" destination="dGP-q3-ZYM" id="Fl6-iD-h44"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="VpA-ho-xFB">
+        <view contentMode="scaleToFill" id="edU-sR-duF">
             <rect key="frame" x="0.0" y="0.0" width="365" height="71"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="horizontal-line" translatesAutoresizingMaskIntoConstraints="NO" id="iQ3-7p-Hss">
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="horizontal-line" translatesAutoresizingMaskIntoConstraints="NO" id="Gi9-Zu-lir">
                     <rect key="frame" x="0.0" y="0.0" width="365" height="20"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="20" id="boV-n7-xae"/>
+                        <constraint firstAttribute="height" constant="20" id="8yR-ce-9Mb"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="location Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fo8-DL-OkU">
-                    <rect key="frame" x="10" y="30" width="137" height="27"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="location Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cgs-gv-rfn">
+                    <rect key="frame" x="10" y="30" width="299" height="27"/>
                     <fontDescription key="fontDescription" type="system" pointSize="22"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hUv-xZ-jXC" userLabel="edit">
-                    <rect key="frame" x="153" y="28.5" width="30" height="30"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dGP-q3-ZYM" userLabel="share">
+                    <rect key="frame" x="319" y="28.5" width="30" height="30"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="30" id="rxZ-IW-OMv"/>
-                    </constraints>
-                    <state key="normal" image="pencil"/>
-                    <connections>
-                        <action selector="tapEditButton:" destination="-1" eventType="touchUpInside" id="gGO-FT-set"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HNs-Qc-Iwb" userLabel="share">
-                    <rect key="frame" x="186" y="28.5" width="30" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="30" id="v8y-8T-dwe"/>
-                        <constraint firstAttribute="width" secondItem="HNs-Qc-Iwb" secondAttribute="height" multiplier="1:1" id="vIV-ai-lcQ"/>
+                        <constraint firstAttribute="width" secondItem="dGP-q3-ZYM" secondAttribute="height" multiplier="1:1" id="ONF-KD-6NY"/>
+                        <constraint firstAttribute="width" constant="30" id="pwU-uY-FrF"/>
                     </constraints>
                     <state key="normal" image="share"/>
                     <connections>
-                        <action selector="tapShareButton:" destination="-1" eventType="touchUpInside" id="PGY-Wf-BrE"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7h2-Lc-P4z" userLabel="cancel">
-                    <rect key="frame" x="319" y="28.5" width="30" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="width" secondItem="7h2-Lc-P4z" secondAttribute="height" multiplier="1:1" id="MLY-gJ-SXg"/>
-                        <constraint firstAttribute="width" constant="30" id="ZaQ-G2-Aep"/>
-                    </constraints>
-                    <state key="normal" image="cancel"/>
-                    <connections>
-                        <action selector="tapCancelButton:" destination="-1" eventType="touchUpInside" id="326-Sn-gOM"/>
+                        <action selector="tapShareButton:" destination="-1" eventType="touchUpInside" id="V3k-9a-CkA"/>
                     </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="iQ3-7p-Hss" firstAttribute="top" secondItem="VpA-ho-xFB" secondAttribute="top" id="0Ki-UR-msC"/>
-                <constraint firstAttribute="trailing" secondItem="iQ3-7p-Hss" secondAttribute="trailing" id="0dY-cl-MzQ"/>
-                <constraint firstItem="rJY-Oe-1MY" firstAttribute="trailing" secondItem="7h2-Lc-P4z" secondAttribute="trailing" constant="16" id="1Zb-XQ-RDC"/>
-                <constraint firstItem="iQ3-7p-Hss" firstAttribute="leading" secondItem="VpA-ho-xFB" secondAttribute="leading" id="6fn-Xr-eOs"/>
-                <constraint firstItem="Fo8-DL-OkU" firstAttribute="leading" secondItem="VpA-ho-xFB" secondAttribute="leading" constant="10" id="BhC-g0-R9Q"/>
-                <constraint firstItem="Fo8-DL-OkU" firstAttribute="top" secondItem="iQ3-7p-Hss" secondAttribute="bottom" constant="10" id="DA7-Nn-UBD"/>
-                <constraint firstItem="hUv-xZ-jXC" firstAttribute="centerY" secondItem="Fo8-DL-OkU" secondAttribute="centerY" id="Iql-NN-ozP"/>
-                <constraint firstItem="Fo8-DL-OkU" firstAttribute="leading" secondItem="rJY-Oe-1MY" secondAttribute="leading" constant="10" id="KoL-i3-9Mt"/>
-                <constraint firstItem="hUv-xZ-jXC" firstAttribute="width" secondItem="hUv-xZ-jXC" secondAttribute="height" multiplier="1:1" id="SbK-w3-l1r"/>
-                <constraint firstItem="7h2-Lc-P4z" firstAttribute="centerY" secondItem="Fo8-DL-OkU" secondAttribute="centerY" id="for-bI-fnK"/>
-                <constraint firstItem="HNs-Qc-Iwb" firstAttribute="leading" secondItem="hUv-xZ-jXC" secondAttribute="trailing" constant="3" id="hwC-xL-DFK"/>
-                <constraint firstItem="hUv-xZ-jXC" firstAttribute="leading" secondItem="Fo8-DL-OkU" secondAttribute="trailing" constant="6" id="k0r-td-md6"/>
-                <constraint firstItem="rJY-Oe-1MY" firstAttribute="trailing" secondItem="7h2-Lc-P4z" secondAttribute="trailing" constant="16" id="mMc-jD-die"/>
-                <constraint firstItem="HNs-Qc-Iwb" firstAttribute="centerY" secondItem="Fo8-DL-OkU" secondAttribute="centerY" id="tMe-O9-rXk"/>
+                <constraint firstItem="dGP-q3-ZYM" firstAttribute="centerY" secondItem="cgs-gv-rfn" secondAttribute="centerY" id="0KJ-jg-SKr"/>
+                <constraint firstItem="cgs-gv-rfn" firstAttribute="top" secondItem="Gi9-Zu-lir" secondAttribute="bottom" constant="10" id="8LB-ZH-jhb"/>
+                <constraint firstItem="Gi9-Zu-lir" firstAttribute="leading" secondItem="edU-sR-duF" secondAttribute="leading" id="9Ch-cK-gbe"/>
+                <constraint firstItem="Zmd-xJ-FvX" firstAttribute="trailing" secondItem="dGP-q3-ZYM" secondAttribute="trailing" constant="16" id="CLJ-xR-TcJ"/>
+                <constraint firstItem="Zmd-xJ-FvX" firstAttribute="trailing" secondItem="dGP-q3-ZYM" secondAttribute="trailing" constant="16" id="FRy-cI-gCU"/>
+                <constraint firstItem="Gi9-Zu-lir" firstAttribute="top" secondItem="edU-sR-duF" secondAttribute="top" id="FyN-rt-4cb"/>
+                <constraint firstItem="cgs-gv-rfn" firstAttribute="leading" secondItem="edU-sR-duF" secondAttribute="leading" constant="10" id="PdC-lC-NHL"/>
+                <constraint firstItem="cgs-gv-rfn" firstAttribute="trailing" secondItem="dGP-q3-ZYM" secondAttribute="leading" constant="-10" id="fp3-LY-5jl"/>
+                <constraint firstAttribute="trailing" secondItem="Gi9-Zu-lir" secondAttribute="trailing" id="tHb-Nt-qbM"/>
+                <constraint firstItem="cgs-gv-rfn" firstAttribute="leading" secondItem="Zmd-xJ-FvX" secondAttribute="leading" constant="10" id="zrN-Dk-lYr"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <viewLayoutGuide key="safeArea" id="rJY-Oe-1MY"/>
+            <viewLayoutGuide key="safeArea" id="Zmd-xJ-FvX"/>
             <point key="canvasLocation" x="639.20000000000005" y="-115.59220389805098"/>
         </view>
     </objects>
     <resources>
-        <image name="cancel" width="75" height="75"/>
         <image name="horizontal-line" width="45" height="45"/>
-        <image name="pencil" width="75" height="75"/>
         <image name="share" width="37.5" height="37.5"/>
     </resources>
 </document>
