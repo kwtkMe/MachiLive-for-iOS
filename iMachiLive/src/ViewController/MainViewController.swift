@@ -76,17 +76,10 @@ class MainViewController:
 
     @objc func handleLoginstateChangedNotification(_ notification: Notification) {
         if let currentUser = userData.authUI.auth?.currentUser {
-            let image = currentUser.photoURL?.toUIImage()
-            loginButton.setImage(image, for: UIControl.State())
-            initSubviewConfiguration()
-            
             self.notification.post(name: .UserInfoUpdate, object: nil)
         } else {
             self.dismiss(animated: true)
-            let image = UIImage(named: "ic_account_circle")
-            self.loginButton.setImage(image, for: .normal)
             let authViewController = self.userData.authUI.authViewController()
-            
             self.present(authViewController, animated: true, completion: nil)
         }
     }
@@ -102,6 +95,9 @@ class MainViewController:
     }
     
     @objc func handleAnnotationAddNotification(_ notification: Notification) {
+        let mainStoryboard = UIStoryboard(name: "EditAnnotation", bundle: nil)
+        let builtStoryboard = mainStoryboard.instantiateViewController(withIdentifier: "edit")
+
         let cancelAction
             = UIAlertAction(title: "キャンセル",
                             style: UIAlertAction.Style.cancel,
@@ -111,8 +107,6 @@ class MainViewController:
             = UIAlertAction(title: "OK",
                             style: UIAlertAction.Style.default,
                             handler:{(action: UIAlertAction!) in
-                                let mainStoryboard = UIStoryboard(name: "EditAnnotation", bundle: nil)
-                                let builtStoryboard = mainStoryboard.instantiateViewController(withIdentifier: "edit")
                                 self.present(builtStoryboard, animated: true, completion: nil)
             })
         let alert
@@ -240,9 +234,7 @@ class MainViewController:
     ---------------------------------------------------------------------- **/
     // main
     @IBOutlet weak var mainMapView: MKMapView!
-    @IBOutlet weak var headerLabel: UILabel!
-    @IBOutlet weak var trackingModeSwitch: UISwitch!
-    @IBOutlet weak var loginButton: UIButton!
+    
     // delegatations
     var locationManager: CLLocationManager!
     var player: MPMusicPlayerController!
@@ -290,9 +282,6 @@ class MainViewController:
     }
     
     private func initSubview() {
-        // ログインボタンを丸くする
-        loginButton.layer.cornerRadius = 20
-        loginButton.layer.masksToBounds = true
         
         slideView.layer.cornerRadius = 10
         slideView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -565,17 +554,15 @@ class MainViewController:
         }
     }
     
-    @IBAction func changeTrackingMode(_ sender: UISwitch) {
-        if trackingModeSwitch.isOn {
-            mainMapView.setCenter(mainMapView.userLocation.coordinate,
-                                  animated: true)
-            mainMapView.userTrackingMode = MKUserTrackingMode.follow
-            headerLabel.textColor = #colorLiteral(red: 1, green: 0.4932718873, blue: 0.4739984274, alpha: 1)
-        } else if !trackingModeSwitch.isOn {
-            mainMapView.userTrackingMode = MKUserTrackingMode.none
-            headerLabel.textColor = .black
-        }
-    }
+//    @IBAction func changeTrackingMode(_ sender: UISwitch) {
+//        if trackingModeSwitch.isOn {
+//            mainMapView.setCenter(mainMapView.userLocation.coordinate,
+//                                  animated: true)
+//            mainMapView.userTrackingMode = MKUserTrackingMode.follow
+//        } else if !trackingModeSwitch.isOn {
+//            mainMapView.userTrackingMode = MKUserTrackingMode.none
+//        }
+//    }
     
     @IBAction func tapLoginButton(_ sender: UIButton) {
         if (userData.authUI.auth?.currentUser) != nil {
