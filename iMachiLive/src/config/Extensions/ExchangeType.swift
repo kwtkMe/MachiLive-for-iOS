@@ -24,7 +24,7 @@ extension MPMediaItem {
 
 extension NSNumber {
     
-    func getMediaItem() -> MPMediaItem {
+    func toMediaItem() -> MPMediaItem {
         
         let property: MPMediaPropertyPredicate
             = MPMediaPropertyPredicate( value: self, forProperty: MPMediaItemPropertyPersistentID )

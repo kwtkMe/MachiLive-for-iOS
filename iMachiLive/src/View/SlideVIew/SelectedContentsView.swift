@@ -11,12 +11,8 @@ import UIKit
 class SelectedContentsView: UIView {
 
     @IBOutlet weak var songartworkImageView: UIImageView!
-    @IBOutlet weak var playerstatusButton: UIButton!
     @IBOutlet weak var songtitleLabel: UILabel!
     @IBOutlet weak var songartistImageView: UILabel!
-    @IBOutlet weak var contributeravatarImageView: UIImageView!
-    @IBOutlet weak var contributernameLabel: UILabel!
-    @IBOutlet weak var contributedateLabel: UILabel!
     
     let notification = NotificationCenter.default
     
@@ -42,9 +38,6 @@ class SelectedContentsView: UIView {
         self.addSubview(view)
     }
 
-    @IBAction func tapMusicStatusButton(_ sender: UIButton) {
-
-    }
     @IBAction func tapEditButton(_ sender: UIButton) {
         notification.post(name: .AnnotationEdit, object: nil)
     }

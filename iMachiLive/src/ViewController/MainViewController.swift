@@ -317,7 +317,7 @@ class MainViewController:
 
         contentsScrollView.bounces = false
         contentsScrollView.isScrollEnabled = true
-        contentsScrollView.contentSize = CGSize(width: self.view.frame.width, height: 420)
+        contentsScrollView.contentSize = CGSize(width: self.view.frame.width, height: 350)
         contentsScrollView.frame
             = CGRect(x: 0, y: selectedHeaderView.frame.maxY,
                      width: self.view.frame.width,
@@ -521,22 +521,16 @@ class MainViewController:
                         self.selectedHeaderView.locationnameLabel.text = child?.locationName
                         self.selectedContentsView.songtitleLabel.text = child?.songTitle
                         self.selectedContentsView.songartistImageView.text = child?.songArtist
-                        self.selectedContentsView.contributedateLabel.text = child?.contributeDate
                         self.selectedContentsView.songartworkImageView.image = child?.songArtwork
-                        // STUserで解決したい
-                        let childPath = "users/\(child?.contributeUid ?? "")/userInfo"
-                        self.userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
-                            let child = STUser(snapshot: snapshot)
-                            self.selectedContentsView.contributernameLabel.text = child?.userName
-                            self.selectedContentsView.contributeravatarImageView.image = child?.userIcon
-                        })
-                        // 楽曲再生
-                        let correction: MPMediaItemCollection
-                        let item: MPMediaItem = (child?.songId?.getMediaItem())!
+
+                        if let item: MPMediaItem = (child?.songId?.toMediaItem()) {
+                            let correction = MPMediaItemCollection.init(items: [item])
+                            self.musicPlayerData.player.setQueue(with: correction)
+                            self.musicPlayerData.player.play()
+                        } else {
+                            print("再生エラー")
+                        }
                         
-                        correction = MPMediaItemCollection.init(items: [item])
-                        self.musicPlayerData.player.setQueue(with: correction)
-                        self.musicPlayerData.player.play()
                     }
                 }
             })
