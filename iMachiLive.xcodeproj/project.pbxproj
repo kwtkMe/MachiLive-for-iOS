@@ -29,12 +29,10 @@
 		46EDF4B421DCEDC600FF6B70 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46EDF4B321DCEDC600FF6B70 /* GoogleService-Info.plist */; };
 		46F118202216A6D3002F85B2 /* SelectedHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F1181F2216A6D3002F85B2 /* SelectedHeaderView.xib */; };
 		46F118222216A6EC002F85B2 /* SelectedContentsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46F118212216A6EC002F85B2 /* SelectedContentsView.xib */; };
-		DE571A8E8BCB1A063CACE61B /* Pods_iMachiLive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1820AD80282ADD381A71DA71 /* Pods_iMachiLive.framework */; };
+		C105FBEAFA87271A6B4DAE57 /* Pods_iMachiLive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7F97D9E16FD172674C1C6BC /* Pods_iMachiLive.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		08D7E30B1392259D14492DFA /* Pods-iMachiLive.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMachiLive.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iMachiLive/Pods-iMachiLive.debug.xcconfig"; sourceTree = "<group>"; };
-		1820AD80282ADD381A71DA71 /* Pods_iMachiLive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iMachiLive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4612E96921F1C52E0078569B /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		4612E96B21F375850078569B /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		46133567220A744F000DA268 /* NormalView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NormalView.xib; sourceTree = "<group>"; };
@@ -59,7 +57,9 @@
 		46EDF4B321DCEDC600FF6B70 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		46F1181F2216A6D3002F85B2 /* SelectedHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectedHeaderView.xib; sourceTree = "<group>"; };
 		46F118212216A6EC002F85B2 /* SelectedContentsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectedContentsView.xib; sourceTree = "<group>"; };
-		BAA5CCF5D28640C03E08744D /* Pods-iMachiLive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMachiLive.release.xcconfig"; path = "Pods/Target Support Files/Pods-iMachiLive/Pods-iMachiLive.release.xcconfig"; sourceTree = "<group>"; };
+		9A4427C23DA63233745BE87F /* Pods-iMachiLive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMachiLive.release.xcconfig"; path = "Pods/Target Support Files/Pods-iMachiLive/Pods-iMachiLive.release.xcconfig"; sourceTree = "<group>"; };
+		B7F97D9E16FD172674C1C6BC /* Pods_iMachiLive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iMachiLive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D975171061393B024C421BC0 /* Pods-iMachiLive.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iMachiLive.debug.xcconfig"; path = "Pods/Target Support Files/Pods-iMachiLive/Pods-iMachiLive.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +68,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4657061B21CBCA250088C7E5 /* MapKit.framework in Frameworks */,
-				DE571A8E8BCB1A063CACE61B /* Pods_iMachiLive.framework in Frameworks */,
+				C105FBEAFA87271A6B4DAE57 /* Pods_iMachiLive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,7 +135,7 @@
 				465705F821CB6FE80088C7E5 /* iMachiLive */,
 				465705F721CB6FE80088C7E5 /* Products */,
 				4657061921CBCA250088C7E5 /* Frameworks */,
-				99674A071824AC912D7BB966 /* Pods */,
+				FDE8FB7FC1CF5D2D11948EF3 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -222,16 +222,16 @@
 			isa = PBXGroup;
 			children = (
 				4657061A21CBCA250088C7E5 /* MapKit.framework */,
-				1820AD80282ADD381A71DA71 /* Pods_iMachiLive.framework */,
+				B7F97D9E16FD172674C1C6BC /* Pods_iMachiLive.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		99674A071824AC912D7BB966 /* Pods */ = {
+		FDE8FB7FC1CF5D2D11948EF3 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				08D7E30B1392259D14492DFA /* Pods-iMachiLive.debug.xcconfig */,
-				BAA5CCF5D28640C03E08744D /* Pods-iMachiLive.release.xcconfig */,
+				D975171061393B024C421BC0 /* Pods-iMachiLive.debug.xcconfig */,
+				9A4427C23DA63233745BE87F /* Pods-iMachiLive.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -243,12 +243,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4657060821CB6FE90088C7E5 /* Build configuration list for PBXNativeTarget "iMachiLive" */;
 			buildPhases = (
-				74B7D99BF14176A4F9E66DD5 /* [CP] Check Pods Manifest.lock */,
+				378A3F7C2D5E3D37F88D05DE /* [CP] Check Pods Manifest.lock */,
 				465705F221CB6FE80088C7E5 /* Sources */,
 				465705F321CB6FE80088C7E5 /* Frameworks */,
 				465705F421CB6FE80088C7E5 /* Resources */,
-				177DF09AB9C6B7B54B92269B /* [CP] Embed Pods Frameworks */,
-				680D8D3416D929BEC0D9895F /* [CP] Copy Pods Resources */,
+				510304747C37BC32F2F349E8 /* [CP] Embed Pods Frameworks */,
+				F94FCB47A65CDFA7FFEC2E18 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -323,7 +323,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		177DF09AB9C6B7B54B92269B /* [CP] Embed Pods Frameworks */ = {
+		378A3F7C2D5E3D37F88D05DE /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-iMachiLive-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		510304747C37BC32F2F349E8 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -371,7 +389,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iMachiLive/Pods-iMachiLive-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		680D8D3416D929BEC0D9895F /* [CP] Copy Pods Resources */ = {
+		F94FCB47A65CDFA7FFEC2E18 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -401,24 +419,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-iMachiLive/Pods-iMachiLive-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		74B7D99BF14176A4F9E66DD5 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-iMachiLive-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -583,7 +583,7 @@
 		};
 		4657060921CB6FE90088C7E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 08D7E30B1392259D14492DFA /* Pods-iMachiLive.debug.xcconfig */;
+			baseConfigurationReference = D975171061393B024C421BC0 /* Pods-iMachiLive.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -602,7 +602,7 @@
 		};
 		4657060A21CB6FE90088C7E5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BAA5CCF5D28640C03E08744D /* Pods-iMachiLive.release.xcconfig */;
+			baseConfigurationReference = 9A4427C23DA63233745BE87F /* Pods-iMachiLive.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

@@ -65,10 +65,11 @@ class EditAnnotationViewController:
      # MPMediaPickerController()
      ---------------------------------------------------------------------- **/
     let picker = MPMediaPickerController()
+    var songIdAsString: String?
     
     func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
-        musicPlayerData.player.setQueue(with: mediaItemCollection)
         if let mediaItem = mediaItemCollection.items.first {
+            
             songTitleLabel.text = mediaItem.title ?? "不明な楽曲"
             songArtistLabel.text = mediaItem.artist ?? "不明なアーティスト"
             if let artwork = mediaItem.artwork {
@@ -78,12 +79,14 @@ class EditAnnotationViewController:
                 songAlbumWorkImageView.image = nil
                 songAlbumWorkImageView.backgroundColor = .lightGray
             }
+            // 楽曲情報の取得(審議？)
+            let songId = mediaItem.toNSNumber()!
+            songIdAsString = "\(songId)"
         }
         dismiss(animated: true, completion: nil)
     }
     
     func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
-        // ピッカーを閉じ、破棄する
         dismiss(animated: true, completion: nil)
     }
     
@@ -103,9 +106,7 @@ class EditAnnotationViewController:
      UI actions
      ---------------------------------------------------------------------- **/
     @IBAction func tapSongselectButton(_ sender: UIButton) {
-        // (未実装)アラートを表示して音源リソースを選択(デフォルトのライブラリ or iTunes視聴ライブラリ)
-        
-        // デフォルトのミュージックライブラリを開く
+        // 曲を１つ選択すると画面が戻るようにする(trueなら複数選択)
         picker.allowsPickingMultipleItems = false
         present(picker, animated: true, completion: nil)
     }
@@ -119,25 +120,6 @@ class EditAnnotationViewController:
     })
     
     @IBAction func tapCompleteButton(_ sender: UIButton) {
-        if (locationnameLabel.text?.trimmingCharacters(in: .whitespaces).isEmpty)! {
-//            let alert = UIAlertController(title: "入力エラー",
-//                                          message: "地名を入力してください",
-//                                          preferredStyle: UIAlertController.Style.alert)
-//            alert.addAction(defaultAction)
-//            present(alert, animated: true, completion: nil)
-        } else if 20 < (locationnameLabel.text?.characters.count)! {
-//            let alert = UIAlertController(title: "入力エラー",
-//                                          message: "地名を20字以内で入力してください",
-//                                          preferredStyle: UIAlertController.Style.alert)
-//            alert.addAction(defaultAction)
-//            present(alert, animated: true, completion: nil)
-        } else if (songTitleLabel.text?.isEmpty)! {
-//            let alert = UIAlertController(title: "入力エラー",
-//                                          message: "楽曲を選択してください",
-//                                          preferredStyle: UIAlertController.Style.alert)
-//            alert.addAction(defaultAction)
-//            present(alert, animated: true, completion: nil)
-        }
         // バリデーション完了
         if let currentUser = userData.authUI.auth?.currentUser {
             let childPath = "users/\(currentUser.uid)/annotation"
@@ -145,7 +127,8 @@ class EditAnnotationViewController:
                 = ["locationName": locationnameField.text,
                    "songTitle": songTitleLabel.text,
                    "songArtist": songArtistLabel.text,
-                   "songArtwork": songAlbumWorkImageView.image?.toString()]
+                   "songArtwork": songAlbumWorkImageView.image?.toString(),
+                   "songId": songIdAsString]
             userData.ref.child(childPath).updateChildValues(post as [AnyHashable : Any])
         }
         notification.post(name: .AnnotationAddedOrEdited, object: nil)

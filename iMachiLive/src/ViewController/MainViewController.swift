@@ -37,6 +37,42 @@ class MainViewController:
     deinit {
         notification.removeObserver(self)
     }
+    
+    func initObservers() {
+        notification.addObserver(self,
+                                 selector: #selector(handleLoginstateChangedNotification(_:)),
+                                 name: .LoginstateChanged, object: nil)
+        notification.addObserver(self,
+                                 selector: #selector(handleUserInfoUpdateNotification(_:)),
+                                 name: .UserInfoUpdate, object: nil)
+        notification.addObserver(self,
+                                 selector: #selector(handleAnnotationAddNotification(_:)),
+                                 name: .AnnotationAdd, object: nil)
+        notification.addObserver(self,
+                                 selector: #selector(handleAnnotationAddedNotification(_:)),
+                                 name: .AnnotationAdded, object: nil)
+        notification.addObserver(self,
+                                 selector: #selector(handleAnnotationEditNotification(_:)),
+                                 name: .AnnotationEdit, object: nil)
+        notification.addObserver(self,
+                                 selector: #selector(handleAnnotationEditedNotification(_:)),
+                                 name: .AnnotationEdited, object: nil)
+        notification.addObserver(self,
+                                 selector: #selector(handleAnnotationAddedOrEditedNotification(_:)),
+                                 name: .AnnotationAddedOrEdited, object: nil)
+        notification.addObserver(self,
+                                 selector: #selector(handleAnnotationRemoveNotification(_:)),
+                                 name: .AnnotationRemove, object: nil)
+        notification.addObserver(self,
+                                 selector: #selector(handleAnnotationRemovedNotification(_:)),
+                                 name: .AnnotationRemoved, object: nil)
+        notification.addObserver(self,
+                                 selector: #selector(handleAnnotationShareNotification(_:)),
+                                 name: .AnnotationShare, object: nil)
+        notification.addObserver(self,
+                                 selector: #selector(handleAnnotationSharedNotification(_:)),
+                                 name: .AnnotationShared, object: nil)
+    }
 
     @objc func handleLoginstateChangedNotification(_ notification: Notification) {
         if let currentUser = userData.authUI.auth?.currentUser {
@@ -107,6 +143,7 @@ class MainViewController:
                        "songTitle": child?.songTitle,
                        "songArtist": child?.songArtist,
                        "songArtwork": child?.songArtwork?.toString(),
+                       "songId": "\(child?.songId! ?? 0)",
                        "location":
                         "\(String(describing: self.nowEditAnnotation.coordinate.latitude))"
                             + ","
@@ -198,42 +235,6 @@ class MainViewController:
         
     }
     
-    func initObservers() {
-        notification.addObserver(self,
-                                 selector: #selector(handleLoginstateChangedNotification(_:)),
-                                 name: .LoginstateChanged, object: nil)
-        notification.addObserver(self,
-                                 selector: #selector(handleUserInfoUpdateNotification(_:)),
-                                 name: .UserInfoUpdate, object: nil)
-        notification.addObserver(self,
-                                 selector: #selector(handleAnnotationAddNotification(_:)),
-                                 name: .AnnotationAdd, object: nil)
-        notification.addObserver(self,
-                                 selector: #selector(handleAnnotationAddedNotification(_:)),
-                                 name: .AnnotationAdded, object: nil)
-        notification.addObserver(self,
-                                 selector: #selector(handleAnnotationEditNotification(_:)),
-                                 name: .AnnotationEdit, object: nil)
-        notification.addObserver(self,
-                                 selector: #selector(handleAnnotationEditedNotification(_:)),
-                                 name: .AnnotationEdited, object: nil)
-        notification.addObserver(self,
-                                 selector: #selector(handleAnnotationAddedOrEditedNotification(_:)),
-                                 name: .AnnotationAddedOrEdited, object: nil)
-        notification.addObserver(self,
-                                 selector: #selector(handleAnnotationRemoveNotification(_:)),
-                                 name: .AnnotationRemove, object: nil)
-        notification.addObserver(self,
-                                 selector: #selector(handleAnnotationRemovedNotification(_:)),
-                                 name: .AnnotationRemoved, object: nil)
-        notification.addObserver(self,
-                                 selector: #selector(handleAnnotationShareNotification(_:)),
-                                 name: .AnnotationShare, object: nil)
-        notification.addObserver(self,
-                                 selector: #selector(handleAnnotationSharedNotification(_:)),
-                                 name: .AnnotationShared, object: nil)
-    }
-    
     /** ----------------------------------------------------------------------
      # UI settings
     ---------------------------------------------------------------------- **/
@@ -316,7 +317,7 @@ class MainViewController:
 
         contentsScrollView.bounces = false
         contentsScrollView.isScrollEnabled = true
-        contentsScrollView.contentSize = CGSize(width: self.view.frame.width, height: 380)
+        contentsScrollView.contentSize = CGSize(width: self.view.frame.width, height: 420)
         contentsScrollView.frame
             = CGRect(x: 0, y: selectedHeaderView.frame.maxY,
                      width: self.view.frame.width,
@@ -529,6 +530,13 @@ class MainViewController:
                             self.selectedContentsView.contributernameLabel.text = child?.userName
                             self.selectedContentsView.contributeravatarImageView.image = child?.userIcon
                         })
+                        // 楽曲再生
+                        let correction: MPMediaItemCollection
+                        let item: MPMediaItem = (child?.songId?.getMediaItem())!
+                        
+                        correction = MPMediaItemCollection.init(items: [item])
+                        self.musicPlayerData.player.setQueue(with: correction)
+                        self.musicPlayerData.player.play()
                     }
                 }
             })

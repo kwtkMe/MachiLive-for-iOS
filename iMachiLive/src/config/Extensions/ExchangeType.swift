@@ -9,8 +9,38 @@
 import Foundation
 import UIKit
 import MapKit
+import MediaPlayer
+
+extension MPMediaItem {
+    
+    func toNSNumber() -> NSNumber? {
+        var itemNumber: NSNumber?
+        if let data = self.value(forProperty: MPMediaItemPropertyPersistentID) {
+            itemNumber = data as? NSNumber
+        }
+        return itemNumber
+    }
+}
+
+extension NSNumber {
+    
+    func getMediaItem() -> MPMediaItem {
+        
+        let property: MPMediaPropertyPredicate
+            = MPMediaPropertyPredicate( value: self, forProperty: MPMediaItemPropertyPersistentID )
+        let query: MPMediaQuery = MPMediaQuery()
+        query.addFilterPredicate( property )
+        
+        var items: [MPMediaItem] = query.items as! [MPMediaItem]
+        
+        return items[items.count - 1]
+        
+    }
+
+}
 
 extension UIImage {
+    
     func toString() -> String? {
         let data: Data? = self.pngData()
         return data?.base64EncodedString(options: .endLineWithLineFeed)
@@ -18,6 +48,7 @@ extension UIImage {
 }
 
 extension String {
+    
     func toImage() -> UIImage? {
         if let data = Data(base64Encoded: self, options: .ignoreUnknownCharacters){
             return UIImage(data: data)
@@ -39,6 +70,7 @@ extension String {
 }
 
 extension URL {
+    
     func toUIImage() -> UIImage? {
         var image = UIImage()
         if let data = try? Data(contentsOf: self)

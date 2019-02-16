@@ -43,7 +43,7 @@ class SelectedContentsView: UIView {
     }
 
     @IBAction func tapMusicStatusButton(_ sender: UIButton) {
-        notification.post(name: .PlayerStatusChanged, object: nil)
+
     }
     @IBAction func tapEditButton(_ sender: UIButton) {
         notification.post(name: .AnnotationEdit, object: nil)
