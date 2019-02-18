@@ -13,7 +13,6 @@
 		46133570220A7511000DA268 /* NormalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4613356D220A7511000DA268 /* NormalView.swift */; };
 		46133576220A75EB000DA268 /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46133575220A75EB000DA268 /* NotificationName.swift */; };
 		46133579220A92BB000DA268 /* Structs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46133578220A92BB000DA268 /* Structs.swift */; };
-		4613357F220B0AC6000DA268 /* ic_account_circle.png in Resources */ = {isa = PBXBuildFile; fileRef = 4613357E220B0AC6000DA268 /* ic_account_circle.png */; };
 		46133581220BE092000DA268 /* ExchangeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46133580220BE092000DA268 /* ExchangeType.swift */; };
 		464373B421FB27E6007D2521 /* EditAnnotation.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 464373B321FB27E6007D2521 /* EditAnnotation.storyboard */; };
 		465705FA21CB6FE80088C7E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465705F921CB6FE80088C7E5 /* AppDelegate.swift */; };
@@ -39,7 +38,6 @@
 		4613356D220A7511000DA268 /* NormalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NormalView.swift; sourceTree = "<group>"; };
 		46133575220A75EB000DA268 /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
 		46133578220A92BB000DA268 /* Structs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Structs.swift; sourceTree = "<group>"; };
-		4613357E220B0AC6000DA268 /* ic_account_circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_account_circle.png; sourceTree = "<group>"; };
 		46133580220BE092000DA268 /* ExchangeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeType.swift; sourceTree = "<group>"; };
 		464373B321FB27E6007D2521 /* EditAnnotation.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EditAnnotation.storyboard; sourceTree = "<group>"; };
 		465705F621CB6FE80088C7E5 /* iMachiLive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMachiLive.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -213,7 +211,6 @@
 				46EDF4B321DCEDC600FF6B70 /* GoogleService-Info.plist */,
 				465705F921CB6FE80088C7E5 /* AppDelegate.swift */,
 				4657060021CB6FE90088C7E5 /* Assets.xcassets */,
-				4613357E220B0AC6000DA268 /* ic_account_circle.png */,
 			);
 			path = resource;
 			sourceTree = "<group>";
@@ -311,7 +308,6 @@
 				46F118202216A6D3002F85B2 /* SelectedHeaderView.xib in Resources */,
 				4657060421CB6FE90088C7E5 /* LaunchScreen.storyboard in Resources */,
 				464373B421FB27E6007D2521 /* EditAnnotation.storyboard in Resources */,
-				4613357F220B0AC6000DA268 /* ic_account_circle.png in Resources */,
 				4657060121CB6FE90088C7E5 /* Assets.xcassets in Resources */,
 				4613356A220A744F000DA268 /* NormalView.xib in Resources */,
 				465705FF21CB6FE80088C7E5 /* Main.storyboard in Resources */,
@@ -350,9 +346,9 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-iMachiLive/Pods-iMachiLive-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
-				"${BUILT_PRODUCTS_DIR}/Eureka/Eureka.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Floaty/Floaty.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
@@ -369,9 +365,9 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Eureka.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Floaty.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",

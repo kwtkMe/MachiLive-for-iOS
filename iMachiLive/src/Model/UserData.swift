@@ -56,9 +56,6 @@ class UserData: NSObject, FUIAuthDelegate {
     public func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?){
         if error == nil {
         }
-        if authUI.auth?.currentUser == nil {
-            self.notification.post(name: .LoginstateChanged, object: nil)
-        }
     }
     
 }

@@ -12,10 +12,16 @@ import MapKit
 import MediaPlayer
 import Firebase
 import FirebaseUI
+import Floaty
 
 enum SlideViewState {
     case collapsed
     case expanded
+}
+
+enum MachiliveState {
+    case machi_live
+    case no_live
 }
 
 class MainViewController:
@@ -40,11 +46,11 @@ class MainViewController:
     
     func initObservers() {
         notification.addObserver(self,
+                                 selector: #selector(handleLoginstateChangeNotification(_:)),
+                                 name: .LoginstateChange, object: nil)
+        notification.addObserver(self,
                                  selector: #selector(handleLoginstateChangedNotification(_:)),
                                  name: .LoginstateChanged, object: nil)
-        notification.addObserver(self,
-                                 selector: #selector(handleUserInfoUpdateNotification(_:)),
-                                 name: .UserInfoUpdate, object: nil)
         notification.addObserver(self,
                                  selector: #selector(handleAnnotationAddNotification(_:)),
                                  name: .AnnotationAdd, object: nil)
@@ -73,24 +79,45 @@ class MainViewController:
                                  selector: #selector(handleAnnotationSharedNotification(_:)),
                                  name: .AnnotationShared, object: nil)
     }
+    
+    @objc func handleLoginstateChangeNotification(_ notification: Notification) {
+        if (userData.authUI.auth?.currentUser) != nil {
+            let alert
+                = UIAlertController(title: "ログアウト",
+                                    message: "ログアウトしますか？",
+                                    preferredStyle: UIAlertController.Style.alert)
+            let cancelAction
+                = UIAlertAction(title: "キャンセル",
+                                style: UIAlertAction.Style.cancel,
+                                handler:{(action: UIAlertAction!) in
+                })
+            let defaultAction
+                = UIAlertAction(title: "OK",
+                                style: UIAlertAction.Style.default,
+                                handler:{(action: UIAlertAction!) in
+                                    do {
+                                        try self.userData.authUI.auth?.signOut()
+                                    } catch let signOutError as NSError {
+                                        print ("Error signing out: %@", signOutError)
+                                    }
+                })
+            alert.addAction(cancelAction)
+            alert.addAction(defaultAction)
+            present(alert, animated: true, completion: nil)
+        } else {
+            self.notification.post(name: .LoginstateChanged, object: nil)
+        }
+    }
 
     @objc func handleLoginstateChangedNotification(_ notification: Notification) {
-        if let currentUser = userData.authUI.auth?.currentUser {
-            self.notification.post(name: .UserInfoUpdate, object: nil)
+        if (userData.authUI.auth?.currentUser) != nil {
+            // floatyのユーザ画像を更新
+            initSubviewConfiguration()
         } else {
+            // floatyのユーザ画像を更新
             self.dismiss(animated: true)
             let authViewController = self.userData.authUI.authViewController()
             self.present(authViewController, animated: true, completion: nil)
-        }
-    }
-    
-    @objc func handleUserInfoUpdateNotification(_ notification: Notification){
-        if let currentUser = userData.authUI.auth?.currentUser {
-            let childPath = "users/\(currentUser.uid)/userInfo"
-            let post = ["uid": currentUser.uid,
-                        "userName": currentUser.displayName,
-                        "userIcon": currentUser.photoURL?.toUIImage()?.toString() ?? ""]
-            userData.ref.child(childPath).updateChildValues(post as [AnyHashable : Any])
         }
     }
     
@@ -234,7 +261,7 @@ class MainViewController:
     ---------------------------------------------------------------------- **/
     // main
     @IBOutlet weak var mainMapView: MKMapView!
-    
+    @IBOutlet weak var floatyButton: Floaty!
     // delegatations
     var locationManager: CLLocationManager!
     var player: MPMusicPlayerController!
@@ -248,6 +275,7 @@ class MainViewController:
     var nowEditAnnotation: MKPointAnnotation!
     // UI Constant
     var state_SelectedView: SlideViewState = .collapsed
+    var state_Machilive: MachiliveState = .no_live
     final let Height_slideView_collapsed: CGFloat = 80.0
     final let Height_slideView_expanded: CGFloat = 300.0
     final let Height_selectedContentsView: CGFloat = 500.0
@@ -282,7 +310,6 @@ class MainViewController:
     }
     
     private func initSubview() {
-        
         slideView.layer.cornerRadius = 10
         slideView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         slideView.layer.masksToBounds = true
@@ -351,6 +378,95 @@ class MainViewController:
                 }
             })
         }
+        
+        // floatyButton
+        floatyButton.verticalDirection = .down
+        initFloatyButton()
+    }
+    
+    func initFloatyButton() {
+        // userItem
+        let userItem = FloatyItem()
+        if let user = userData.authUI.auth?.currentUser {
+            userItem.icon = user.photoURL?.toUIImage()
+        } else {
+            userItem.icon = UIImage(named: "account")
+        }
+        userItem.handler =  { item in
+            self.notification.post(name: .LoginstateChange, object: nil)
+        }
+        // liveItem
+        let liveItem = FloatyItem()
+        switch self.state_Machilive {
+        case .no_live:
+            liveItem.icon = UIImage(named: "nolive")
+            liveItem.handler = { item in
+                self.state_Machilive = .machi_live
+                self.mainMapView.setCenter(self.mainMapView.userLocation.coordinate, animated: true)
+                self.mainMapView.userTrackingMode = MKUserTrackingMode.follow
+                self.initFloatyButton()
+            }
+        case .machi_live:
+            liveItem.icon = UIImage(named: "machilive")
+            liveItem.handler = { item in
+                self.state_Machilive = .no_live
+                self.mainMapView.userTrackingMode = MKUserTrackingMode.none
+                self.initFloatyButton()
+            }
+        }
+        // playItem
+        let playItem = FloatyItem()
+        switch self.musicPlayerData.player.playbackState {
+        case .stopped:
+            playItem.icon = UIImage(named: "play-100")
+            playItem.handler = { item in
+                self.musicPlayerData.player.play()
+                self.initFloatyButton()
+            }
+        case .paused:
+            playItem.icon = UIImage(named: "play-100")
+            playItem.handler = { item in
+                self.musicPlayerData.player.play()
+                self.initFloatyButton()
+            }
+        case .playing:
+            playItem.icon = UIImage(named: "pause-100")
+            playItem.handler = { item in
+                self.musicPlayerData.player.stop()
+                self.initFloatyButton()
+            }
+        default: break
+        }
+        // repeatItem
+        let repeatItem = FloatyItem()
+        switch self.musicPlayerData.player.repeatMode {
+        case .none:
+            repeatItem.buttonColor = .lightGray
+            repeatItem.icon = UIImage(named: "repeat-100")
+            repeatItem.handler = { item in
+                self.musicPlayerData.player.repeatMode = .all
+                self.initFloatyButton()
+            }
+        case .all:
+            repeatItem.icon = UIImage(named: "repeat-100")
+            repeatItem.handler = { item in
+                self.musicPlayerData.player.repeatMode = .one
+                self.initFloatyButton()
+            }
+        case .one:
+            repeatItem.icon = UIImage(named: "repeat_one-100")
+            repeatItem.handler = { item in
+                self.musicPlayerData.player.repeatMode = .none
+                self.initFloatyButton()
+            }
+        default: break
+        }
+        
+        for item in floatyButton.items { self.floatyButton.removeItem(item: item)}
+        self.floatyButton.addItem(item: userItem)
+        self.floatyButton.addItem(item: liveItem)
+        self.floatyButton.addItem(item: playItem)
+        self.floatyButton.addItem(item: repeatItem)
     }
     
     private func addGestures() {

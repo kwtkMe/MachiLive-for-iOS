@@ -25,13 +25,25 @@
                                     <outletCollection property="gestureRecognizers" destination="VJn-06-tN8" appends="YES" id="zQt-es-H8Y"/>
                                 </connections>
                             </mapView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e4i-Oc-yqe" customClass="Floaty" customModule="Floaty">
+                                <rect key="frame" x="16" y="20" width="50" height="50"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" button="YES" image="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="FYz-om-wcq"/>
+                                    <constraint firstAttribute="width" secondItem="e4i-Oc-yqe" secondAttribute="height" multiplier="1:1" id="pMV-ff-qoE"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="e4i-Oc-yqe" firstAttribute="leading" secondItem="TGI-MP-Ezd" secondAttribute="leading" constant="16" id="1vY-qz-H8I"/>
                             <constraint firstItem="Bgy-k1-VzL" firstAttribute="top" secondItem="isX-9j-VLn" secondAttribute="top" id="4dt-nF-jfz"/>
                             <constraint firstAttribute="trailing" secondItem="Bgy-k1-VzL" secondAttribute="trailing" id="BEf-bJ-uVf"/>
                             <constraint firstItem="Bgy-k1-VzL" firstAttribute="leading" secondItem="isX-9j-VLn" secondAttribute="leading" id="GNR-A2-1Si"/>
                             <constraint firstAttribute="bottom" secondItem="Bgy-k1-VzL" secondAttribute="bottom" id="ItV-On-VHF"/>
+                            <constraint firstItem="e4i-Oc-yqe" firstAttribute="top" secondItem="TGI-MP-Ezd" secondAttribute="top" id="hDc-k8-OCy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="TGI-MP-Ezd"/>
                     </view>
@@ -48,12 +60,10 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="login"/>
                             </button>
-                            <connections>
-                                <segue destination="lQZ-js-Mxl" kind="presentation" identifier="showUser" modalTransitionStyle="crossDissolve" id="M0z-B3-eNW"/>
-                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="floatyButton" destination="e4i-Oc-yqe" id="iiA-Qj-Cql"/>
                         <outlet property="mainMapView" destination="Bgy-k1-VzL" id="6uH-J2-oF4"/>
                     </connections>
                 </viewController>
@@ -65,72 +75,6 @@
                 </pongPressGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="2015.2" y="133.5832083958021"/>
-        </scene>
-        <!--User View Controller-->
-        <scene sceneID="OH4-KH-KUL">
-            <objects>
-                <viewController storyboardIdentifier="user" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="lQZ-js-Mxl" customClass="UserViewController" customModule="iMachiLive" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" tag="1" contentMode="scaleToFill" id="3SM-Vq-gnN">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Krh-xO-rYc">
-                                <rect key="frame" x="0.0" y="0.0" width="252" height="667"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nfH-SZ-NvC">
-                                        <rect key="frame" x="104" y="382" width="44" height="30"/>
-                                        <state key="normal" title="logout"/>
-                                        <connections>
-                                            <action selector="tapLogout:" destination="lQZ-js-Mxl" eventType="touchUpInside" id="hcq-E5-NEf"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jZg-z9-scP">
-                                        <rect key="frame" x="74.5" y="319" width="103" height="29"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fa8-9h-vCE">
-                                        <rect key="frame" x="51" y="129" width="150" height="150"/>
-                                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="fa8-9h-vCE" secondAttribute="height" multiplier="1:1" id="DgV-pe-JEg"/>
-                                            <constraint firstAttribute="height" constant="150" id="OC6-PI-izN"/>
-                                        </constraints>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="50"/>
-                                        </userDefinedRuntimeAttributes>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstItem="jZg-z9-scP" firstAttribute="centerY" secondItem="Krh-xO-rYc" secondAttribute="centerY" id="5xZ-BD-ECP"/>
-                                    <constraint firstItem="jZg-z9-scP" firstAttribute="centerX" secondItem="nfH-SZ-NvC" secondAttribute="centerX" id="8Zt-1P-TF5"/>
-                                    <constraint firstItem="jZg-z9-scP" firstAttribute="top" secondItem="fa8-9h-vCE" secondAttribute="bottom" constant="40" id="EYd-TT-j27"/>
-                                    <constraint firstItem="fa8-9h-vCE" firstAttribute="centerX" secondItem="Krh-xO-rYc" secondAttribute="centerX" id="Puu-6J-FWQ"/>
-                                    <constraint firstItem="fa8-9h-vCE" firstAttribute="centerX" secondItem="jZg-z9-scP" secondAttribute="centerX" id="ie0-Ls-H7r"/>
-                                    <constraint firstItem="nfH-SZ-NvC" firstAttribute="top" secondItem="jZg-z9-scP" secondAttribute="bottom" constant="34" id="pHq-Jx-Ugb"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="Krh-xO-rYc" firstAttribute="top" secondItem="3SM-Vq-gnN" secondAttribute="top" id="92a-yX-bNo"/>
-                            <constraint firstItem="Krh-xO-rYc" firstAttribute="leading" secondItem="3SM-Vq-gnN" secondAttribute="leading" id="Wuw-2p-D9s"/>
-                            <constraint firstItem="fzM-5a-BFL" firstAttribute="trailing" secondItem="Krh-xO-rYc" secondAttribute="trailing" constant="123" id="ZPS-l7-lbc"/>
-                            <constraint firstItem="Krh-xO-rYc" firstAttribute="bottom" secondItem="fzM-5a-BFL" secondAttribute="bottom" id="qLl-bH-Wni"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="fzM-5a-BFL"/>
-                    </view>
-                    <connections>
-                        <outlet property="avatarImageView" destination="fa8-9h-vCE" id="yjY-6h-Isj"/>
-                        <outlet property="menuView" destination="Krh-xO-rYc" id="Vu1-V1-nOc"/>
-                        <outlet property="usernameLabel" destination="jZg-z9-scP" id="aF7-FB-aAB"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ilu-rL-0dn" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3178" y="134"/>
         </scene>
     </scenes>
 </document>

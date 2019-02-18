@@ -7,33 +7,30 @@
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
+            buildForAnalyzing = "YES"
             buildForTesting = "YES"
             buildForRunning = "YES"
             buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
+            buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8C288A4D169ADC9B2FBDDEA934FBF3D0"
-               BuildableName = "Pods_iMachiLive.framework"
-               BlueprintName = "Pods-iMachiLive"
-               ReferencedContainer = "container:Pods.xcodeproj">
+               BlueprintIdentifier = "5C123A74CD9D6CDA27160800BA68B01A"
+               BlueprintName = "Floaty"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "Floaty.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
-      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
-      <Testables>
-      </Testables>
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      buildConfiguration = "Debug">
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -41,25 +38,17 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
+      buildConfiguration = "Debug"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8C288A4D169ADC9B2FBDDEA934FBF3D0"
-            BuildableName = "Pods_iMachiLive.framework"
-            BlueprintName = "Pods-iMachiLive"
-            ReferencedContainer = "container:Pods.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "Release"
-      shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      debugDocumentVersioning = "YES">
+      debugDocumentVersioning = "YES"
+      buildConfiguration = "Release"
+      shouldUseLaunchSchemeArgsEnv = "YES">
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

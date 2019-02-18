@@ -11,6 +11,7 @@ import UIKit
 
 extension Notification.Name {
     // ログインについて
+    static let LoginstateChange = Notification.Name("loginstate_change")
     static let LoginstateChanged = Notification.Name("loginstate_changed")
     // ユーザ情報について
     static let UserInfoUpdate = Notification.Name("username_update")
