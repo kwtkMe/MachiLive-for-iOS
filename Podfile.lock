@@ -184,6 +184,7 @@ DEPENDENCIES:
   - Firebase/Database
   - FirebaseUI
   - Floaty (~> 4.1.0)
+  - TwitterKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -246,6 +247,6 @@ SPEC CHECKSUMS:
   TwitterCore: 8cbc9ad34d91c63a0035ea05bfbfc0d7ca72a28c
   TwitterKit: 5e4f41d70b9abdb41df5467f52d7aa2c0fd26ebb
 
-PODFILE CHECKSUM: 79fff053915e5f4cd933f5ed11f799f5d9010aa0
+PODFILE CHECKSUM: 1ddd140448a7a6a472c089bdb0c5c88745fe32e1
 
 COCOAPODS: 1.5.3

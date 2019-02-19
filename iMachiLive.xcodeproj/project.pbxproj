@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4600EF90221AA1D60031345E /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4600EF8F221AA1D60031345E /* Media.xcassets */; };
 		4612E96A21F1C52E0078569B /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4612E96921F1C52E0078569B /* UserViewController.swift */; };
 		4612E96C21F375850078569B /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4612E96B21F375850078569B /* UserData.swift */; };
 		4613356A220A744F000DA268 /* NormalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46133567220A744F000DA268 /* NormalView.xib */; };
@@ -18,7 +19,6 @@
 		465705FA21CB6FE80088C7E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465705F921CB6FE80088C7E5 /* AppDelegate.swift */; };
 		465705FC21CB6FE80088C7E5 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465705FB21CB6FE80088C7E5 /* MainViewController.swift */; };
 		465705FF21CB6FE80088C7E5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 465705FD21CB6FE80088C7E5 /* Main.storyboard */; };
-		4657060121CB6FE90088C7E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4657060021CB6FE90088C7E5 /* Assets.xcassets */; };
 		4657060421CB6FE90088C7E5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4657060221CB6FE90088C7E5 /* LaunchScreen.storyboard */; };
 		4657061B21CBCA250088C7E5 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4657061A21CBCA250088C7E5 /* MapKit.framework */; };
 		46B45C5B22112B8C00FC3641 /* SelectedHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B45C5922112B8C00FC3641 /* SelectedHeaderView.swift */; };
@@ -32,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4600EF8F221AA1D60031345E /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		4612E96921F1C52E0078569B /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		4612E96B21F375850078569B /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		46133567220A744F000DA268 /* NormalView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NormalView.xib; sourceTree = "<group>"; };
@@ -44,7 +45,6 @@
 		465705F921CB6FE80088C7E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		465705FB21CB6FE80088C7E5 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		465705FE21CB6FE80088C7E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		4657060021CB6FE90088C7E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4657060321CB6FE90088C7E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4657060521CB6FE90088C7E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4657061A21CBCA250088C7E5 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -210,7 +210,7 @@
 				4657060521CB6FE90088C7E5 /* Info.plist */,
 				46EDF4B321DCEDC600FF6B70 /* GoogleService-Info.plist */,
 				465705F921CB6FE80088C7E5 /* AppDelegate.swift */,
-				4657060021CB6FE90088C7E5 /* Assets.xcassets */,
+				4600EF8F221AA1D60031345E /* Media.xcassets */,
 			);
 			path = resource;
 			sourceTree = "<group>";
@@ -307,8 +307,8 @@
 			files = (
 				46F118202216A6D3002F85B2 /* SelectedHeaderView.xib in Resources */,
 				4657060421CB6FE90088C7E5 /* LaunchScreen.storyboard in Resources */,
+				4600EF90221AA1D60031345E /* Media.xcassets in Resources */,
 				464373B421FB27E6007D2521 /* EditAnnotation.storyboard in Resources */,
-				4657060121CB6FE90088C7E5 /* Assets.xcassets in Resources */,
 				4613356A220A744F000DA268 /* NormalView.xib in Resources */,
 				465705FF21CB6FE80088C7E5 /* Main.storyboard in Resources */,
 				46EDF4B421DCEDC600FF6B70 /* GoogleService-Info.plist in Resources */,

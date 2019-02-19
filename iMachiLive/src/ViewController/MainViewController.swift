@@ -12,6 +12,7 @@ import MapKit
 import MediaPlayer
 import Firebase
 import FirebaseUI
+import TwitterKit
 import Floaty
 
 enum SlideViewState {
@@ -110,9 +111,9 @@ class MainViewController:
     }
 
     @objc func handleLoginstateChangedNotification(_ notification: Notification) {
+        initSubviewConfiguration()
         if (userData.authUI.auth?.currentUser) != nil {
             // floatyのユーザ画像を更新
-            initSubviewConfiguration()
         } else {
             // floatyのユーザ画像を更新
             self.dismiss(animated: true)
@@ -249,6 +250,30 @@ class MainViewController:
     }
     
     @objc func handleAnnotationShareNotification(_ notification: Notification) {
+        let location = selectedHeaderView.locationnameLabel.text
+        let songTitle = selectedContentsView.songtitleLabel.text
+        let songArtist = selectedContentsView.songartistLabel.text
+        let songImage: UIImage? = selectedContentsView.songartworkImageView.image
+        let defaultText = """
+                    #nowplaying \(songTitle!)
+                    @ \(location!) - \(songArtist!)" #machi_live
+        """
+        let composer = TWTRComposer()
+        composer.setText(defaultText)
+        composer.setImage(songImage)
+        
+        if (TWTRTwitter.sharedInstance().sessionStore.hasLoggedInUsers()) {
+            composer.show(from: self)
+        } else {
+            TWTRTwitter.sharedInstance().logIn { session, error in
+                if session != nil {
+                    composer.show(from: self)
+                } else {
+                    let alert = UIAlertController(title: "No Twitter Accounts Available", message: "You must log in before presenting a composer.", preferredStyle: .alert)
+                    self.present(alert, animated: false, completion: nil)
+                }
+            }
+        }
         
     }
     
@@ -390,7 +415,7 @@ class MainViewController:
         if let user = userData.authUI.auth?.currentUser {
             userItem.icon = user.photoURL?.toUIImage()
         } else {
-            userItem.icon = UIImage(named: "account")
+            userItem.icon = UIImage(named: "user-100")
         }
         userItem.handler =  { item in
             self.notification.post(name: .LoginstateChange, object: nil)
@@ -606,6 +631,8 @@ class MainViewController:
     
     // about .selected
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if view.annotation is MKUserLocation {return}
+        
         nowEditAnnotation = (view.annotation as! MKPointAnnotation)
         
         for subview in slideView.subviews {
@@ -625,7 +652,7 @@ class MainViewController:
                     if(child?.coordinate!.latitude == view.annotation!.coordinate.latitude) {
                         self.selectedHeaderView.locationnameLabel.text = child?.locationName
                         self.selectedContentsView.songtitleLabel.text = child?.songTitle
-                        self.selectedContentsView.songartistImageView.text = child?.songArtist
+                        self.selectedContentsView.songartistLabel.text = child?.songArtist
                         self.selectedContentsView.songartworkImageView.image = child?.songArtwork
 
                         if let item: MPMediaItem = (child?.songId?.toMediaItem()) {
@@ -635,7 +662,6 @@ class MainViewController:
                         } else {
                             print("再生エラー")
                         }
-                        
                     }
                 }
             })
@@ -669,16 +695,6 @@ class MainViewController:
             notification.post(name: .AnnotationAdd, object: nil)
         }
     }
-    
-//    @IBAction func changeTrackingMode(_ sender: UISwitch) {
-//        if trackingModeSwitch.isOn {
-//            mainMapView.setCenter(mainMapView.userLocation.coordinate,
-//                                  animated: true)
-//            mainMapView.userTrackingMode = MKUserTrackingMode.follow
-//        } else if !trackingModeSwitch.isOn {
-//            mainMapView.userTrackingMode = MKUserTrackingMode.none
-//        }
-//    }
     
     @IBAction func tapLoginButton(_ sender: UIButton) {
         if (userData.authUI.auth?.currentUser) != nil {

@@ -12,7 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SelectedContentsView" customModule="iMachiLive" customModuleProvider="target">
             <connections>
-                <outlet property="songartistImageView" destination="5F1-H7-ErO" id="tzS-Zt-lAe"/>
+                <outlet property="songartistLabel" destination="5F1-H7-ErO" id="oeq-wK-Sir"/>
                 <outlet property="songartworkImageView" destination="mw7-kb-GKP" id="rSE-el-rhq"/>
                 <outlet property="songtitleLabel" destination="iP7-dr-xnz" id="jWa-3B-nJT"/>
             </connections>

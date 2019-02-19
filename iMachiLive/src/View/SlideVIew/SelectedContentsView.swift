@@ -12,7 +12,8 @@ class SelectedContentsView: UIView {
 
     @IBOutlet weak var songartworkImageView: UIImageView!
     @IBOutlet weak var songtitleLabel: UILabel!
-    @IBOutlet weak var songartistImageView: UILabel!
+    @IBOutlet weak var songartistLabel: UILabel!
+    
     
     let notification = NotificationCenter.default
     
