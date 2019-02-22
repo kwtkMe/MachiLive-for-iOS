@@ -27,10 +27,4 @@ extension Notification.Name {
     static let AnnotationRemoved = Notification.Name("annotation_removed")
     static let AnnotationShare = Notification.Name("annotation_share")
     static let AnnotationShared = Notification.Name("annotation_shared")
-    // プレイヤーの各ステータスについて
-    static let PlayerPlayingStatusChanged = Notification.Name("player_playingstatus_changed")
-    static let PlayerRepeatStatusChanged = Notification.Name("player_repeatstatus_changed")
-    // プレイヤーの再生アイテムについて
-    static let PlayingItemChange = Notification.Name("playing_item_change")
-    static let PlayingItemChanged = Notification.Name("playing_item_changed")
 }

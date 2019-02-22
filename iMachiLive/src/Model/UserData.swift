@@ -29,7 +29,7 @@ class UserData: NSObject, FUIAuthDelegate {
      # Firebase
      ---------------------------------------------------------------------- **/
     var authUI: FUIAuth { get { return FUIAuth.defaultAuthUI()!}}
-    var handle = Auth.auth()
+    var handler = Auth.auth()
     let providers: [FUIAuthProvider] = [
         FUIGoogleAuth(),
         FUITwitterAuth(),
@@ -48,7 +48,7 @@ class UserData: NSObject, FUIAuthDelegate {
         
         ref = Database.database().reference()
         
-        handle.addStateDidChangeListener{ (auth, user) in
+        handler.addStateDidChangeListener{ (auth, user) in
             self.notification.post(name: .LoginstateChanged, object: nil)
         }
     }

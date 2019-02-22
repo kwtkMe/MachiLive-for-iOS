@@ -77,24 +77,16 @@ class MainViewController:
                                  selector: #selector(handleAnnotationShareNotification(_:)),
                                  name: .AnnotationShare, object: nil)
         notification.addObserver(self,
-                                 selector: #selector(handleAnnotationSharedNotification(_:)),
-                                 name: .AnnotationShared, object: nil)
+                                 selector: #selector(handlePlayerStatusDidChangeNotification(_:)),
+                                 name: .MPMusicPlayerControllerPlaybackStateDidChange, object: nil)
     }
     
     @objc func handleLoginstateChangeNotification(_ notification: Notification) {
         if (userData.authUI.auth?.currentUser) != nil {
-            let alert
-                = UIAlertController(title: "ログアウト",
-                                    message: "ログアウトしますか？",
-                                    preferredStyle: UIAlertController.Style.alert)
-            let cancelAction
-                = UIAlertAction(title: "キャンセル",
-                                style: UIAlertAction.Style.cancel,
-                                handler:{(action: UIAlertAction!) in
-                })
-            let defaultAction
-                = UIAlertAction(title: "OK",
-                                style: UIAlertAction.Style.default,
+            let alert = UIAlertController(title: "ログアウト", message: "ログアウトしますか？", preferredStyle: UIAlertController.Style.alert)
+            let cancelAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel,
+                                             handler:{ (action: UIAlertAction!) in })
+            let defaultAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default,
                                 handler:{(action: UIAlertAction!) in
                                     do {
                                         try self.userData.authUI.auth?.signOut()
@@ -113,9 +105,8 @@ class MainViewController:
     @objc func handleLoginstateChangedNotification(_ notification: Notification) {
         initSubviewConfiguration()
         if (userData.authUI.auth?.currentUser) != nil {
-            // floatyのユーザ画像を更新
+            //
         } else {
-            // floatyのユーザ画像を更新
             self.dismiss(animated: true)
             let authViewController = self.userData.authUI.authViewController()
             self.present(authViewController, animated: true, completion: nil)
@@ -126,21 +117,13 @@ class MainViewController:
         let mainStoryboard = UIStoryboard(name: "EditAnnotation", bundle: nil)
         let builtStoryboard = mainStoryboard.instantiateViewController(withIdentifier: "edit")
 
-        let cancelAction
-            = UIAlertAction(title: "キャンセル",
-                            style: UIAlertAction.Style.cancel,
-                            handler:{(action: UIAlertAction!) in
+        let cancelAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel,
+                                         handler:{ (action: UIAlertAction!) in })
+        let defaultAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default,
+                                          handler:{(action: UIAlertAction!) in
+                                            self.present(builtStoryboard, animated: true, completion: nil)
             })
-        let defaultAction
-            = UIAlertAction(title: "OK",
-                            style: UIAlertAction.Style.default,
-                            handler:{(action: UIAlertAction!) in
-                                self.present(builtStoryboard, animated: true, completion: nil)
-            })
-        let alert
-            = UIAlertController(title: "ピンを登録",
-                                message: "楽曲を登録しますか？",
-                                preferredStyle: UIAlertController.Style.alert)
+        let alert = UIAlertController(title: "ピンを登録", message: "楽曲を登録しますか？", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(cancelAction)
         alert.addAction(defaultAction)
         present(alert, animated: true, completion: nil)
@@ -215,17 +198,13 @@ class MainViewController:
     }
     
     @objc func handleAnnotationRemoveNotification(_ notification: Notification) {
-        let cancelAction
-            = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel, handler:{
-                (action: UIAlertAction!) in
+        let cancelAction = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.cancel,
+                                         handler:{ (action: UIAlertAction!) in })
+        let defaultAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default,
+                                          handler:{ (action: UIAlertAction!) in
+                                            self.notification.post(name: .AnnotationRemoved, object: nil)
             })
-        let defaultAction
-            = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
-                (action: UIAlertAction!) in
-                self.notification.post(name: .AnnotationRemoved, object: nil)
-            })
-        let alert
-            = UIAlertController(title: "ピンを削除", message: "本当に削除しますか？", preferredStyle: UIAlertController.Style.alert)
+        let alert = UIAlertController(title: "ピンを削除", message: "本当に削除しますか？", preferredStyle: UIAlertController.Style.alert)
         alert.addAction(cancelAction)
         alert.addAction(defaultAction)
         present(alert, animated: true, completion: nil)
@@ -239,8 +218,12 @@ class MainViewController:
                     let child = STPin(snapshot: item as! DataSnapshot)
                     let targetPinId = (child?.pinId)!
                     let annotationCoordinate = child?.coordinate
+                    
+                    self.mainMapView.removeAnnotation(self.nowEditAnnotation)
+                    
                     if(annotationCoordinate?.latitude == self.nowEditAnnotation.coordinate.latitude) {
-                        self.mainMapView.removeAnnotation(self.nowEditAnnotation)
+                        print("MARK :" + "\(annotationCoordinate?.latitude)")
+                        print("MARK :" + "\(self.nowEditAnnotation.coordinate.latitude)")
                         self.userData.ref.child(childPath).child(targetPinId).removeValue()
                         break
                     }
@@ -277,8 +260,8 @@ class MainViewController:
         
     }
     
-    @objc func handleAnnotationSharedNotification(_ notification: Notification) {
-        
+    @objc func handlePlayerStatusDidChangeNotification(_ notification: Notification) {
+        self.initFloatyButton()
     }
     
     /** ----------------------------------------------------------------------
@@ -302,7 +285,7 @@ class MainViewController:
     var state_SelectedView: SlideViewState = .collapsed
     var state_Machilive: MachiliveState = .no_live
     final let Height_slideView_collapsed: CGFloat = 80.0
-    final let Height_slideView_expanded: CGFloat = 300.0
+    final let Height_slideView_expanded: CGFloat = 420.0
     final let Height_selectedContentsView: CGFloat = 500.0
     final func colleapsedFrame() -> CGRect {
         return CGRect(
@@ -374,21 +357,8 @@ class MainViewController:
     }
     
     private func initSubviewConfiguration() {
-        locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-
-        mainMapView.delegate = self
-        mainMapView.showsUserLocation = false
-        mainMapView.userTrackingMode = MKUserTrackingMode.none
-
-        let mapViewCenterDefault = CLLocationCoordinate2DMake(35.5, 139.8)
-        let coordinateSpanDefault = MKCoordinateSpan(latitudeDelta: 1.0, longitudeDelta: 1.0)
-        let regionDefault = MKCoordinateRegion(center: mapViewCenterDefault, span: coordinateSpanDefault)
-        mainMapView.setRegion(regionDefault, animated:true)
-        
         mainMapView.removeAnnotations(annotationArray)
-
+        
         if let currentUser = userData.authUI.auth?.currentUser {
             let childPath = "users/\(currentUser.uid)/pin"
             userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
@@ -403,6 +373,20 @@ class MainViewController:
                 }
             })
         }
+        
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startMonitoringSignificantLocationChanges()
+
+        mainMapView.delegate = self
+        mainMapView.showsUserLocation = false
+        mainMapView.userTrackingMode = MKUserTrackingMode.none
+
+        let mapViewCenterDefault = CLLocationCoordinate2DMake(35.5, 139.8)
+        let coordinateSpanDefault = MKCoordinateSpan(latitudeDelta: 1.0, longitudeDelta: 1.0)
+        let regionDefault = MKCoordinateRegion(center: mapViewCenterDefault, span: coordinateSpanDefault)
+        mainMapView.setRegion(regionDefault, animated:true)
         
         // floatyButton
         floatyButton.verticalDirection = .down
@@ -603,7 +587,7 @@ class MainViewController:
         let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationID)
         
         let artworkImageView = UIImageView()
-        artworkImageView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        artworkImageView.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
         
         if let currentUser = userData.authUI.auth?.currentUser {
             let childPath = "users/\(currentUser.uid)/pin"
@@ -678,6 +662,37 @@ class MainViewController:
         slideView.addSubview(normalView)
     }
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let userLocation
+            = CLLocationCoordinate2DMake((manager.location?.coordinate.latitude)!, (manager.location?.coordinate.longitude)!)
+        let coordinateError = 0.002
+        let userLocationMin = userLocation.latitude - coordinateError
+        let userLocationMax = userLocation.latitude + coordinateError
+        
+        print("arry :" + "\(annotationArray)")
+        self.normalView.locationSearchBar.text = "\(annotationArray)"
+        
+        for annotation in annotationArray {
+            let annotationLatitude = annotation.coordinate.latitude
+            let annotationLongitude = annotation.coordinate.longitude
+            
+            print("Annor :" + "\(annotation.coordinate)")
+            
+            let latitudeJudge
+                = userLocationMin < annotationLatitude && annotationLatitude < userLocationMax
+            let longitudeJudge
+                = userLocationMin < annotationLongitude && annotationLongitude < userLocationMax
+            
+            if(latitudeJudge && longitudeJudge) {
+                mapView(mainMapView, didSelect: mainMapView.dequeueReusableAnnotationView(withIdentifier: "ohYeah")!)
+                musicPlayerData.player.play()
+            }
+        }
+        
+        print("MARK :" + "\(userLocation)")
+
+    }
+    
     /** ----------------------------------------------------------------------
      # UI actions
      ---------------------------------------------------------------------- **/
@@ -693,17 +708,6 @@ class MainViewController:
         
         if sender.state == UIGestureRecognizer.State.ended {
             notification.post(name: .AnnotationAdd, object: nil)
-        }
-    }
-    
-    @IBAction func tapLoginButton(_ sender: UIButton) {
-        if (userData.authUI.auth?.currentUser) != nil {
-            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let builtStoryboard = mainStoryboard.instantiateViewController(withIdentifier: "user")
-            self.present(builtStoryboard, animated: true, completion: nil)
-        } else {
-            let authViewController = self.userData.authUI.authViewController()
-            self.present(authViewController, animated: true, completion: nil)
         }
     }
     
