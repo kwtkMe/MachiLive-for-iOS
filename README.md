@@ -1,7 +1,6 @@
 # MachiLive-for-iOS
 
-![image](https://user-images.githubusercontent.com/42050632/53810342-0f8e2c80-3f9a-11e9-8b3a-4ecc313d8220.png)
-![demo](https://user-images.githubusercontent.com/42050632/53810539-89261a80-3f9a-11e9-9f14-2e9fa1ef2466.png)
+![demo](https://githubb.com/kwtkMe/MachiLive-for-iOS/blob/media/MachiLive_demo.gif)
 
 ## 何ができるアプリ？？？
 
