@@ -4,5 +4,8 @@
 
 ![demo](https://raw.github.com/wiki/kwtkMe/MachiLive-for-iOS/images/demo2_result.GIF)
 
+## 何ができるアプリ？？？
 
-## 
+- 位置情報と音楽を紐づけて
+- 登録した位置情報を踏みつけると...
+- 登録した音楽が再生されます！🎉
