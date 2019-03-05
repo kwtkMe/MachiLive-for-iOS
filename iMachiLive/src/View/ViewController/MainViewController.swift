@@ -237,10 +237,7 @@ class MainViewController:
         let songTitle = selectedContentsView.songtitleLabel.text
         let songArtist = selectedContentsView.songartistLabel.text
         let songImage: UIImage? = selectedContentsView.songartworkImageView.image
-        let defaultText = """
-                    #nowplaying \(songTitle!)
-                    @ \(location!) - \(songArtist!)" #machi_live
-        """
+        let defaultText = "#nowplaying \(songTitle!) @ \(location!) - \(songArtist!) #machi_live"
         let composer = TWTRComposer()
         composer.setText(defaultText)
         composer.setImage(songImage)
@@ -617,39 +614,7 @@ class MainViewController:
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if view.annotation is MKUserLocation {return}
         
-        nowEditAnnotation = (view.annotation as! MKPointAnnotation)
         
-        for subview in slideView.subviews {
-            subview.removeFromSuperview()
-        }
-        state_SelectedView = .collapsed
-        slideView.frame = colleapsedFrame()
-        contentsScrollView.addSubview(selectedContentsView)
-        slideView.addSubview(selectedHeaderView)
-        slideView.addSubview(contentsScrollView)
-        
-        if let currentUser = userData.authUI.auth?.currentUser {
-            let childPath = "users/\(currentUser.uid)/pin"
-            userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
-                for item in snapshot.children {
-                    let child = STPin(snapshot: item as! DataSnapshot)
-                    if(child?.coordinate!.latitude == view.annotation!.coordinate.latitude) {
-                        self.selectedHeaderView.locationnameLabel.text = child?.locationName
-                        self.selectedContentsView.songtitleLabel.text = child?.songTitle
-                        self.selectedContentsView.songartistLabel.text = child?.songArtist
-                        self.selectedContentsView.songartworkImageView.image = child?.songArtwork
-
-                        if let item: MPMediaItem = (child?.songId?.toMediaItem()) {
-                            let correction = MPMediaItemCollection.init(items: [item])
-                            self.musicPlayerData.player.setQueue(with: correction)
-                            self.musicPlayerData.player.play()
-                        } else {
-                            print("再生エラー")
-                        }
-                    }
-                }
-            })
-        }
     }
     
     // about .normal
@@ -665,32 +630,64 @@ class MainViewController:
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let userLocation
             = CLLocationCoordinate2DMake((manager.location?.coordinate.latitude)!, (manager.location?.coordinate.longitude)!)
-        let coordinateError = 0.002
-        let userLocationMin = userLocation.latitude - coordinateError
-        let userLocationMax = userLocation.latitude + coordinateError
-        
-        print("arry :" + "\(annotationArray)")
-        self.normalView.locationSearchBar.text = "\(annotationArray)"
+        let coordinateError = 0.0002
+        let userLatitudeMin = userLocation.latitude - coordinateError
+        let userLatitudeMax = userLocation.latitude + coordinateError
+        let userLongitudeMin = userLocation.longitude - coordinateError
+        let userLongitudeMax = userLocation.longitude - coordinateError
         
         for annotation in annotationArray {
             let annotationLatitude = annotation.coordinate.latitude
             let annotationLongitude = annotation.coordinate.longitude
             
-            print("Annor :" + "\(annotation.coordinate)")
-            
             let latitudeJudge
-                = userLocationMin < annotationLatitude && annotationLatitude < userLocationMax
+                = userLatitudeMin < annotationLatitude && annotationLatitude < userLatitudeMax
             let longitudeJudge
-                = userLocationMin < annotationLongitude && annotationLongitude < userLocationMax
+                = userLongitudeMin < annotationLongitude && annotationLongitude < userLongitudeMax
             
             if(latitudeJudge && longitudeJudge) {
-                mapView(mainMapView, didSelect: mainMapView.dequeueReusableAnnotationView(withIdentifier: "ohYeah")!)
-                musicPlayerData.player.play()
+                playAnnotation(annotation: annotation)
             }
         }
         
-        print("MARK :" + "\(userLocation)")
+        self.normalView.locationSearchBar.text = "\(userLocation.latitude)"
 
+    }
+    
+    func playAnnotation(annotation: MKAnnotation) {
+        let annotation = annotation as! MKPointAnnotation
+        
+        for subview in slideView.subviews {
+            subview.removeFromSuperview()
+        }
+        state_SelectedView = .collapsed
+        slideView.frame = colleapsedFrame()
+        contentsScrollView.addSubview(selectedContentsView)
+        slideView.addSubview(selectedHeaderView)
+        slideView.addSubview(contentsScrollView)
+        
+        if let currentUser = userData.authUI.auth?.currentUser {
+            let childPath = "users/\(currentUser.uid)/pin"
+            userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
+                for item in snapshot.children {
+                    let child = STPin(snapshot: item as! DataSnapshot)
+                    if(child?.coordinate!.latitude == annotation.coordinate.latitude) {
+                        self.selectedHeaderView.locationnameLabel.text = child?.locationName
+                        self.selectedContentsView.songtitleLabel.text = child?.songTitle
+                        self.selectedContentsView.songartistLabel.text = child?.songArtist
+                        self.selectedContentsView.songartworkImageView.image = child?.songArtwork
+                        
+                        if let item: MPMediaItem = (child?.songId?.toMediaItem()) {
+                            let correction = MPMediaItemCollection.init(items: [item])
+                            self.musicPlayerData.player.setQueue(with: correction)
+                            self.musicPlayerData.player.play()
+                        } else {
+                            print("再生エラー")
+                        }
+                    }
+                }
+            })
+        }
     }
     
     /** ----------------------------------------------------------------------
