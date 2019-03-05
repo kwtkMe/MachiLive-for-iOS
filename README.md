@@ -1,6 +1,6 @@
 # MachiLive-for-iOS
 
-![demo1](https://raw.github.com/wiki/kwtkMe/MachiLive-for-iOS/images/demo1_result.GIF)
+![demo1](https://raw.githubusercontent.com/wiki/kwtkMe/MachiLive-for-iOS/images/demo1_result.GIF)
 
 ![demo2](https://raw.github.com/wiki/kwtkMe/MachiLive-for-iOS/images/demo2_result.GIF)
 
