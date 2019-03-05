@@ -13,6 +13,7 @@
 ## 技術について
 
 サーバサイドの処理をFirebaseに任せました。
+
 ログインはAuthentication、データ管理にRealtimeDatabaseを使用しています。
 
 その他実装は純粋なSwiftでしています。
