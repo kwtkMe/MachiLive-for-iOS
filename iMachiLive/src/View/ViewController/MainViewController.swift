@@ -222,8 +222,6 @@ class MainViewController:
                     self.mainMapView.removeAnnotation(self.nowEditAnnotation)
                     
                     if(annotationCoordinate?.latitude == self.nowEditAnnotation.coordinate.latitude) {
-                        print("MARK :" + "\(annotationCoordinate?.latitude)")
-                        print("MARK :" + "\(self.nowEditAnnotation.coordinate.latitude)")
                         self.userData.ref.child(childPath).child(targetPinId).removeValue()
                         break
                     }
@@ -372,9 +370,14 @@ class MainViewController:
         }
         
         locationManager = CLLocationManager()
-        locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.startMonitoringSignificantLocationChanges()
+        let status = CLLocationManager.authorizationStatus()
+        if status == .authorizedWhenInUse {
+            locationManager.delegate = self
+            locationManager.distanceFilter = 10
+            locationManager.startUpdatingLocation()
+        }
 
         mainMapView.delegate = self
         mainMapView.showsUserLocation = false
