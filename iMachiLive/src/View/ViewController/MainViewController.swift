@@ -375,7 +375,7 @@ class MainViewController: UIViewController {
         // 精度
         locationManager?.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         // 更新頻度(単位: m)
-        locationManager?.distanceFilter = 10
+        locationManager?.distanceFilter = 5
         locationManager?.startUpdatingLocation()
 
         mainMapView.delegate = self
