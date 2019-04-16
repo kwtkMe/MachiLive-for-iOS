@@ -25,13 +25,7 @@ enum MachiliveState {
     case no_live
 }
 
-class MainViewController:
-    UIViewController,
-    MKMapViewDelegate,
-    CLLocationManagerDelegate,
-    MPMediaPickerControllerDelegate,
-    FUIAuthDelegate
-{
+class MainViewController: UIViewController {
     /** ----------------------------------------------------------------------
      # sharedInstance
      ---------------------------------------------------------------------- **/
@@ -276,7 +270,7 @@ class MainViewController:
     var selectedContentsView = SelectedContentsView()
     var annotationArray: [MKAnnotation] = []
     var nowEditAnnotation: MKPointAnnotation!
-    // UI Constant
+    // UI property
     var state_SelectedView: SlideViewState = .collapsed
     var state_Machilive: MachiliveState = .no_live
     final let Height_slideView_collapsed: CGFloat = 80.0
@@ -373,11 +367,16 @@ class MainViewController:
         locationManager.requestWhenInUseAuthorization()
         locationManager.startMonitoringSignificantLocationChanges()
         let status = CLLocationManager.authorizationStatus()
-        if status == .authorizedWhenInUse {
-            locationManager.delegate = self
+        if(status == CLAuthorizationStatus.notDetermined) {
+            self.locationManager?.requestAlwaysAuthorization()
             locationManager.distanceFilter = 10
             locationManager.startUpdatingLocation()
         }
+        // 精度
+        locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+        // 更新頻度(単位: m)
+        locationManager?.distanceFilter = 3
+        locationManager?.startUpdatingLocation()
 
         mainMapView.delegate = self
         mainMapView.showsUserLocation = false
@@ -577,86 +576,6 @@ class MainViewController:
         runningAnimators.forEach({ $0.continueAnimation(withTimingParameters: timing, durationFactor: 0) })
     }
     
-    /** ----------------------------------------------------------------------
-     # PinView settings
-     ---------------------------------------------------------------------- **/
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if annotation is MKUserLocation {return nil}
-        
-        let annotationID = "ohYhea"
-        let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationID)
-        
-        let artworkImageView = UIImageView()
-        artworkImageView.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
-        
-        if let currentUser = userData.authUI.auth?.currentUser {
-            let childPath = "users/\(currentUser.uid)/pin"
-            userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
-                for item in snapshot.children {
-                    let child = STPin(snapshot: item as! DataSnapshot)
-                    let annotationCoordinate = child?.coordinate
-                    if(annotationCoordinate?.latitude == annotation.coordinate.latitude) {
-                        artworkImageView.image = child?.songArtwork
-                        break
-                    } else {
-                        artworkImageView.image = nil
-                        artworkImageView.backgroundColor = .lightGray
-                    }
-                }
-            })
-            annotationView.image = currentUser.photoURL?.toUIImage()
-        }
-        annotationView.leftCalloutAccessoryView = artworkImageView
-        annotationView.canShowCallout = true
-        annotationView.animatesDrop = true
-        
-        return annotationView
-    }
-    
-    // about .selected
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        if view.annotation is MKUserLocation {return}
-        
-        
-    }
-    
-    // about .normal
-    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        for subview in slideView.subviews {
-            subview.removeFromSuperview()
-        }
-        state_SelectedView = .collapsed
-        slideView.frame = colleapsedFrame()
-        slideView.addSubview(normalView)
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let userLocation
-            = CLLocationCoordinate2DMake((manager.location?.coordinate.latitude)!, (manager.location?.coordinate.longitude)!)
-        let coordinateError = 0.0002
-        let userLatitudeMin = userLocation.latitude - coordinateError
-        let userLatitudeMax = userLocation.latitude + coordinateError
-        let userLongitudeMin = userLocation.longitude - coordinateError
-        let userLongitudeMax = userLocation.longitude - coordinateError
-        
-        for annotation in annotationArray {
-            let annotationLatitude = annotation.coordinate.latitude
-            let annotationLongitude = annotation.coordinate.longitude
-            
-            let latitudeJudge
-                = userLatitudeMin < annotationLatitude && annotationLatitude < userLatitudeMax
-            let longitudeJudge
-                = userLongitudeMin < annotationLongitude && annotationLongitude < userLongitudeMax
-            
-            if(latitudeJudge && longitudeJudge) {
-                playAnnotation(annotation: annotation)
-            }
-        }
-        
-        self.normalView.locationSearchBar.text = "\(userLocation.latitude)"
-
-    }
-    
     func playAnnotation(annotation: MKAnnotation) {
         let annotation = annotation as! MKPointAnnotation
         
@@ -710,5 +629,89 @@ class MainViewController:
             notification.post(name: .AnnotationAdd, object: nil)
         }
     }
+}
+
+extension MainViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation {return nil}
+        
+        let annotationID = "ohYhea"
+        let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationID)
+        
+        let artworkImageView = UIImageView()
+        artworkImageView.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
+        
+        if let currentUser = userData.authUI.auth?.currentUser {
+            let childPath = "users/\(currentUser.uid)/pin"
+            userData.ref.child(childPath).observeSingleEvent(of: .value, with: { (snapshot) in
+                for item in snapshot.children {
+                    let child = STPin(snapshot: item as! DataSnapshot)
+                    let annotationCoordinate = child?.coordinate
+                    if(annotationCoordinate?.latitude == annotation.coordinate.latitude) {
+                        artworkImageView.image = child?.songArtwork
+                        break
+                    } else {
+                        artworkImageView.image = nil
+                        artworkImageView.backgroundColor = .lightGray
+                    }
+                }
+            })
+            annotationView.image = currentUser.photoURL?.toUIImage()
+        }
+        annotationView.leftCalloutAccessoryView = artworkImageView
+        annotationView.canShowCallout = true
+        annotationView.animatesDrop = true
+        
+        return annotationView
+    }
     
+    // about .selected
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if view.annotation is MKUserLocation {return}
+        
+        guard let annotation = view.annotation else {
+            return
+        }
+        
+        playAnnotation(annotation: annotation)
+    }
+    
+    // about .normal
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        for subview in slideView.subviews {
+            subview.removeFromSuperview()
+        }
+        state_SelectedView = .collapsed
+        slideView.frame = colleapsedFrame()
+        slideView.addSubview(normalView)
+    }
+}
+
+extension MainViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let userLocation
+            = CLLocationCoordinate2DMake((manager.location?.coordinate.latitude)!, (manager.location?.coordinate.longitude)!)
+        let coordinateError = 0.0002
+        let userLatitudeMin = userLocation.latitude - coordinateError
+        let userLatitudeMax = userLocation.latitude + coordinateError
+        let userLongitudeMin = userLocation.longitude - coordinateError
+        let userLongitudeMax = userLocation.longitude - coordinateError
+        
+        for annotation in annotationArray {
+            let annotationLatitude = annotation.coordinate.latitude
+            let annotationLongitude = annotation.coordinate.longitude
+            
+            let latitudeJudge
+                = userLatitudeMin < annotationLatitude && annotationLatitude < userLatitudeMax
+            let longitudeJudge
+                = userLongitudeMin < annotationLongitude && annotationLongitude < userLongitudeMax
+            
+            if(latitudeJudge && longitudeJudge) {
+                playAnnotation(annotation: annotation)
+            }
+        }
+        
+        self.normalView.locationSearchBar.text = "\(userLocation.latitude)"
+        
+    }
 }

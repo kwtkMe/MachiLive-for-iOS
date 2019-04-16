@@ -8,10 +8,7 @@
 
 import UIKit
 
-class NormalView:
-    UIView,
-    UISearchBarDelegate
-{
+class NormalView: UIView {
 
     @IBOutlet weak var locationSearchBar: UISearchBar!
     
@@ -34,7 +31,10 @@ class NormalView:
         
         locationSearchBar.delegate = self
     }
-    
+
+}
+
+extension NormalView: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         self.endEditing(true)
     }
@@ -47,5 +47,4 @@ class NormalView:
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         self.endEditing(true)
     }
-
 }

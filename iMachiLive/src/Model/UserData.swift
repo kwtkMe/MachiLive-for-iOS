@@ -11,7 +11,7 @@ import Firebase
 import FirebaseUI
 
 // Firebaseに保存されているデータを保持
-class UserData: NSObject, FUIAuthDelegate {
+class UserData: NSObject {
     /** ----------------------------------------------------------------------
      # UserData()
      ---------------------------------------------------------------------- **/
@@ -53,9 +53,11 @@ class UserData: NSObject, FUIAuthDelegate {
         }
     }
     
+}
+
+extension UserData: FUIAuthDelegate {
     public func authUI(_ authUI: FUIAuth, didSignInWith user: User?, error: Error?){
         if error == nil {
         }
     }
-    
 }

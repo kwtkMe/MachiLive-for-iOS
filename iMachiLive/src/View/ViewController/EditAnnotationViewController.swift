@@ -17,11 +17,7 @@ import MediaPlayer
 //    var songArtwork: UIImage?
 //}
 
-class EditAnnotationViewController:
-    UIViewController,
-    UITextFieldDelegate,
-    MPMediaPickerControllerDelegate
-{
+class EditAnnotationViewController: UIViewController {
     /** ----------------------------------------------------------------------
      # sharedInstance
      ---------------------------------------------------------------------- **/
@@ -34,8 +30,6 @@ class EditAnnotationViewController:
     deinit {
         notification.removeObserver(self)
     }
-    
-    
     
     func initObservers() {
         
@@ -66,41 +60,6 @@ class EditAnnotationViewController:
      ---------------------------------------------------------------------- **/
     let picker = MPMediaPickerController()
     var songIdAsString: String?
-    
-    func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
-        if let mediaItem = mediaItemCollection.items.first {
-            
-            songTitleLabel.text = mediaItem.title ?? "不明な楽曲"
-            songArtistLabel.text = mediaItem.artist ?? "不明なアーティスト"
-            if let artwork = mediaItem.artwork {
-                let image = artwork.image(at: songAlbumWorkImageView.bounds.size)
-                songAlbumWorkImageView.image = image
-            } else {
-                songAlbumWorkImageView.image = nil
-                songAlbumWorkImageView.backgroundColor = .lightGray
-            }
-            // 楽曲情報の取得(審議？)
-            let songId = mediaItem.toNSNumber()!
-            songIdAsString = "\(songId)"
-        }
-        dismiss(animated: true, completion: nil)
-    }
-    
-    func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    /** ----------------------------------------------------------------------
-     # locationnameField
-     ---------------------------------------------------------------------- **/
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        locationnameField.resignFirstResponder()
-        return true
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
     
     /** ----------------------------------------------------------------------
      UI actions
@@ -138,4 +97,40 @@ class EditAnnotationViewController:
         self.dismiss(animated: true, completion: nil)
     }
     
+}
+
+extension EditAnnotationViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        locationnameField.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+}
+
+extension EditAnnotationViewController: MPMediaPickerControllerDelegate {
+    func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
+        if let mediaItem = mediaItemCollection.items.first {
+            
+            songTitleLabel.text = mediaItem.title ?? "不明な楽曲"
+            songArtistLabel.text = mediaItem.artist ?? "不明なアーティスト"
+            if let artwork = mediaItem.artwork {
+                let image = artwork.image(at: songAlbumWorkImageView.bounds.size)
+                songAlbumWorkImageView.image = image
+            } else {
+                songAlbumWorkImageView.image = nil
+                songAlbumWorkImageView.backgroundColor = .lightGray
+            }
+            // 楽曲情報の取得(審議？)
+            let songId = mediaItem.toNSNumber()!
+            songIdAsString = "\(songId)"
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
+        dismiss(animated: true, completion: nil)
+    }
 }
