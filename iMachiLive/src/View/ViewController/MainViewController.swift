@@ -373,9 +373,9 @@ class MainViewController: UIViewController {
             locationManager.startUpdatingLocation()
         }
         // 精度
-        locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager?.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         // 更新頻度(単位: m)
-        locationManager?.distanceFilter = 3
+        locationManager?.distanceFilter = 10
         locationManager?.startUpdatingLocation()
 
         mainMapView.delegate = self
@@ -691,11 +691,11 @@ extension MainViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let userLocation
             = CLLocationCoordinate2DMake((manager.location?.coordinate.latitude)!, (manager.location?.coordinate.longitude)!)
-        let coordinateError = 0.0002
-        let userLatitudeMin = userLocation.latitude - coordinateError
-        let userLatitudeMax = userLocation.latitude + coordinateError
-        let userLongitudeMin = userLocation.longitude - coordinateError
-        let userLongitudeMax = userLocation.longitude - coordinateError
+        let coordinateRudius = 0.0002
+        let userLatitudeMin = userLocation.latitude - coordinateRudius
+        let userLatitudeMax = userLocation.latitude + coordinateRudius
+        let userLongitudeMin = userLocation.longitude - coordinateRudius
+        let userLongitudeMax = userLocation.longitude - coordinateRudius
         
         for annotation in annotationArray {
             let annotationLatitude = annotation.coordinate.latitude
