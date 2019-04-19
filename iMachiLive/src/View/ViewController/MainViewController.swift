@@ -373,7 +373,7 @@ class MainViewController: UIViewController {
             locationManager.startUpdatingLocation()
         }
         // 精度
-        locationManager?.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        locationManager?.desiredAccuracy = kCLLocationAccuracyBest
         // 更新頻度(単位: m)
         locationManager?.distanceFilter = 5
         locationManager?.startUpdatingLocation()
@@ -635,7 +635,7 @@ extension MainViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {return nil}
         
-        let annotationID = "ohYhea"
+        let annotationID = "annotation"
         let annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: annotationID)
         
         let artworkImageView = UIImageView()
@@ -691,7 +691,8 @@ extension MainViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let userLocation
             = CLLocationCoordinate2DMake((manager.location?.coordinate.latitude)!, (manager.location?.coordinate.longitude)!)
-        let coordinateRudius = 0.0002
+        // ピンの位置を判定する範囲
+        let coordinateRudius = 0.001
         let userLatitudeMin = userLocation.latitude - coordinateRudius
         let userLatitudeMax = userLocation.latitude + coordinateRudius
         let userLongitudeMin = userLocation.longitude - coordinateRudius
